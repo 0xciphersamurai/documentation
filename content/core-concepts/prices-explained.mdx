@@ -1,0 +1,527 @@
+---
+title: Prices Explained
+description: Deep dive into how prices work in Trigger Market - from AMM mechanics to price interpretation
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Prices Explained
+
+Prices in Trigger Market are both familiar and unique. They work like prediction market prices (representing consensus probability), but with novel dynamics. This guide explains everything about pricing.
+
+## Price Fundamentals
+
+### What Prices Represent
+
+Opinion prices represent **current collective consensus** about that perspective's validity or quality.
+
+**Interpretation**:
+- **0.70 (70%)** = Strong consensus supporting this opinion
+- **0.50 (50%)** = Moderate support, competitive with others
+- **0.30 (30%)** = Weaker consensus, but still in consideration
+- **0.10 (10%)** = Minimal support, losing relevance
+
+<Callout title="Not Probabilities" type="info">
+While prices look like probabilities (0-100¢), they don't represent probability of being "correct" (there's no objective answer). Instead, they reflect **strength of consensus** among market participants.
+</Callout>
+
+### The L² Norm Constraint
+
+**Most important rule**: All active opinion prices are constrained to lie on a **unit sphere** in price space, satisfying: **√(p₁² + p₂² + ... + pₙ²) = 1**
+
+**Example market** (4 equal opinions):
+- Each price: 0.5 (50%)
+- Verification: √(0.5² + 0.5² + 0.5² + 0.5²) = √(4 × 0.25) = √1 = 1 ✓
+
+**Example market** (unequal distribution):
+- React: 0.60 (60%)
+- Vue: 0.55 (55%)
+- Svelte: 0.45 (45%)
+- Angular: 0.40 (40%)
+- Verification: √(0.60² + 0.55² + 0.45² + 0.40²) = √(0.36 + 0.3025 + 0.2025 + 0.16) = √1.025 ≈ 1 ✓
+
+**Why this matters**:
+- Buying one opinion implicitly bets against all others
+- Prices follow a spherical constraint, not a linear sum
+- Creates natural price competition through geometry
+- Ensures prices remain bounded without artificial constraints
+
+**Mathematical guarantee**:
+The AMM enforces this through the L² norm formula: p_i = q_i / ||q||₂ where ||q||₂ = √(q₁² + q₂² + ... + qₙ²). It's mathematically impossible for prices to leave the unit sphere.
+
+### Price Bounds
+
+Prices are constrained by the L² norm:
+- **Minimum**: 0 (complete rejection)
+- **Maximum**: 1.0 (100%, total consensus)
+- **Typical range**: 0.15 - 0.70 (15% - 70%)
+
+**Edge cases**:
+- **0.95+**: Near-unanimous consensus, little debate
+- **0.05-**: Near-total rejection, losing relevance
+- **0.707 each (2 opinions)**: Perfect split (√0.5 ≈ 0.707)
+- **0.5 each (4 opinions)**: Equal consensus (√0.25 = 0.5)
+
+## How Prices Form
+
+### Automated Market Maker (AMM)
+
+Prices are set by an automated market maker, not an order book.
+
+**Key difference from exchanges**:
+- **Exchanges**: Buyers and sellers match orders, price = last trade
+- **AMM**: Algorithm quotes prices based on pool state
+
+**Advantages**:
+- Always liquid (can always trade)
+- Deterministic pricing
+- No bid-ask spread manipulation
+- Self-arbitraging
+
+### The L² Norm Formula
+
+Trigger Market uses an L² norm AMM that constrains prices to a unit sphere:
+
+**Constant maintained**:
+```
+C² = q₁² + q₂² + ... + qₙ²
+```
+
+Where:
+- `C` = liquidity constant = ||q||₂ (the L² norm of quantities)
+- `qᵢ` = share quantity for opinion i
+- `n` = number of active opinions
+
+**Price derivation**:
+Each opinion's price is its normalized quantity:
+
+```
+Price(i) = qᵢ / C = qᵢ / √(q₁² + q₂² + ... + qₙ²)
+```
+
+This ensures: √(p₁² + p₂² + ... + pₙ²) = 1 (unit sphere constraint)
+
+**Properties**:
+- Smooth price curves
+- Convex trading costs
+- Larger trades → larger price impact
+- Prices satisfy L² norm constraint √(Σp_i²) = 1 automatically
+
+### Example: Price Calculation
+
+**Market setup**:
+- Initial liquidity: 1 ETH = 10,000¢
+- C = √10,000 = 100
+- 4 equal opinions initially
+
+**Initial state**:
+- Each qᵢ = 50 (since 50² × 4 = 10,000)
+- Each price = 50/100 = 0.5 (50%)
+- Verification: √(0.5² + 0.5² + 0.5² + 0.5²) = √1 = 1 ✓
+
+**After buying React** (example):
+- React q: 50 → 65
+- Other opinions q adjust to maintain C² = 10,000
+- New React price: 65/100 = 0.65 (65%)
+- Other prices decrease (geometrically, not linearly)
+- Still satisfies √(Σp_i²) = 1
+
+## Price Dynamics
+
+### What Moves Prices?
+
+Prices change due to:
+
+**1. Trading Activity**
+
+**Buying**:
+- Removes shares from pool
+- Increases that opinion's q
+- Raises its price
+- Others' prices fall to maintain L² norm constraint
+
+**Selling**:
+- Adds shares to pool
+- Decreases that opinion's q
+- Lowers its price
+- Others' prices rise to maintain L² norm constraint
+
+**2. Information Events**
+
+External information affects trading:
+- Technical announcements
+- Community sentiment
+- Expert endorsements
+- Real-world developments
+
+These don't directly move prices - traders interpreting information do.
+
+**3. Market Dynamics**
+
+- **Momentum**: Prices trending attract more traders
+- **Mean reversion**: Extreme prices sometimes correct
+- **Consensus formation**: Prices converge as debate matures
+- **Settlement approach**: Volatility decreases near settlement
+
+**4. Opinion Replacement**
+
+When an opinion is replaced:
+- Price space redistributes
+- New equilibrium established
+- Can create trading opportunities
+
+### Price Impact
+
+**Trade size affects price impact**:
+
+**Small trades**:
+- Minimal price movement
+- Nearly constant price
+- Low slippage
+
+**Medium trades**:
+- Noticeable price impact
+- Some slippage
+- Affects entry price
+
+**Large trades**:
+- Significant price movement
+- High slippage
+- May require splitting
+
+**Formula** (approximate):
+```
+Price Impact ∝ Trade Size / Total Liquidity
+```
+
+**Example**:
+- Market liquidity: 1 ETH
+- Buy 0.01 ETH → ~1% price impact
+- Buy 0.1 ETH → ~10% price impact
+- Buy 0.5 ETH → ~40%+ price impact
+
+<Callout title="Managing Price Impact" type="warn">
+Large traders should:
+- Check price impact before confirming
+- Consider splitting large orders
+- Trade over time, not all at once
+- Choose high-liquidity markets
+</Callout>
+
+### Slippage
+
+**Slippage** = difference between expected and executed price
+
+**Example**:
+- Current price: 40¢
+- You buy large amount
+- Execution price: 43.2¢ (average)
+- **Slippage**: 3.2¢ (8%)
+
+**Why slippage occurs**:
+- AMM moves price as you buy
+- Larger trades → more movement
+- Your own trade impacts your price
+
+**Minimizing slippage**:
+- Trade smaller amounts
+- Use high-liquidity markets
+- Accept higher price impact for urgency
+- Split orders across time
+
+## Price Interpretation
+
+### Reading the Market
+
+**High-priced opinion (0.60+, 60%+)**:
+- Strong consensus leader
+- Less upside potential
+- Lower risk
+- May be approaching settlement consensus
+
+**Medium-priced opinion (0.30-0.60, 30-60%)**:
+- Competitive positioning
+- Room for movement either direction
+- Active debate ongoing
+- Good risk/reward balance
+
+**Low-priced opinion (0.10-0.30, 10-30%)**:
+- Weak consensus currently
+- High upside if consensus shifts
+- Higher risk
+- Contrarian opportunity
+
+**Very low price (under 0.10, under 10%)**:
+- Near rejection by market
+- Extreme upside if reversal
+- Very high risk
+- Often replacement candidates
+
+### Price Spreads
+
+The distribution of prices reveals market structure:
+
+**Tight spread** (e.g., 0.52, 0.51, 0.49, 0.48):
+- No clear leader
+- Active debate
+- High volatility potential
+- Good trading opportunities
+
+**Wide spread** (e.g., 0.85, 0.35, 0.25, 0.15):
+- Clear consensus leader
+- Hierarchy established
+- Lower volatility
+- Approaching settlement
+
+**Two-way split** (e.g., 0.71, 0.71):
+- Two main contenders (at √0.5 ≈ 0.707 each)
+- Others eliminated
+- Binary-like structure
+- Final showdown
+
+### Historical Price Analysis
+
+Price history reveals:
+
+**Uptrend**:
+- Growing consensus
+- Momentum building
+- Consider if sustainable
+
+**Downtrend**:
+- Losing support
+- Negative momentum
+- Assess if reversal possible
+
+**Volatility**:
+- Active price discovery
+- New information processing
+- Higher risk, higher opportunity
+
+**Stability**:
+- Consensus forming
+- Less new information
+- Approaching settlement
+
+**Reversal**:
+- Consensus shifted
+- Major information event
+- Trend change
+
+## Advanced Price Concepts
+
+### Price Sensitivity
+
+How responsive prices are to trades:
+
+**High liquidity market**:
+- Less sensitive
+- Large trades needed to move price
+- Stable pricing
+- Lower impact per trade
+
+**Low liquidity market**:
+- More sensitive
+- Small trades move price significantly
+- Volatile pricing
+- Higher impact per trade
+
+**Relationship**:
+```
+Price Sensitivity ∝ 1 / (Total Liquidity)³
+```
+
+Price sensitivity increases dramatically as liquidity decreases.
+
+### Cross-Opinion Effects
+
+Buying one opinion affects all others:
+
+**Example market** (4 opinions):
+- React: 0.55 (55%)
+- Vue: 0.50 (50%)
+- Svelte: 0.45 (45%)
+- Angular: 0.40 (40%)
+- Verification: √(0.55² + 0.50² + 0.45² + 0.40²) ≈ 1
+
+**Buy React**:
+- React: 0.55 → 0.65 (+0.10)
+- Vue: 0.50 → 0.46 (-0.04)
+- Svelte: 0.45 → 0.42 (-0.03)
+- Angular: 0.40 → 0.37 (-0.03)
+- Verification: √(0.65² + 0.46² + 0.42² + 0.37²) ≈ 1 (L² constraint maintained)
+
+**Pattern**:
+- Buying one opinion affects all others
+- Changes follow spherical geometry, not linear redistribution
+- L² norm constraint always maintained
+- Effects depend on relative positions on unit sphere
+
+### Implied Consensus
+
+Reading between the lines:
+
+**Price gaps** reveal:
+- Strength of belief differences
+- Hierarchy of consensus
+- Potential for movement
+
+**Example**:
+- PostgreSQL: 0.70 (70%)
+- MySQL: 0.45 (45%)
+- Gap: 0.25 = Strong consensus PostgreSQL > MySQL
+
+**Stability of gaps**:
+- Persistent gap → Settled consensus
+- Closing gap → Shifting consensus
+- Widening gap → Strengthening consensus
+
+### Arbitrage Opportunities
+
+Prices should reflect true consensus. Deviations create arbitrage:
+
+**Scenario**: New information emerges, but price hasn't adjusted yet
+
+**Strategy**:
+1. Identify mispriced opinion
+2. Trade to correct it
+3. Profit from correction
+4. Market returns to efficiency
+
+**Example**:
+- React announces major performance breakthrough
+- Price still at 0.35 (undervalued)
+- Buy at 0.35
+- Others catch on, price → 0.65
+- Profit from information edge
+
+**Efficient markets**:
+- Arbitrage opportunities rare
+- Prices adjust quickly
+- Information incorporated fast
+
+## Practical Price Analysis
+
+### Before Trading
+
+Check:
+
+**Current price**:
+- Is it reasonable given the opinion's merits?
+- Does it reflect recent information?
+
+**Price history**:
+- Trending up or down?
+- Stable or volatile?
+- Recent reversals?
+
+**Price impact**:
+- How much will your trade move the price?
+- Is slippage acceptable?
+
+**Relative prices**:
+- How does this compare to others?
+- Are gaps justified?
+- Any mispricing?
+
+### During Market Evolution
+
+Monitor:
+
+**Price movements**:
+- Which opinions gaining/losing?
+- Why are they moving?
+- Is it justified?
+
+**Volume**:
+- High volume = strong conviction
+- Low volume = weak signal
+
+**Velocity**:
+- Fast changes = new information
+- Slow drift = gradual consensus shift
+
+**Convergence**:
+- Prices stabilizing?
+- Settlement approaching?
+
+### Near Settlement
+
+Consider:
+
+**Final price prediction**:
+- Where will it settle?
+- Current price vs expected final
+- Profit potential remaining
+
+**Time value**:
+- How long until settlement?
+- Opportunity cost of capital
+- Better opportunities elsewhere?
+
+**Risk**:
+- Chance of reversal before settlement
+- New information possibility
+- Exit strategy if wrong
+
+## Common Price Patterns
+
+### The Front-Runner
+
+**Pattern**: One opinion consistently leads
+- Price: 0.65-0.85 (65-85%)
+- Trend: Stable or slowly rising
+- Volume: High on that opinion
+
+**Interpretation**: Consensus forming around leader
+**Strategy**: Assess if fairly priced or still undervalued
+
+### The Dark Horse
+
+**Pattern**: Low-priced opinion suddenly surges
+- Price: 0.25 → 0.55 rapidly
+- Trend: Sharp uptrend
+- Volume: Increasing
+
+**Interpretation**: New information or reassessment
+**Strategy**: Evaluate if momentum sustainable
+
+### The Standoff
+
+**Pattern**: Two opinions locked in tight race
+- Prices: ~0.71 each (perfect split at √0.5)
+- Trend: Oscillating
+- Volume: High on both
+
+**Interpretation**: Market split, no clear consensus
+**Strategy**: Pick a side or wait for resolution
+
+### The Fade
+
+**Pattern**: Previously leading opinion declining
+- Price: 0.75 → 0.45 over time
+- Trend: Downtrend
+- Volume: Decreasing
+
+**Interpretation**: Consensus shifting away
+**Strategy**: Avoid or short if conviction strong
+
+## Key Takeaways
+
+✅ **Prices = consensus strength**, not probability of correctness
+
+✅ **L² norm constraint** - prices satisfy √(Σp_i²) = 1 (unit sphere), NOT sum to 100¢
+
+✅ **AMM sets prices** - no order book, always liquid
+
+✅ **Trade size affects price** - larger trades have larger impact
+
+✅ **Price history matters** - trends reveal consensus evolution
+
+✅ **Cross-opinion effects** - buying one affects all others through spherical geometry
+
+✅ **Settlement converges prices** - stability increases over time
+
+---
+
+**Mastering price dynamics** is essential for successful trading on Trigger Market. Prices are the voice of consensus.

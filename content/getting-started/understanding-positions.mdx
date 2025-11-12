@@ -1,0 +1,439 @@
+---
+title: Understanding Positions
+description: Learn how positions work in Trigger Market, from shares and pricing to settlement and payouts
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Understanding Positions
+
+Positions in Trigger Market work differently from traditional prediction markets. This guide explains everything you need to know about how shares, prices, and payouts work.
+
+## What is a Position?
+
+A **position** is your stake in a particular opinion within a market.
+
+**When you buy shares**:
+- You acquire a number of shares of a specific opinion
+- Each share represents a claim on future payout
+- Your position value fluctuates with the opinion's price
+
+**Example**:
+- Market: "Best JavaScript framework?"
+- Opinion: "React"
+- Your position: 500 shares
+- Current price: 0.62 (62%)
+- Position value: 500 × $0.62 = $310
+
+## How Shares Work
+
+### Share Basics
+
+Each share represents:
+- One unit of belief in an opinion
+- A claim to payout proportional to final settlement price
+- Tradeable asset (can be bought or sold any time)
+
+**Key difference from traditional prediction markets**:
+- Traditional: Shares pay $1 if "correct", $0 if "wrong"
+- Trigger Market: **All shares pay out** based on final price at settlement
+
+### Positive vs Negative Positions
+
+**Positive Position (Long)**:
+- You own shares
+- You **want** the price to rise
+- Profit when price increases or settles higher than your entry
+- Example: +500 shares of React
+
+**Negative Position (Short)**:
+- You owe shares (sold without owning)
+- You **want** the price to fall
+- Profit when price decreases or settles lower than your entry
+- Example: -300 shares of Vue
+
+### Position Value
+
+Your position value changes constantly with prices:
+
+**Formula**:
+```
+Position Value = Number of Shares × Current Price
+```
+
+**Example**:
+- Position: 500 shares of React
+- Current price: 0.62 (62%)
+- Value: 500 × $0.62 = $310
+
+If React price rises to 0.75 (75%):
+- New value: 500 × $0.75 = $375
+- Unrealized gain: $65 (+21%)
+
+## Price Dynamics
+
+### L² Norm Constraint
+
+This is a fundamental invariant of the AMM:
+
+**Example Market**:
+- React: 0.60 (60%)
+- Vue: 0.55 (55%)
+- Svelte: 0.45 (45%)
+- Angular: 0.40 (40%)
+- **Verification**: √(0.60² + 0.55² + 0.45² + 0.40²) ≈ 1 ✓
+
+**Why this matters**:
+- When one opinion's price rises, others must fall to maintain L² norm
+- Buying one opinion implicitly bets against all others
+- Creates natural competition between perspectives through spherical geometry
+
+### Price Bounds
+
+Opinion prices are bounded by the L² norm:
+- **Minimum**: 0 (complete rejection)
+- **Maximum**: 1.0 (100%, total consensus)
+- **Typical range**: 0.15 to 0.85 (15% to 85%) for active debates
+
+**Extreme prices**:
+- **0.90+**: Near-total consensus, little debate remains
+- **0.10-**: Near-total rejection, opinion losing relevance
+
+### What Drives Price Changes
+
+Prices change due to:
+
+1. **Trading Activity**
+   - Buys push price up
+   - Sells push price down
+   - Larger trades have larger impact
+
+2. **Opinion Replacement**
+   - When new opinion activates, redistributes price space
+   - Existing opinions may see prices adjust
+
+3. **Market Sentiment**
+   - News and information
+   - Community discussions
+   - External events (conferences, releases, etc.)
+
+4. **Settlement Approach**
+   - As market nears settlement, prices stabilize
+   - Volatility decreases over time
+
+## Profit and Loss Calculation
+
+### Unrealized P&L (While Holding)
+
+**Long Position Example**:
+- Bought: 500 shares at 0.50 (cost: $250)
+- Current price: 0.68 (68%)
+- Current value: 500 × $0.68 = $340
+- **Unrealized P&L**: $340 - $250 = **+$90** (+36%)
+
+**Short Position Example**:
+- Sold: 300 shares at 0.75 (received: $225)
+- Current price: 0.58 (58%)
+- Position value: 300 × $0.58 = $174 (owed)
+- **Unrealized P&L**: $225 - $174 = **+$51** (+23%)
+
+### Realized P&L (After Closing)
+
+**Closing via Trading**:
+
+You can close your position any time by trading in the opposite direction:
+- Long position → Sell your shares
+- Short position → Buy back the shares you owe
+
+**Example (Long)**:
+- Opened: Bought 500 shares at 0.50 for $250
+- Closed: Sold 500 shares at 0.72 for $360
+- Gross profit: $110
+- Fees (2% total): -$6.10
+- **Net profit**: **+$103.90** (+42%)
+
+**Example (Short)**:
+- Opened: Sold 300 shares at 0.80 for $240
+- Closed: Bought 300 shares at 0.58 for $174
+- Gross profit: $66
+- Fees (2% total): -$4.14
+- **Net profit**: **+$61.86** (+26%)
+
+### Settlement Payout
+
+**How settlement works**:
+1. Market meets all four settlement criteria
+2. Final prices are locked
+3. Each opinion's final price = payout per share
+
+**Long Position Payout**:
+- You hold: 500 shares of React
+- Settlement price: 0.68 (68%)
+- **Payout**: 500 × $0.68 = **$340**
+
+**Short Position Payout**:
+- You owe: 300 shares of Vue
+- Settlement price: 0.52 (52%)
+- **You pay**: 300 × $0.52 = **$156**
+- Original sale: $240 (when you sold at 0.80)
+- **Net profit**: $240 - $156 = **$84**
+
+<Callout title="Settlement is Final" type="warn">
+Once a market settles, prices are locked forever. You cannot trade anymore - only claim your payout.
+
+Plan your exit strategy before settlement if you want to actively manage your position.
+</Callout>
+
+## Multiple Positions
+
+You can hold positions in multiple opinions within the same market.
+
+### Example Portfolio
+
+**Market**: "Best state management for React?"
+
+**Your positions**:
+- Zustand: +400 shares at avg 0.50 (currently 0.68)
+- Redux: -200 shares at avg 0.60 (currently 0.45)
+- Jotai: +300 shares at avg 0.35 (currently 0.42)
+
+**Analysis**:
+- Zustand: +$72 unrealized gain
+- Redux: +$30 unrealized gain (short profit)
+- Jotai: +$21 unrealized gain
+- **Total**: +$123 unrealized gain
+
+**Settlement scenario** (hypothetical):
+- Zustand settles at 0.75 → +400 shares × $0.75 = $300
+- Redux settles at 0.42 → -200 shares × $0.42 = -$84
+- Jotai settles at 0.48 → +300 shares × $0.48 = $144
+- **Total payout**: $360
+
+Minus initial costs and fees = Net profit
+
+### Why Hold Multiple Positions?
+
+**Portfolio strategies**:
+1. **Hedging**: Long on favorite, short on overvalued alternatives
+2. **Pairs trading**: Long undervalued, short overvalued
+3. **Diversification**: Spread risk across multiple opinions
+4. **Arbitrage**: Exploit temporary mispricing
+
+## Position Risks
+
+### Risk 1: Price Volatility
+
+Prices can be volatile, especially in:
+- New markets (first few days)
+- Low-liquidity markets
+- Controversial debates
+- After major news
+
+**Mitigation**:
+- Start with smaller positions
+- Use limit orders (when available)
+- Don't over-leverage
+- Have conviction in your thesis
+
+### Risk 2: Settlement Uncertainty
+
+You can't predict exactly:
+- When settlement will occur
+- What final prices will be
+- How consensus will evolve
+
+**Mitigation**:
+- Analyze settlement criteria progress
+- Understand time-weighted consensus mechanics
+- Consider multiple settlement scenarios
+- Exit before settlement if uncertain
+
+### Risk 3: Liquidity Risk
+
+Larger positions may be hard to exit without significant price impact.
+
+**Signs of low liquidity**:
+- Small total market volume
+- Wide bid-ask spread
+- High price impact on trades
+
+**Mitigation**:
+- Check liquidity before entering large positions
+- Split large orders into smaller trades
+- Consider limit orders
+- Be patient with exits
+
+### Risk 4: Short Position Risk
+
+Short positions have unique risks:
+- Losses can exceed initial margin
+- Price can rise to 1.0 (100%, max loss is capped but large)
+- May need to close at unfavorable price
+
+**Mitigation**:
+- Only short with strong conviction
+- Monitor positions closely
+- Set stop-loss mentally
+- Start small
+
+## Position Management Best Practices
+
+### Track Your Positions
+
+Regularly monitor:
+- Current prices and P&L
+- Market trading activity
+- Settlement criteria progress
+- Community sentiment
+- Related news/events
+
+### Have Entry and Exit Plans
+
+Before opening a position, decide:
+- **Entry**: Why are you entering? What's your thesis?
+- **Target**: What price or % gain are you targeting?
+- **Stop**: At what price/loss will you exit?
+- **Timeline**: How long will you hold?
+
+### Size Positions Appropriately
+
+**Position sizing guidelines**:
+- Single position: 5-15% of portfolio (max 20%)
+- Total exposure: 70-90% (keep 10-30% cash)
+- High-conviction plays: Can be larger
+- Experimental trades: Keep small (1-5%)
+
+### Rebalance When Needed
+
+Consider adjusting when:
+- Thesis changes (new information)
+- Position has grown too large (take profits)
+- Better opportunities emerge
+- Approaching settlement (if you want to exit)
+
+### Document Your Reasoning
+
+Keep notes on:
+- Why you entered
+- Your price targets
+- Key factors to watch
+- Lessons learned
+
+This improves your decision-making over time.
+
+## Position Lifecycle Example
+
+Let's follow a complete position lifecycle:
+
+### Day 0: Entry
+- Market: "Best mobile framework?"
+- Thesis: React Native undervalued, Flutter overpriced
+- Action:
+  - Buy 600 React Native at 0.45 (cost: $270)
+  - Sell 300 Flutter at 0.70 (receive: $210)
+- Target: React Native 0.68+, Flutter 0.50-
+
+### Day 3: Monitoring
+- React Native: 0.52 (+15% unrealized)
+- Flutter: 0.67 (-4% unrealized)
+- News: Meta announces React Native improvements
+- Action: Hold, thesis playing out
+
+### Day 7: Partial Profit
+- React Native: 0.65 (+44% unrealized)
+- Flutter: 0.60 (+14% unrealized on short)
+- Action: Sell 300 React Native shares to lock partial profit
+- Remaining: 300 React Native shares (letting rest ride)
+
+### Day 14: Full Exit
+- React Native: 0.72
+- Flutter: 0.52
+- Settlement criteria: 3 of 4 met, settlement approaching
+- Action:
+  - Sell remaining 300 React Native at 0.72
+  - Buy back 300 Flutter at 0.52
+- **Result**:
+  - React Native: +$135 profit (50%)
+  - Flutter: +$54 profit (26%)
+  - **Total**: +$189 profit (39% ROI)
+
+## Advanced: Position Visualization
+
+Understanding your exposure:
+
+### Net Exposure
+Your total capital at risk across all positions.
+
+**Example**:
+- Long 500 shares at 0.60 = $300 exposed
+- Short 200 shares at 0.70 = $140 exposed
+- **Net exposure**: $440
+
+### Directional Bias
+Your overall market bias.
+
+**Bullish positions** (benefit from price rises):
+- More long positions than short
+- Larger size in longs
+
+**Bearish positions** (benefit from price falls):
+- More short positions than long
+- Larger size in shorts
+
+**Market neutral** (balanced):
+- Equal long and short exposure
+- Profit from relative performance, not direction
+
+## Common Position Questions
+
+### Can I hold positions across multiple markets?
+
+Yes! Your portfolio can include positions in any number of markets. Diversification across markets reduces concentration risk.
+
+### What happens to my position when a new opinion is proposed?
+
+Nothing immediately. Your position is in an active opinion. New opinions start as candidates and don't affect active opinion pricing until/unless they get activated.
+
+### Can I transfer positions to another wallet?
+
+Share positions are represented as tokens in your wallet. You can transfer them to another address, and the position transfers with them.
+
+### Do positions expire?
+
+No. Positions last until you close them or the market settles. There's no expiration date.
+
+### Can I use positions as collateral?
+
+Currently no, but this is a potential future feature. For now, positions exist only within Trigger Market.
+
+## Next Steps
+
+<Callout title="Position Master!" type="info">
+You now understand how positions work in Trigger Market.
+
+**Deep dive**: [How the AMM Works](/docs/mechanics/amm-explained)
+
+**Strategy**: [Trading Strategies Guide](/docs/guides/trading-strategies)
+
+**Learn**: [Settlement Process Explained](/docs/mechanics/settlement-process)
+</Callout>
+
+## Key Takeaways
+
+✅ **Shares are claims** on settlement payouts proportional to final price
+
+✅ **All opinions pay out** - not binary win/lose
+
+✅ **Prices satisfy √(Σp_i²) = 1** - buying one means betting against others
+
+✅ **Long = want price up**, Short = want price down
+
+✅ **Position value** = shares × current price
+
+✅ **Settlement is final** - plan your exits accordingly
+
+✅ **Manage risk** through position sizing and diversification
+
+---
+
+**Master positions, master the market.** Understanding this foundation is key to successful trading on Trigger Market.

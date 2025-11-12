@@ -1,0 +1,7 @@
+{
+  "title": "Welcome",
+  "icon": "Home",
+  "defaultOpen": true,
+  "index": "index",
+  "pages": ["the-future-of-consensus", "your-opportunity"]
+}

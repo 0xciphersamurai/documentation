@@ -1,0 +1,366 @@
+---
+title: Fee Structure
+description: Understanding how fees work, who earns them, and important claiming deadlines
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Fee Structure
+
+Trigger Market uses a simple, transparent fee system that aligns incentives between traders, creators, and the platform. Understanding how fees work helps you make informed decisions about trading and creating.
+
+## Total Fee: 1%
+
+All fees are charged **only on exits** (selling shares, unstaking from candidates, and claiming settlement payouts). There are **no fees on entries** (buying shares or staking on candidates).
+
+**Total fee**: 1% of the exit value
+
+### Fee Distribution
+
+The 1% is split three ways:
+
+```
+Exit Amount: $100
+├─ Platform Fee: $0.50 (0.5%)
+├─ Debate Creator Fee: $0.25 (0.25%)
+└─ Opinion Creator Fee: $0.25 (0.25%)
+```
+
+**1. Platform Fee (0.5%)**
+- Goes to the platform treasury
+- Funds ongoing development and operations
+- Initially **disabled** (0%)
+- Can be toggled on by governance
+- 7-day announcement required before enabling
+
+**2. Debate Creator Fee (0.25%)**
+- Goes to whoever created the debate market
+- Earned on all trading in that debate, forever
+- Initially **enabled** by default
+- Can be toggled off by governance
+
+**3. Opinion Creator Fee (0.25%)**
+- Goes to whoever originally proposed the opinion
+- Earned whenever that opinion is involved in a trade
+- Tracked via immutable `opinionOriginalCreator[opinionId]`
+- Initially **enabled** by default
+- Can be toggled off by governance
+
+## When Fees Are Charged
+
+### ✅ Fees Apply To:
+
+**Selling Active Shares**
+- When you sell AMM shares back to the market
+- Fee charged on the USDC you receive
+- Example: Sell for $100 → Receive $99, $1 in fees distributed
+
+**Unstaking from Candidates**
+- When you withdraw stake from a candidate opinion
+- Fee charged on the USDC you withdraw
+- Example: Unstake $50 → Receive $49.50, $0.50 in fees
+
+**Claiming Settlement Payouts**
+- When you claim your payout after debate settles
+- Fee charged on the payout amount
+- Example: Claim $200 payout → Receive $198, $2 in fees
+
+### ❌ No Fees On:
+
+**Buying Active Shares**
+- No fees when buying AMM shares
+- Pay exactly the AMM cost
+
+**Staking on Candidates**
+- No fees when adding stake to candidates
+- Your full amount goes into the pool
+
+**Opinion Replacement**
+- No fees on the replacement transaction itself
+- Fees only apply when users later exit positions
+
+## Fee Collection: Pull Pattern
+
+Fees don't get sent immediately when they're generated. Instead, they **accumulate** in the smart contract and must be **claimed** by recipients.
+
+### How It Works
+
+```
+Trade Happens → Fees Calculated → Accumulate in Contract
+                                          ↓
+                        Recipients Call claimFees() → USDC Sent
+```
+
+**Accumulated Balances:**
+- Platform fees accumulate at address: `platformFeeRecipient`
+- Creator fees accumulate per address: `claimableFees[creatorAddress]`
+- All fees tracked onchain in real-time
+
+**Benefits of Pull Pattern:**
+1. **Gas Efficient** - One transfer when claiming vs three transfers per trade
+2. **Resilient** - Blocklisted addresses can't break trading
+3. **Batching** - Claim fees from multiple debates at once
+4. **User Control** - Claim when you want, not forced
+
+## Critical Deadlines ⚠️
+
+### Fee Claims: 365 Day Deadline
+
+<Callout title="Important: Fee Claim Deadline" type="warn">
+**Fees from trading activity must be claimed within 365 days of debate settlement.**
+
+After 365 days, unclaimed fees remain in the contract permanently and cannot be withdrawn.
+</Callout>
+
+**Timeline:**
+1. Debate settles on Day 0
+2. Fees from all historical trading are now claimable
+3. You have 365 days to call `claimFees()`
+4. After Day 365, unclaimed fees are locked forever
+
+**Example:**
+- Debate settles January 1, 2025
+- You earned $150 in creator fees
+- You have until January 1, 2026 to claim
+- If unclaimed by then, the $150 stays in contract forever
+
+**Who This Affects:**
+- Debate creators (0.25% of all volume)
+- Opinion creators (0.25% of their opinion's volume)
+- Platform (0.5% if enabled)
+
+### Payout Claims: NO Deadline
+
+<Callout title="Good News: Payout Claims Never Expire" type="info">
+**Settlement payouts (your shares × final price) have NO deadline.**
+
+You can claim your payouts at any time after settlement finality (100 blocks). There is no rush.
+</Callout>
+
+**Why the difference?**
+- **Fees** are creator earnings → deadline encourages active claiming
+- **Payouts** are user's own capital → no deadline ensures users never lose their money
+
+## Settlement Finality Period
+
+After a debate settles, there's a **100-block confirmation period** before payouts and fees can be claimed.
+
+**Why 100 blocks?**
+- Ensures settlement is final and won't be reorganized
+- Prevents claims during potential blockchain reorganizations
+- Standard safety period (~20 minutes on Base)
+
+**Timeline:**
+```
+Settlement Triggered (Block N)
+    ↓
+Waiting Period (Blocks N+1 to N+99)
+    ↓
+Finality Reached (Block N+100)
+    ↓
+Claims Now Available
+```
+
+After block N+100:
+- ✅ Users can claim payouts (no deadline)
+- ✅ Creators can claim fees (365-day deadline)
+
+## Fee Examples
+
+### Example 1: Simple Trade
+
+**Setup:**
+- You sell $500 worth of shares
+- Platform fees: Disabled (0%)
+- Creator fees: Enabled (0.5% total)
+
+**Calculation:**
+```
+Exit Amount: $500
+Platform Fee (0%): $0
+Creator Fees (0.5%): $2.50
+  ├─ Debate Creator: $1.25
+  └─ Opinion Creator: $1.25
+
+You Receive: $497.50
+```
+
+### Example 2: Settlement Payout
+
+**Setup:**
+- You have 1000 shares of "Option A"
+- Debate settles with "Option A" at price 0.45
+- All fees enabled (1% total)
+
+**Calculation:**
+```
+Payout = 1000 × $0.45 = $450
+Total Fees (1%): $4.50
+  ├─ Platform (0.5%): $2.25
+  ├─ Debate Creator (0.25%): $1.125
+  └─ Opinion Creator (0.25%): $1.125
+
+You Receive: $445.50
+```
+
+**Fee Recipients:**
+- Platform gets $2.25 (claimable for 365 days)
+- Debate creator gets $1.125 (claimable for 365 days)
+- Opinion creator gets $1.125 (claimable for 365 days)
+
+### Example 3: Multiple Opinions
+
+**Setup:**
+- You claim payouts from 3 different opinions in same debate
+- Opinion A: 100 shares × 0.60 = $60
+- Opinion B: 200 shares × 0.35 = $70
+- Opinion C: 150 shares × 0.25 = $37.50
+
+**Calculation:**
+```
+Total Payout: $167.50
+Total Fees (1%): $1.675
+
+Breakdown by Opinion:
+Opinion A: $60 → Fee $0.60 (to A's creator)
+Opinion B: $70 → Fee $0.70 (to B's creator)
+Opinion C: $37.50 → Fee $0.375 (to C's creator)
+
+Platform fee (0.5% total): $0.8375
+Creator fees (0.5% total): $0.8375 (split among opinion creators)
+
+You Receive: $165.83
+```
+
+Note: Each opinion's creator receives fees only from their opinion's payout, proportionally.
+
+## Governance Control
+
+The platform has two independent fee toggles:
+
+**Toggle 1: Platform Fees**
+- Currently: **Disabled** (0%)
+- Can be enabled via governance vote
+- Requires 7-day announcement before activation
+- Once enabled, platform receives 0.5% of all exits
+
+**Toggle 2: Creator Fees**
+- Currently: **Enabled** (0.5% total)
+- Can be disabled via governance vote
+- If disabled, only platform fees apply (if enabled)
+- Debate creators: 0.25%, Opinion creators: 0.25%
+
+**Possible States:**
+| Platform | Creator | Total Fee |
+|----------|---------|-----------|
+| Off | Off | 0% |
+| Off | On | 0.5% (current) |
+| On | Off | 0.5% |
+| On | On | 1.0% |
+
+## Claiming Your Fees
+
+### For Creators
+
+**Check Your Balance:**
+- View accumulated fees in your profile
+- Shows breakdown by debate/opinion
+- Updates in real-time as trades happen
+
+**Claim Fees:**
+1. Navigate to Profile → Earnings
+2. See claimable balance for each debate
+3. Click "Claim Fees"
+4. Transaction sends USDC to your wallet
+5. Can claim from multiple debates in one transaction
+
+**Remember:**
+- ⚠️ Claim within 365 days of settlement
+- No gas fees if claiming zero (transaction reverts)
+- Can claim partial amounts or wait to batch
+
+### For Users (Payouts)
+
+**Check Your Positions:**
+- View all positions across debates
+- See settlement status
+- Calculate expected payouts
+
+**Claim Payouts:**
+1. Navigate to settled debate
+2. See your final shares and prices
+3. Click "Claim Payout" for each opinion
+4. Or claim all opinions in one transaction
+5. Receive USDC minus 1% fee
+
+**Remember:**
+- ✅ No deadline - claim anytime after 100-block finality
+- Fees apply to payout amount
+- Can claim from multiple opinions at once
+
+## Fee Transparency
+
+All fees are fully transparent and verifiable onchain:
+
+**Track in Real-Time:**
+- Every trade emits fee calculation events
+- View accumulated fees per address
+- Audit trail for all claims
+- Historical fee earnings visible
+
+**Verify Conservation:**
+```
+Total Deposits - Total Withdrawals =
+    Active Vault Value
+  + Candidate Pool Values
+  + Unclaimed Fees
+  + Unclaimed Payouts
+```
+
+Everything is accounted for. No hidden fees. No value creation or destruction.
+
+## Why This Fee Structure?
+
+**Aligned Incentives:**
+- Debate creators want high-quality, engaging markets (more trading = more fees)
+- Opinion creators want valuable, tradeable perspectives (trading volume = fees)
+- Traders want fair, efficient markets (low fees encourage participation)
+- Platform wants sustainable growth (fees fund development)
+
+**Competitive Rates:**
+- 1% total is comparable to other prediction markets
+- 0.5% current rate (platform disabled) is very competitive
+- No fees on entry encourages market participation
+- Pull pattern reduces gas costs for everyone
+
+**Governance Control:**
+- Community can disable creator fees if needed
+- Platform fees require announcement before activation
+- Transparent, onchain voting for changes
+- No surprise fee increases
+
+<Callout title="Summary" type="info">
+**Key Points:**
+- 1% total fee on exits only (currently 0.5% with platform disabled)
+- Fees accumulate and must be claimed via pull pattern
+- **Fee claims: 365-day deadline after settlement**
+- **Payout claims: NO deadline (claim anytime)**
+- 100-block finality period before any claims
+- Full transparency and governance control
+</Callout>
+
+## Next Steps
+
+Understanding fees helps you make informed decisions:
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+  <a href="/docs/participating/creating-debates" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">Create Debates →</div>
+    <div className="text-sm text-muted-foreground">Earn 0.25% of all trading volume</div>
+  </a>
+
+  <a href="/docs/participating/proposing-opinions" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">Propose Opinions →</div>
+    <div className="text-sm text-muted-foreground">Earn 0.25% when your opinion trades</div>
+  </a>
+</div>

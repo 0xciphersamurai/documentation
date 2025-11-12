@@ -1,0 +1,306 @@
+---
+title: Key Innovations
+description: Technical deep dive on the novel mechanisms that power Trigger Market
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Key Innovations
+
+Three technical breakthroughs make oracle-free consensus markets possible. This page explains what makes Trigger Market different from anything that came before.
+
+<Callout title="Non-technical?" type="info">
+  You don't need to understand these mechanisms to use Trigger Market. Skip to [Getting Started](/docs/getting-started/quick-start) if you want to jump straight to trading.
+</Callout>
+
+## 1. Settlement via Price Stability
+
+**The Problem**: Traditional prediction markets need external oracles to determine outcomes. Who wins the election? Check official results. Will BTC hit $100K? Check price feeds.
+
+**Our Solution**: **Stability = Consensus**. When prices stop moving significantly, participants have reached agreement. No external input needed.
+
+### How It Works
+
+The settlement mechanism uses four criteria that must **all** be met:
+
+#### Criterion 1: Minimum Age
+Markets must be at least a specified age (configurable per market, typically 7 days).
+
+**Why**: Prevents flash consensus on immature markets. Gives time for discovery, debate, and price evolution.
+
+#### Criterion 2: Time-Weighted Variance
+Historical price variance (volatility) must be below threshold (typically 0.01% = 1% standard deviation).
+
+**Why**: Ensures prices have been historically stable, not just momentarily calm.
+
+**Key Innovation**: Prices are weighted by **duration**, not just occurrence. A 10-minute price spike contributes negligible weight compared to days of stability.
+
+```
+Weight of price P = (Time P persisted) × (Exponential decay factor)
+```
+
+Brief manipulation gets filtered out automatically. Extended stability dominates.
+
+#### Criterion 3: Current Deviation
+Current prices must be within a threshold (typically 2%) of their historical means.
+
+**Why**: Prevents sniping attacks where someone manipulates prices right at settlement time.
+
+Even if historical variance is low, current prices must match the stable average.
+
+#### Criterion 4: Sustained Confirmation
+Criteria 2-3 must hold for multiple consecutive checks (typically 5 checks × 30min = 2.5 hours).
+
+**Why**: Prevents false positives from temporary calm periods.
+
+### Settlement Timeline Example
+
+```
+Day 1-7:  Market active, high volatility, criterion 1 not met
+Day 8-20: Trading continues, prices slowly converge
+Day 21:   Low variance achieved (criterion 2 ✓)
+          Current deviation low (criterion 3 ✓)
+          Confirmation counter: 1/5
+Day 21+:  Every 30min, check criteria
+          If still stable: increment counter
+          If becomes unstable: reset counter to 0
+After 5 consecutive confirmations (2.5 hours):
+          → SETTLEMENT TRIGGERED
+          → Market frozen
+          → Payouts calculated from final prices
+```
+
+<Callout title="Why this prevents manipulation" type="warn">
+  To manipulate settlement, an attacker would need to:
+
+  1. Wait for natural stability (can't be rushed)
+  2. Maintain low historical variance (requires weeks of stability)
+  3. Keep current prices near historical mean (can't spike prices)
+  4. Sustain all criteria for 2.5 hours (expensive to maintain artificial prices)
+
+  Cost far exceeds potential benefit.
+</Callout>
+
+### The Math Behind Stability
+
+As markets accumulate liquidity, they naturally become harder to move. This is due to the Hessian magnitude (measure of price sensitivity) decreasing cubically with total liquidity:
+
+Price sensitivity is proportional to 1 / (total_liquidity)³
+
+**What this means**: A $1000 market is 8× harder to move than a $500 market (2³ = 8).
+
+This creates **natural stabilization** as mature markets resist price changes, setting up conditions for settlement.
+
+## 2. Dynamic Opinion Replacement
+
+**The Problem**: Traditional prediction markets lock in outcomes at creation. Can't adapt to new information, emerging perspectives, or improved framings.
+
+**The Solution**: **Competitive opinion marketplace**. Opinions can enter and exit based on demonstrated support.
+
+### The Mechanism
+
+At any time, there are two types of opinions:
+
+**Active Opinions** (max 10)
+- Currently in the AMM (automated market maker)
+- Tradeable via buy/sell
+- Have quantities and prices
+- Compete to avoid being weakest
+
+**Candidate Opinions** (unlimited)
+- Outside the AMM
+- Stakeable (participants pool money)
+- Waiting to enter
+- Compete to exceed threshold
+
+### Replacement Condition
+
+The **weakest active opinion** (lowest quantity/value) can be replaced when:
+
+```
+Candidate stake ≥ (Weakest value) × (1 + threshold)
+```
+
+Default threshold: 5%
+
+**Example**:
+- Weakest active opinion: $456 value
+- Required candidate stake: $456 × 1.05 = $478.80
+- Candidate "MobX is underrated" has $520 staked
+- → Eligible for replacement!
+
+### Replacement Process
+
+When replacement triggers (can be called by anyone):
+
+**Step 1: Exit**
+- Weakest opinion liquidated
+- Holders receive payout (calculated from liquidation formula)
+- Opinion moves to candidate pool with liquidation value as initial stake
+
+**Step 2: Enter**
+- Candidate's stake converts to AMM quantity
+- New opinion becomes active at calculated entry price
+- Stakers receive shares proportional to their contribution
+
+**Step 3: Circular Flow**
+- Exited opinion doesn't disappear - it becomes a candidate again
+- Can re-enter if it accumulates more support
+- Creates evolutionary pressure toward best opinions
+
+<Callout title="Why 5% threshold?" type="info">
+  Without a buffer, opinions could flip-flop endlessly. The 5% threshold ensures replacements demonstrate meaningfully stronger support. This parameter is governance-adjustable (typically 0%-20%).
+</Callout>
+
+### Opinion Lifecycle
+
+```
+New Opinion Proposed
+        ↓
+    Candidate
+    (stake accumulates)
+        ↓
+    [Exceeds threshold]
+        ↓
+    Active
+    (tradeable in AMM)
+        ↓
+    [Gets replaced by stronger candidate]
+        ↓
+    Candidate
+    (can re-enter if support returns)
+```
+
+Opinions can cycle through active ↔ candidate states multiple times. Markets track:
+- Times active
+- Times replaced
+- Peak price achieved
+- Total volume
+- Comeback count
+
+## 3. L² Norm Automated Market Maker
+
+**The Problem**: Traditional AMMs (like Uniswap's x×y=k) don't have the mathematical properties needed for oracle-free settlement.
+
+**The Solution**: Custom AMM using **Euclidean (L²) norm** as the cost function.
+
+### What is the L² Norm?
+
+For quantities `q₁, q₂, ..., qₙ`:
+
+```
+Cost = √(q₁² + q₂² + ... + qₙ²)
+```
+
+This is just the length of the vector in n-dimensional space. Simple, elegant, powerful.
+
+### Why L² Specifically?
+
+#### Property 1: Automatic Price Normalization
+
+Prices are defined as normalized quantities:
+
+```
+Price of opinion i = pᵢ = qᵢ / Cost = qᵢ / √(q₁² + q₂² + ... + qₙ²)
+```
+
+These prices automatically satisfy the **L² norm constraint**:
+
+```
+√(p₁² + p₂² + ... + pₙ²) = 1  (unit sphere)
+```
+
+This is the fundamental constraint - prices lie on a unit sphere in n-dimensional space.
+
+**Benefit**: No artificial constraints needed. Prices stay in bounds naturally through spherical geometry.
+
+#### Property 2: Closed-Form Solutions
+
+All operations have instant, exact solutions:
+
+**Buy $M worth of opinion i**:
+```
+Δq = -qᵢ + √(qᵢ² + 2M·Cost + M²)
+```
+
+One formula, no iteration, computed in nanoseconds.
+
+**Sell to receive $R**:
+```
+Δq = -qᵢ + √(qᵢ² - 2R·Cost + R²)
+```
+
+**Complete withdrawal payout**: Calculated using the vault liquidation formula
+
+**Entry quantity for candidate with stake M**: Calculated to ensure proper vault value increase
+
+Every operation: one formula, instant result.
+
+**Benefit**: Efficient onchain execution. No gas wasted on iterations.
+
+#### Property 3: Convergence Property
+
+The Hessian (matrix of price sensitivities) has magnitude:
+
+```
+||H|| ∝ 1 / Cost³
+```
+
+As the market grows (Cost increases), price sensitivity decreases **cubically**.
+
+**Benefit**: Mature markets naturally stabilize, facilitating settlement.
+
+#### Property 4: Substitution Effects
+
+Buying opinion A decreases prices of all other opinions proportionally. This creates proper competitive dynamics between perspectives.
+
+**Benefit**: Opinions compete for finite "probability mass".
+
+### Visual Intuition
+
+Imagine opinions as vectors in space. The L² norm cost function creates a sphere. All valid price vectors lie on this sphere's surface.
+
+Trading moves you along the sphere. Prices can't leave the sphere (natural bounds). The sphere's radius grows with liquidity (stability).
+
+## How These Innovations Work Together
+
+The three mechanisms reinforce each other:
+
+**L² AMM** provides:
+- Natural price bounds
+- Closed-form efficiency
+- Convergence properties
+
+**Dynamic opinions** allow:
+- Market evolution
+- Improved framings
+- Competitive pressure
+
+**Stability-based settlement** uses:
+- AMM convergence properties
+- Time-weighted filtering
+- Mathematical certainty
+
+Together, they create markets that:
+1. **Start simple** (anyone can create, initial opinions)
+2. **Evolve intelligently** (better opinions replace weak ones)
+3. **Converge naturally** (maturity → stability)
+4. **Settle deterministically** (criteria → settlement → payouts)
+
+No oracles. No subjective judgment. Just math, markets, and consensus.
+
+## Next Steps
+
+Ready to see these innovations in action?
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+  <a href="/docs/getting-started/quick-start" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">Quick Start →</div>
+    <div className="text-sm text-muted-foreground">Make your first trade</div>
+  </a>
+
+  <a href="/docs/core-concepts/how-it-works" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">How It Works →</div>
+    <div className="text-sm text-muted-foreground">Detailed mechanics walkthrough</div>
+  </a>
+</div>

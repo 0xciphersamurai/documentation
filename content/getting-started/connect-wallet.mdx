@@ -1,0 +1,370 @@
+---
+title: Connect Your Wallet
+description: Step-by-step guide to connecting your Web3 wallet and getting ready to trade on Trigger Market
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Steps } from 'fumadocs-ui/components/steps';
+
+# Connect Your Wallet
+
+Trigger Market is a fully onchain application running on Base. To interact with the platform, you'll need a Web3 wallet configured for the Base network.
+
+<Callout title="First Time with Web3?" type="info">
+Don't worry - we'll walk you through everything. Setting up a wallet takes about 5 minutes and is completely free.
+</Callout>
+
+## Supported Wallets
+
+Trigger Market supports all major Web3 wallets:
+
+### MetaMask
+The most popular Web3 wallet with over 30 million users worldwide.
+- **Platform**: Browser extension (Chrome, Firefox, Brave, Edge)
+- **Mobile**: iOS and Android apps available
+- **Best for**: First-time users and experienced traders
+
+### Coinbase Wallet
+Official wallet from Coinbase, with excellent mobile support.
+- **Platform**: Browser extension and mobile apps
+- **Mobile**: Top-tier iOS and Android experience
+- **Best for**: Users already on Coinbase
+
+### WalletConnect
+Connect with any of 100+ compatible wallets.
+- **Platform**: Works with mobile wallets via QR code
+- **Supports**: Rainbow, Trust Wallet, Argent, and many more
+- **Best for**: Mobile-first users
+
+## Setting Up MetaMask (Recommended for Beginners)
+
+<Steps>
+
+### Install MetaMask Extension
+
+1. Visit [metamask.io](https://metamask.io)
+2. Click "Download" and select your browser
+3. Install the browser extension
+4. Pin it to your toolbar for easy access
+
+### Create Your Wallet
+
+1. Click "Create a new wallet"
+2. Create a strong password (you'll use this to unlock MetaMask)
+3. **IMPORTANT**: Write down your Secret Recovery Phrase
+   - 12 words in a specific order
+   - **Never share this with anyone**
+   - **Store it somewhere safe offline**
+   - This is the ONLY way to recover your wallet
+
+<Callout title="Security Critical" type="warn">
+Your Secret Recovery Phrase is like the master key to your funds. Anyone with this phrase can access your wallet. **Never** share it, store it digitally, or enter it on any website except MetaMask itself.
+</Callout>
+
+### Confirm Your Recovery Phrase
+
+MetaMask will ask you to confirm your recovery phrase by selecting words in the correct order. This ensures you've written it down correctly.
+
+### Wallet Created!
+
+You now have a Web3 wallet with a unique Ethereum address (starts with "0x").
+
+</Steps>
+
+## Adding the Base Network
+
+Trigger Market runs on **Base**, an Ethereum Layer 2 network that offers:
+- Fast transactions (1-2 seconds)
+- Low fees (typically $0.01-0.10)
+- Full Ethereum security
+- Built by Coinbase
+
+<Steps>
+
+### Visit Trigger Market
+
+Go to [triggermarket.io](https://triggermarket.io)
+
+### Click "Connect Wallet"
+
+The app will detect that you're not on the Base network.
+
+### Approve Network Switch
+
+MetaMask will prompt you to:
+1. Add the Base network
+2. Switch to Base
+
+Click "Approve" and "Switch network"
+
+**Network details** (added automatically):
+- Network Name: Base
+- RPC URL: https://mainnet.base.org
+- Chain ID: 8453
+- Currency Symbol: ETH
+- Block Explorer: https://basescan.org
+
+</Steps>
+
+<Callout title="Manual Network Addition" type="info">
+If the automatic prompt doesn't appear:
+1. Open MetaMask
+2. Click the network dropdown (top center)
+3. Select "Add network"
+4. Click "Add a network manually"
+5. Enter the Base network details above
+</Callout>
+
+## Getting ETH on Base
+
+To trade on Trigger Market, you need ETH on the Base network.
+
+### Option 1: Bridge from Ethereum (If you have ETH on mainnet)
+
+<Steps>
+
+### Visit the Base Bridge
+
+Go to [bridge.base.org](https://bridge.base.org)
+
+### Connect Your Wallet
+
+Connect the same wallet you'll use for Trigger Market.
+
+### Enter Amount
+
+Enter how much ETH you want to bridge from Ethereum mainnet to Base.
+
+**Recommendation**: Start with $50-200 worth of ETH
+- Trading: $20-100 for initial positions
+- Gas fees: $5-20 for dozens of transactions
+- Buffer: Extra for flexibility
+
+### Confirm Transaction
+
+1. Review the amount and fees
+2. Click "Deposit"
+3. Confirm in MetaMask
+4. Wait 5-10 minutes for the bridge to complete
+
+</Steps>
+
+### Option 2: Buy Directly on Base (Easiest for new users)
+
+<Steps>
+
+### Use MetaMask Buy Feature
+
+1. Open MetaMask
+2. Make sure you're on the Base network
+3. Click "Buy"
+4. Select your payment method (card, bank, etc.)
+5. Choose amount and complete purchase
+
+### Use Coinbase (If you have a Coinbase account)
+
+1. Buy ETH on Coinbase
+2. Withdraw to "Base network"
+3. Paste your wallet address
+4. Confirm withdrawal - arrives in 1-2 minutes
+
+</Steps>
+
+### Option 3: Receive from Another Wallet
+
+If someone sends you ETH:
+1. Copy your wallet address from MetaMask
+2. **Make sure they send on the Base network**
+3. Share your address
+4. Funds arrive in seconds
+
+<Callout title="Network Critical" type="warn">
+Always verify the sender is using the **Base network**. Sending ETH on the wrong network can result in lost funds.
+</Callout>
+
+## Connecting to Trigger Market
+
+<Steps>
+
+### Visit the App
+
+Navigate to [triggermarket.io](https://triggermarket.io)
+
+### Click "Connect Wallet"
+
+Click the "Connect Wallet" button in the top right.
+
+### Select Your Wallet
+
+Choose your wallet provider:
+- MetaMask
+- Coinbase Wallet
+- WalletConnect (for mobile wallets)
+
+### Approve Connection
+
+Your wallet will open and ask you to approve the connection.
+
+**What this does:**
+- ✅ Lets Trigger Market see your address
+- ✅ Lets you sign transactions
+- ❌ Does NOT let the app access your funds automatically
+
+Click "Connect" or "Approve"
+
+### Verify Connection
+
+You should now see:
+- Your wallet address (shortened, like "0x1234...5678")
+- Your ETH balance on Base
+- "Connected" status
+
+</Steps>
+
+## Understanding Wallet Interactions
+
+When you use Trigger Market, your wallet will prompt you to approve various actions:
+
+### Transaction Confirmations
+
+**Every action that changes blockchain state requires confirmation:**
+- Buying shares
+- Selling shares
+- Creating markets
+- Proposing opinions
+- Claiming rewards
+
+**What you'll see:**
+- Action description
+- Gas fee estimate
+- Total cost
+- "Reject" or "Confirm" buttons
+
+### Signature Requests
+
+**Some actions only require signatures (no gas fees):**
+- Viewing your trading history
+- Accessing detailed analytics
+- Certain data queries
+
+**What you'll see:**
+- Message to sign
+- No gas fee
+- "Cancel" or "Sign" buttons
+
+<Callout title="Security Tip" type="info">
+Always read transaction prompts carefully. Verify:
+- The action matches what you intended
+- The amount seems correct
+- The gas fee is reasonable
+- You recognize the contract address
+</Callout>
+
+## Troubleshooting
+
+### "Wrong Network" Warning
+
+**Problem**: Your wallet is connected to a different network.
+
+**Solution**:
+1. Open your wallet
+2. Click the network dropdown
+3. Select "Base"
+4. Refresh the Trigger Market page
+
+### "Insufficient Funds for Gas"
+
+**Problem**: You don't have enough ETH to pay transaction fees.
+
+**Solution**:
+1. Check your ETH balance on Base
+2. Bridge or buy more ETH (see "Getting ETH on Base" above)
+3. Try the transaction again
+
+### Wallet Not Connecting
+
+**Problem**: The connection modal doesn't appear or hangs.
+
+**Solution**:
+1. Refresh the page
+2. Make sure your wallet extension is unlocked
+3. Try a different browser
+4. Clear browser cache
+5. Update your wallet extension
+
+### Transaction Stuck "Pending"
+
+**Problem**: Transaction shows "pending" for a long time.
+
+**Solution**:
+1. Wait 2-3 minutes - Base is fast but not instant
+2. Check [basescan.org](https://basescan.org) with your transaction hash
+3. If truly stuck (rare), try increasing gas in wallet settings
+
+## Security Best Practices
+
+### Never Share Your Secret Phrase
+
+Your 12-word recovery phrase is the master key to your wallet. **Never** share it with anyone, including:
+- Trigger Market team
+- Support channels
+- Social media
+- Any website
+
+**Trigger Market will NEVER ask for your recovery phrase.**
+
+### Verify URLs
+
+Always check you're on the correct website:
+- ✅ `triggermarket.io`
+- ❌ `triggermarket.com` (fake)
+- ❌ `trigger-market.io` (fake)
+- ❌ `triggermarket.org` (fake)
+
+**Tip**: Bookmark the official site to avoid phishing.
+
+### Review Transaction Details
+
+Before confirming any transaction:
+1. Read the action description
+2. Verify the amount
+3. Check the gas fee is reasonable
+4. Confirm you initiated this action
+
+### Use a Hardware Wallet (Advanced)
+
+For larger amounts, consider a hardware wallet like:
+- Ledger
+- Trezor
+
+These store your keys on a physical device, providing maximum security.
+
+### Keep Software Updated
+
+Regularly update:
+- Your wallet extension
+- Your browser
+- Your operating system
+
+Updates often include important security patches.
+
+## Next Steps
+
+<Callout title="Wallet Connected? Great!" type="info">
+You're ready to start trading.
+
+**Next**: [Make Your First Trade](/docs/getting-started/first-trade)
+
+**Learn more**: [Understanding Positions](/docs/getting-started/understanding-positions)
+</Callout>
+
+## Need Help?
+
+- **Discord**: Live community support
+- **Twitter**: @TriggerMarket for updates and tips
+- **Documentation**: Detailed guides for all features
+- **Email**: support@triggermarket.io
+
+---
+
+**Your wallet is your passport to decentralized consensus markets.** Keep it safe, keep it secure.

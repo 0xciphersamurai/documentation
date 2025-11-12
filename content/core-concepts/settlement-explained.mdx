@@ -1,0 +1,449 @@
+---
+title: Settlement Explained
+description: How markets settle based on price stability without needing oracles
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Settlement Explained
+
+Traditional prediction markets need an oracle—a trusted external source—to determine who wins. This limits them to objective events with verifiable outcomes.
+
+Trigger Market works differently. **Markets settle when observable price stability indicates consensus has formed.** No oracle needed. The market's own dynamics determine settlement.
+
+## The Core Idea
+
+When participants with capital at stake reach equilibrium and stop changing their minds, consensus has formed. Sustained price stability is the signal.
+
+Think of it like a pendulum:
+- Early: Wild swings as opinions clash
+- Middle: Dampening oscillations as patterns emerge
+- Late: Small fluctuations around equilibrium
+- Settlement: Stillness. The market has decided.
+
+## The Four Settlement Criteria
+
+For a debate to settle, **all four conditions must be met simultaneously:**
+
+```
+┌────────────────────────────────────────┐
+│  1. Minimum Age        ✓               │
+│  2. Historical Stability ✓             │
+│  3. Current Agreement    ✓             │
+│  4. Sustained Confirmation ✓           │
+│                                        │
+│  All Four Met? → Settlement Triggers   │
+└────────────────────────────────────────┘
+```
+
+### Criterion 1: Minimum Age
+
+**Requirement:** Debate must be at least `T_min` days old (default: 7 days, configurable per market)
+
+**Why:** Prevents premature settlement before the community has had time to:
+- Discover the debate
+- Read all opinions
+- Trade on their beliefs
+- Allow consensus to form naturally
+
+**Example:**
+- Market created January 1
+- Minimum age: 7 days
+- Cannot settle before January 8
+- Even if all other criteria met earlier
+
+**Rationale:** Important debates deserve time for thoughtful participation, not rushed decisions.
+
+### Criterion 2: Historical Stability (Time-Weighted Variance)
+
+**Requirement:** Historical price variance < threshold (default: 0.0001, equivalent to ~1% standard deviation)
+
+**What it measures:** Price stability over the market's entire history, weighted by **how long** prices persisted.
+
+**Key insight:** A 10-minute price spike contributes negligible weight compared to days of stable prices.
+
+**Formula (simplified):**
+```
+For each price period:
+  Weight = Duration × Recency Factor
+
+Variance = Average((Price - Mean)² × Weight)
+```
+
+**Example:**
+- Price at 0.50 for 5 days → Large weight
+- Price spikes to 0.65 for 30 minutes → Tiny weight
+- Price returns to 0.52 for 3 days → Large weight
+- Spike barely affects variance calculation
+
+**Why this works:** Brief manipulation is automatically filtered. Only sustained price levels matter.
+
+### Criterion 3: Current Agreement
+
+**Requirement:** Current prices must be near their historical averages (default: within 2%)
+
+**What it prevents:** Last-minute price manipulation can't trigger settlement.
+
+**How it works:**
+```
+For each opinion price p_i:
+  |current_price - historical_mean| < threshold
+```
+
+**Example:**
+- Historical mean price for Opinion A: 0.55
+- Current price: 0.56
+- Deviation: 1.8% ✓ Within 2% threshold
+
+- Historical mean price for Opinion B: 0.45
+- Current price: 0.50
+- Deviation: 11.1% ✗ Exceeds threshold → No settlement
+
+**Sniping protection:** Even if variance is low, someone moving prices just before settlement breaks this criterion.
+
+### Criterion 4: Sustained Confirmation
+
+**Requirement:** Criteria 2 and 3 must hold for multiple consecutive checks (default: 5 confirmations)
+
+**Update frequency:** Checks occur:
+- Automatically during trades (if 30min have elapsed since last check)
+- Manually via "Update Settlement Status" button (if 30min elapsed)
+- Rate-limited to save gas
+
+**Example timeline:**
+```
+Check 1 (Day 10, 2:00 PM): All criteria met → Count = 1
+Check 2 (Day 10, 4:30 PM): All criteria met → Count = 2
+Check 3 (Day 10, 8:15 PM): All criteria met → Count = 3
+Check 4 (Day 11, 9:00 AM): All criteria met → Count = 4
+Check 5 (Day 11, 12:45 PM): All criteria met → Count = 5 ✓ SETTLEMENT!
+```
+
+**If criteria broken:**
+```
+Check 1: Met → Count = 1
+Check 2: Met → Count = 2
+Check 3: NOT met (price spike) → Count = 0 (reset)
+Check 4: Met → Count = 1 (restart)
+...must reach 5 consecutive again
+```
+
+**Why:** Ensures stability isn't momentary. The market must remain stable across multiple independent observations.
+
+## Time-Weighted Variance Explained
+
+This is the key innovation enabling oracle-free settlement.
+
+### The Problem with Simple Variance
+
+**Simple approach:** Average all historical prices equally.
+
+**Problem:**
+- 1 second at 0.50 = same weight as 1 day at 0.50
+- Easy to game: Brief manipulation affects variance significantly
+- Doesn't capture actual consensus formation
+
+### The Solution: Duration Weighting
+
+**Better approach:** Weight prices by how long they persisted.
+
+**Implementation:** Exponentially-Weighted Moving Average (EWMA)
+
+**How it works:**
+
+Each time prices are observed at time `t`:
+1. Calculate time since last update: `Δt = t - t_prev`
+2. Apply exponential decay to historical accumulators
+3. Add new observation weighted by `Δt`
+
+**Accumulators:**
+```
+W_i  = Weight accumulator (total effective observation time)
+S_i  = Sum accumulator (weighted price sum)
+S2_i = Sum of squares accumulator (for variance)
+
+Update formulas:
+W_i  ← α·W_i + Δt
+S_i  ← α·S_i + Δt·price
+S2_i ← α·S2_i + Δt·price²
+
+where α = e^(-Δt/τ)
+      τ = time constant (default: 86400s = 24 hours)
+```
+
+**Statistics:**
+```
+Mean: μ = S_i / W_i
+Variance: σ² = S2_i / W_i - μ²
+```
+
+### Why This Resists Manipulation
+
+**Attack scenario:** Try to prevent settlement by creating price volatility.
+
+**Attacker's move:**
+- Current stable price: 0.55 (held for 5 days)
+- Attacker trades to move price to 0.70
+- Holds for 1 hour
+- Price returns to 0.55
+
+**Weight contribution:**
+- 5 days at 0.55: 432,000 seconds of weight
+- 1 hour at 0.70: 3,600 seconds of weight
+- Ratio: 0.8% contribution from attack
+
+**Variance impact:** Negligible. The 1-hour spike is washed out by days of stability.
+
+**Cost to attacker:**
+- Gas fees for trades
+- Price impact costs (buying high, selling low)
+- Minimal disruption to settlement
+
+**Result:** Economically irrational. Attack costs more than it accomplishes.
+
+### Visual Example
+
+```
+Price History:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Day 1-3:  0.50 (stable) ███████████████
+Day 4:    0.65 (spike)  █
+Day 5-7:  0.52 (stable) ███████████████
+
+Time-weighted variance calculation:
+  Days 1-3: 3 days × (0.50 - 0.51)² = tiny
+  Day 4:    0.04 days × (0.65 - 0.51)² = small
+  Days 5-7: 3 days × (0.52 - 0.51)² = tiny
+
+  Overall variance: ~0.00008 ✓ Below threshold
+
+Simple variance (equal weighting):
+  Would be much higher, falsely indicating instability
+```
+
+## Settlement Process Flow
+
+```
+Market Active
+    │
+    ├─→ Trades occur
+    │   └─→ Every 30min+ check criteria
+    │       ├─→ Not all met? Continue
+    │       └─→ All met? Increment confirmation
+    │
+    ├─→ Confirmation count < 5? Keep trading
+    │
+    └─→ Confirmation count = 5?
+        │
+        ↓
+    SETTLEMENT TRIGGERED (Block N)
+        │
+        ↓
+    Finality Period (100 blocks)
+        │
+        ├─→ Block N+1
+        ├─→ Block N+2
+        │    ...
+        ├─→ Block N+99
+        │
+        ↓
+    FINALITY REACHED (Block N+100)
+        │
+        ├─→ Users can claim payouts (no deadline)
+        └─→ Creators can claim fees (365-day deadline)
+```
+
+## Settlement Finality
+
+<Callout title="100-Block Finality Period" type="info">
+After settlement triggers, there's a **100-block confirmation period** (~20 minutes on Base) before claims become available.
+
+This ensures settlement is final and won't be reorganized by blockchain reorgs.
+</Callout>
+
+**Why 100 blocks?**
+- Protects against blockchain reorganizations
+- Ensures settlement is truly final
+- Standard safety measure for high-value operations
+- Gives participants confidence in finality
+
+**Timeline:**
+```
+Block N:     Settlement triggered
+             ↓ Market frozen
+             ↓ Final prices recorded
+             ↓ Trading disabled
+Blocks N+1 to N+99:
+             ↓ Waiting for finality
+             ↓ No claims allowed yet
+Block N+100: Finality reached
+             ↓ Claims now enabled
+             ✓ Users can claim payouts
+             ✓ Creators can claim fees
+```
+
+**During finality period:**
+- ✅ Settlement is recorded
+- ✅ Final prices are locked
+- ✅ No more trades possible
+- ❌ Claims not yet available
+- ❌ Cannot reverse settlement
+
+**After finality:**
+- ✅ Payouts claimable (no deadline)
+- ✅ Fees claimable (365-day deadline)
+- ✅ Market archived
+- ✅ Historical data preserved
+
+## Manual Settlement Checks
+
+While checks happen automatically during trades, users can manually trigger updates:
+
+**"Update Settlement Status" Button:**
+- Available on debate pages
+- Calls `updateConvergence()` function
+- Rate-limited: Must wait 30 minutes since last check
+- User pays gas (~$0.05-0.15 on Base)
+- Returns current status
+
+**When to use:**
+- Market has low trading volume
+- Want to check if settlement is near
+- Help trigger settlement if criteria met
+- Monitor progress toward settlement
+
+**Reverts if:**
+- Less than 30 minutes since last update
+- Prevents spam and saves gas
+
+## After Settlement
+
+**What happens:**
+
+1. **Market freezes** - No more trading, staking, or replacements
+2. **Prices lock** - Final prices permanently recorded
+3. **Positions finalize** - All shares valued at final prices
+4. **Claims available** - After 100-block finality period
+5. **Archive status** - Market becomes historical reference
+
+**Payout calculation:**
+```
+For each opinion you hold shares in:
+  Payout = Your Shares × Final Price
+
+Example:
+  Opinion A: 500 shares × 0.62 = $310
+  Opinion B: 200 shares × 0.35 = $70
+  Total Payout: $380 (minus 1% fee)
+```
+
+**Final prices as consensus:**
+
+The final price vector represents the market's collective conclusion. It's not binary (one winner, others losers)—every opinion receives a proportional payout based on its final consensus level.
+
+**Example final state:**
+```
+Debate: "Best database for startups?"
+  PostgreSQL: 0.58 (58% consensus)
+  MongoDB:    0.42 (42% consensus)
+  MySQL:      0.35 (35% consensus)
+  Redis:      0.28 (28% consensus)
+
+Note: Prices satisfy √(Σp_i²) = 1, not Σp_i = 1
+Verification: √(0.58² + 0.42² + 0.35² + 0.28²) ≈ 1 ✓
+```
+
+## Default Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `T_min` | 604800s (7 days) | Minimum market age (user-configurable) |
+| `τ` (tau) | 86400s (24 hours) | EWMA time constant |
+| `ε_σ` (epsilon_sigma) | 0.0001 | Variance threshold (~1% std dev) |
+| `ε_μ` (epsilon_mu) | 0.02 | Deviation threshold (2%) |
+| `k` | 5 | Consecutive confirmations required |
+| `Δt_min` | 1800s (30 min) | Minimum update interval |
+| Finality blocks | 100 | Blocks before claims enabled |
+
+**User-configurable:**
+- `T_min` can be set per debate at creation
+- Other parameters are governance-controlled
+
+## Key Properties
+
+**✅ No oracle needed**
+- Settlement based purely on observable price dynamics
+- Deterministic and verifiable on-chain
+- No external data sources
+- No subjective judgment required
+
+**✅ Manipulation resistant**
+- Duration weighting filters brief price spikes
+- Multiple criteria must be met simultaneously
+- Confirmation requirement prevents false triggers
+- Economically expensive to prevent settlement
+
+**✅ Flexible timing**
+- Markets settle when ready, not on fixed schedules
+- Can settle quickly if strong consensus forms fast
+- Can take longer for contentious debates
+- Natural adaptation to market dynamics
+
+**✅ Transparent and verifiable**
+- All criteria checkable on-chain
+- Anyone can verify settlement was legitimate
+- Full audit trail of price history
+- No hidden logic or backdoors
+
+## Comparison with Traditional Markets
+
+| Aspect | Traditional Markets | Trigger Market |
+|--------|---------------------|----------------|
+| **Resolution** | Oracle determines outcome | Price stability indicates consensus |
+| **Timing** | Fixed event date | When consensus forms |
+| **Subjectivity** | Requires objective event | Handles subjective debates |
+| **Trust** | Trust the oracle | Trust the math |
+| **Scope** | Objective questions only | Any debate |
+| **Manipulation** | Oracle corruption possible | Economically protected |
+
+## Practical Implications
+
+**For traders:**
+- Monitor settlement criteria to anticipate timing
+- Understand that late trades won't affect final outcome if criteria met
+- Final prices reflect consensus, not "truth"
+- All opinions pay out proportionally
+
+**For debate creators:**
+- Choose appropriate `T_min` for your topic
+- Longer minimums for important, complex debates
+- Shorter minimums for time-sensitive questions
+- Can't be changed after creation
+
+**For the platform:**
+- Settlement is deterministic and automated
+- No intervention needed or possible
+- Transparent and verifiable process
+- Enables permissionless operation
+
+<Callout title="Settlement is Consensus" type="warn">
+Settlement doesn't determine "the right answer." It captures where the market—participants with economic stake—reached equilibrium.
+
+The final prices are the community's collective conclusion, revealed through price discovery and sustained stability.
+</Callout>
+
+## Next Steps
+
+Understanding settlement helps you make better trading decisions:
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+  <a href="/docs/core-concepts/opinion-lifecycle" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">Opinion Lifecycle →</div>
+    <div className="text-sm text-muted-foreground">How opinions evolve before settlement</div>
+  </a>
+
+  <a href="/docs/platform-details/fee-structure" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">Fee Structure →</div>
+    <div className="text-sm text-muted-foreground">Claiming payouts and fees after settlement</div>
+  </a>
+</div>

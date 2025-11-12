@@ -1,0 +1,478 @@
+---
+title: Opinions and Markets
+description: Understanding the structure of markets and opinions - the building blocks of consensus formation
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Opinions and Markets
+
+Markets and opinions are the core building blocks of Trigger Market. Understanding their structure and relationships is essential for effective trading.
+
+## What is a Market?
+
+A **market** represents a single subjective debate or question.
+
+**Anatomy of a market**:
+- **Question**: The debate topic (e.g., "Best state management for React?")
+- **Opinions**: Competing perspectives (e.g., Redux, Zustand, Jotai, Context)
+- **Liquidity**: Capital available for trading
+- **State**: Active, approaching settlement, or settled
+- **History**: All trades, price movements, and events
+
+### Market Types
+
+While all markets share the same mechanism, they differ in nature:
+
+**Technical Debates**:
+- "Best programming language for web apps?"
+- "Most effective testing framework?"
+- "Superior database architecture?"
+
+**Strategic Questions**:
+- "Best go-to-market strategy for B2B SaaS?"
+- "Most promising AI application area?"
+- "Optimal pricing model for marketplaces?"
+
+**Governance Decisions**:
+- "Should the DAO fund this proposal?"
+- "Best allocation of treasury funds?"
+- "Priority feature for next quarter?"
+
+**Subjective Preferences**:
+- "Most underrated city for remote work?"
+- "Best framework for productivity?"
+- "Most impactful book on entrepreneurship?"
+
+<Callout title="No Wrong Answers" type="info">
+Unlike traditional prediction markets where one outcome is "correct," Trigger Market debates can have multiple valid perspectives. Consensus reflects **collective belief**, not objective truth.
+</Callout>
+
+### Market Parameters
+
+Each market has configurable parameters:
+
+**Settlement Criteria**:
+- Minimum age (typically 7 days)
+- Variance thresholds (T₂, T₃, T₄)
+- Time-weighting constants
+
+**Economic Parameters**:
+- Initial liquidity
+- Fee rates (typically 1% total)
+- Opinion replacement rules
+
+**Governance**:
+- Who can propose opinions
+- Collateral requirements
+- Moderation policies (if any)
+
+## What is an Opinion?
+
+An **opinion** is a specific perspective or answer within a market's debate.
+
+**Components of an opinion**:
+- **Title**: Short name (e.g., "PostgreSQL")
+- **Description**: Explanation of this perspective
+- **Creator**: Who proposed this opinion
+- **Status**: Active, Candidate, or Inactive
+- **Creation date**: When it was proposed
+- **Fee share**: 0.25% of trades involving this opinion
+
+### Opinion States
+
+Opinions move through different states:
+
+**Candidate**:
+- Newly proposed
+- Not yet tradeable
+- Gathering support
+- Can become active if supported
+
+**Active**:
+- Currently tradeable
+- Has a price (0-100¢)
+- Included in AMM
+- Earns fees from trades
+
+**Inactive**:
+- Was active but got replaced
+- No longer tradeable
+- Historical record only
+- Holders converted to other opinions
+
+### Opinion Quality
+
+Not all opinions are equal. Quality opinions:
+
+**Clear and specific**:
+- Well-defined perspective
+- Unambiguous meaning
+- Not overlapping with others
+
+**Distinct**:
+- Represents unique viewpoint
+- Meaningfully different from other opinions
+- Adds value to the debate
+
+**Relevant**:
+- Addresses the market question
+- Timely and applicable
+- Resonates with traders
+
+**Defensible**:
+- Has rational basis
+- Can be argued for
+- Supported by evidence or reasoning
+
+<Callout title="Opinion Creation Strategy" type="info">
+When proposing opinions (whether creating a market or suggesting new ones), focus on **meaningful diversity**. Each opinion should offer a genuinely different perspective that traders would want to support.
+</Callout>
+
+## Market Structure
+
+### Active Opinion Set
+
+Each market has 3-7 active opinions at any time:
+
+**Why minimum 3?**
+- Ensures meaningful debate
+- Prevents binary yes/no structure
+- Requires nuanced consensus
+
+**Why maximum 7?**
+- Maintains price discovery efficiency
+- Prevents dilution of liquidity
+- Keeps UI manageable
+
+**Typical: 4-5 active opinions**
+- Balances diversity and tractability
+- Allows comprehensive coverage
+- Maintains healthy liquidity per opinion
+
+### Price Space
+
+Active opinions satisfy the L² norm constraint on a unit sphere:
+
+**Example market** (4 opinions):
+- Opinion A: 0.60 (60%)
+- Opinion B: 0.55 (55%)
+- Opinion C: 0.45 (45%)
+- Opinion D: 0.40 (40%)
+- **Verification**: √(0.60² + 0.55² + 0.45² + 0.40²) ≈ 1 ✓
+
+**Properties**:
+- One opinion rising → others falling (through spherical geometry)
+- Cannot all be high simultaneously (unit sphere constraint)
+- Competitive dynamics through L² norm, not linear sum
+
+### Opinion Relationships
+
+Opinions relate to each other:
+
+**Substitutes**:
+- Similar perspectives
+- Compete for the same consensus
+- Example: React vs Preact (very similar)
+
+**Complements**:
+- Different aspects of same question
+- Can both be "right" in different contexts
+- Example: "Best for startups" vs "Best for enterprise"
+
+**Orthogonal**:
+- Unrelated dimensions
+- Don't directly compete
+- Example: "Fast" vs "Easy to learn"
+
+Well-designed markets have opinions that are substitutes (competing for consensus on the same dimension).
+
+## Creating a Good Market
+
+### Choosing a Question
+
+Great market questions are:
+
+**Subjective**:
+- No objectively verifiable answer
+- Multiple valid perspectives exist
+- Consensus is meaningful
+
+**Timely**:
+- Relevant to current discussions
+- People care about the answer
+- Stakes are significant
+
+**Focused**:
+- Specific enough to be answerable
+- Not too broad or vague
+- Clear scope and context
+
+**Interesting**:
+- Attracts diverse opinions
+- Genuine debate possible
+- Community will engage
+
+### Selecting Initial Opinions
+
+When creating a market, choose initial opinions that:
+
+**Cover the space**:
+- Represent major perspectives
+- Include consensus favorites
+- Add contrarian views
+
+**Are distinct**:
+- Meaningful differences between them
+- Not redundant or overlapping
+- Each has unique selling points
+
+**Invite more**:
+- Leave room for new opinions later
+- Don't exhaustively list everything
+- Best initial opinions attract trading
+
+**Example**:
+Market: "Best framework for building APIs?"
+
+**Good initial opinions**:
+- Express.js (Node.js standard)
+- FastAPI (Python, modern)
+- Rails (Ruby, convention over config)
+- Go Fiber (Performance-focused)
+
+**Why good?**
+- Cover different languages/paradigms
+- Distinct philosophies
+- Room for others (Django, Spring, etc.)
+
+### Bad Market Examples
+
+**Too objective**:
+- "Will Bitcoin reach $100K in 2024?"
+- Has verifiable answer
+- Should use traditional prediction market
+
+**Too vague**:
+- "What's best?"
+- Best for what? In what context?
+- Needs specificity
+
+**Too niche**:
+- "Best obscure library no one uses?"
+- No one cares
+- Won't attract traders
+
+**Binary structure**:
+- "Should we do X? Yes/No"
+- Not enough diversity
+- Better as traditional market
+
+## Opinion Dynamics
+
+### How Opinions Compete
+
+Opinions compete for price share:
+
+**Trading drives competition**:
+1. New information emerges about opinion A
+2. Traders buy A, driving price up
+3. A's price increase comes from other opinions falling
+4. Creates relative winners and losers
+
+**Example**:
+- PostgreSQL gets major performance update
+- Traders buy PostgreSQL
+- PostgreSQL: 0.50 → 0.70 (+0.20)
+- MySQL: 0.55 → 0.45 (-0.10)
+- MongoDB: 0.45 → 0.38 (-0.07)
+- Others decrease to maintain L² norm √(Σp_i²) = 1
+
+### Opinion Lifecycle
+
+Typical lifecycle of a successful opinion:
+
+**Phase 1: Introduction** (Days 0-2)
+- Opinion proposed as candidate
+- Gathers initial support
+- Activates if threshold met
+- Initial price ~equal to others
+
+**Phase 2: Price Discovery** (Days 3-10)
+- Traders evaluate merits
+- Price fluctuates with information
+- Volume increases
+- Position-taking occurs
+
+**Phase 3: Consensus Formation** (Days 10-30)
+- Price stabilizes around true consensus
+- Less volatility
+- Occasional corrections
+- Leadership emerges
+
+**Phase 4: Settlement** (Days 30+)
+- Prices highly stable
+- Little new information
+- Consensus clear
+- Settlement criteria approach
+
+**Phase 5: Settlement** (When criteria met)
+- Prices lock
+- Trading stops
+- Payouts available
+
+### Opinion Replacement
+
+Opinions can be replaced if they become irrelevant:
+
+**Reasons for replacement**:
+- Losing relevance (price declining toward 0)
+- Better alternative proposed
+- Fundamental change (e.g., library deprecated)
+- Overlapping with another opinion
+
+**Replacement mechanism**:
+1. New opinion proposed as candidate
+2. Candidate gathers support
+3. If successful, replaces weakest active opinion
+4. Market continues with new opinion set
+
+**Impact on traders**:
+- Holders of replaced opinion get converted
+- New trading opportunities emerge
+- Market remains relevant
+
+## Market Discovery
+
+### Finding Markets to Trade
+
+**Browse by category**:
+- Technical
+- Business
+- Governance
+- Culture
+- Science
+
+**Filter by activity**:
+- High volume (popular, liquid)
+- Low volume (niche, early)
+- Approaching settlement
+- Recently created
+
+**Sort by metrics**:
+- Total volume
+- Number of traders
+- Market age
+- Liquidity depth
+
+### Evaluating Market Quality
+
+Before trading, assess:
+
+**Liquidity**:
+- Enough for your position size?
+- Price impact acceptable?
+- Can exit when needed?
+
+**Activity**:
+- Recent trades?
+- Active community?
+- Information flow?
+
+**Question quality**:
+- Clear and focused?
+- Subjective enough?
+- Timely and relevant?
+
+**Opinion set**:
+- Good coverage?
+- Distinct perspectives?
+- Room for dynamics?
+
+**Settlement horizon**:
+- How close to settlement?
+- Enough time to trade?
+- Criteria progress?
+
+## Advanced: Market Mechanics
+
+### Liquidity Provision
+
+Markets have liquidity from:
+
+**Initial creation**:
+- Creator provides starting liquidity
+- Typically 0.1 - 1 ETH
+- Sets initial market size
+
+**Net selling**:
+- Sells add liquidity to pool
+- Buys remove liquidity
+- Natural fluctuation
+
+**Opinion replacement**:
+- Can inject liquidity
+- Rebalances the pool
+- Maintains tradability
+
+### Market Maturity
+
+Markets mature over time:
+
+**Young markets** (0-7 days):
+- High volatility
+- Rapid price discovery
+- More speculative
+- Cannot settle (minimum age)
+
+**Mature markets** (7-30 days):
+- Lower volatility
+- Established consensus
+- More information processed
+- Can settle if criteria met
+
+**Old markets** (30+ days):
+- Very stable
+- Consensus formed
+- Settlement likely soon
+- Lower trading volume
+
+### Settlement Probability
+
+Estimating settlement likelihood:
+
+**Check criteria progress**:
+- ✅ Criterion 1: Age > 7 days
+- ⏳ Criterion 2: Variance 85% of threshold
+- ✅ Criterion 3: Recent stability good
+- ⏳ Criterion 4: Age-weighted at 90%
+
+**Interpretation**:
+- 2 of 4 met → Settlement distant
+- 3 of 4 met → Settlement possible soon
+- 4 of 4 met → Settlement imminent
+
+**Trading strategy impact**:
+- Near settlement → Lower volatility expected
+- Far from settlement → More trading opportunity
+- Just met → Lock in positions or exit
+
+## Key Takeaways
+
+✅ **Markets** = subjective debates with multiple opinions
+
+✅ **Opinions** = specific perspectives, can be Active, Candidate, or Inactive
+
+✅ **Prices satisfy √(Σp_i²) = 1** - opinions compete within L² norm constraint
+
+✅ **3-7 active opinions** - balance diversity and efficiency
+
+✅ **Opinion replacement** - keeps markets dynamic and relevant
+
+✅ **Market quality matters** - good questions + good opinions = good markets
+
+✅ **Lifecycle awareness** - young vs mature vs settling markets differ
+
+---
+
+**Understanding market and opinion structure** is fundamental to successful trading and market creation on Trigger Market.

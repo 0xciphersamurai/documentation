@@ -1,0 +1,482 @@
+---
+title: Active vs Candidate Opinions
+description: Understanding the lifecycle of opinions - from candidate proposals to active trading to potential replacement
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Steps } from 'fumadocs-ui/components/steps';
+
+# Active vs Candidate Opinions
+
+Opinions in Trigger Market exist in different states. Understanding the distinction between active and candidate opinions is crucial for both traders and market creators.
+
+## Opinion States
+
+Every opinion is in one of three states:
+
+### Active Opinions
+
+**Definition**: Opinions currently included in the market's AMM and available for trading.
+
+**Characteristics**:
+- ✅ Tradeable right now
+- ✅ Has a price (0-1.0 / 0-100%)
+- ✅ Satisfies L² norm constraint √(Σp_i²) = 1
+- ✅ Earns fees from trades
+- ✅ Can settle with final payout
+
+**Typical count**: 3-7 active opinions per market
+
+**Example**:
+Market: "Best state management for React?"
+
+**Active opinions**:
+- Redux (price: 0.60 / 60%) ← Tradeable
+- Zustand (price: 0.55 / 55%) ← Tradeable
+- Jotai (price: 0.45 / 45%) ← Tradeable
+- Context API (price: 0.40 / 40%) ← Tradeable
+
+### Candidate Opinions
+
+**Definition**: Newly proposed opinions that are not yet tradeable but gathering support.
+
+**Characteristics**:
+- ❌ Not tradeable yet
+- ❌ No price in the AMM
+- ✅ Can gather support via staking
+- ✅ Can become active if supported
+- ⏳ Waiting to challenge active opinions
+
+**Example**:
+**Candidate opinions**:
+- Recoil (gathering support)
+- MobX (recently proposed)
+- Valtio (early stage)
+
+### Inactive Opinions
+
+**Definition**: Opinions that were previously active but have been replaced.
+
+**Characteristics**:
+- ❌ No longer tradeable
+- ❌ No current price
+- ✅ Historical record preserved
+- ✅ Former holders compensated
+- 📜 Part of market history
+
+**Example**:
+**Inactive opinions**:
+- React Context (replaced by Context API)
+- Easy Peasy (replaced by simpler alternative)
+
+## Active Opinion Details
+
+### What Makes an Opinion Active?
+
+Opinions become active through:
+
+**1. Market Creation**
+- Creator selects 3-5 initial opinions
+- All start as active
+- Market launches with these
+
+**2. Successful Replacement**
+- Candidate gathers enough support
+- Meets replacement criteria
+- Activates and replaces weakest active opinion
+
+### Active Opinion Properties
+
+**Price Discovery**:
+Each active opinion has a price determined by the AMM based on:
+- Share quantities in the pool
+- Overall market liquidity
+- Trading activity
+
+**Trading**:
+Users can:
+- Buy shares (long the opinion)
+- Sell shares (short the opinion)
+- Hold positions
+- Exit positions
+
+**Fee Earnings**:
+Opinion creator earns:
+- 0.25% of all trades involving this opinion
+- Perpetual revenue stream
+- Grows with opinion popularity
+
+**Settlement Payout**:
+At settlement:
+- Final price locks
+- Shares pay out that price
+- Example: 500 shares at 0.68 (68%) = $340 payout
+
+### Managing Active Opinions
+
+**For traders**:
+- Focus analysis on active opinions
+- Only active opinions can be traded
+- Track price movements
+- Consider replacement risk
+
+**For creators**:
+- Select strong initial active opinions
+- Monitor which are thriving
+- Watch for replacement threats
+- Earn fees from active opinion trades
+
+## Candidate Opinion Details
+
+### Why Candidates Exist
+
+**Problem**: Markets need to evolve as perspectives change
+
+**Solution**: Candidate system allows:
+- New opinions to be proposed
+- Community vetting before activation
+- Gradual market evolution
+- Avoiding stagnation
+
+### Proposing a Candidate
+
+Anyone can propose a new opinion:
+
+<Steps>
+
+### Submit Proposal
+
+Navigate to the market and click "Propose Opinion"
+
+**Required information**:
+- Opinion title (short, clear)
+- Description (detailed explanation)
+- Rationale (why this opinion matters)
+
+### Provide Collateral
+
+Submit collateral (typically 0.01 - 0.1 ETH):
+- Shows commitment
+- Deters spam
+- Returned if activated or can be reclaimed
+
+### Become Candidate
+
+Opinion enters candidate state:
+- Visible to all users
+- Can gather support
+- Not yet tradeable
+
+</Steps>
+
+### The Support Phase
+
+Candidates need support to activate:
+
+**How support works**:
+- Users "stake" to support a candidate
+- Staking shows belief in the opinion's value
+- No trading yet - pure signaling
+- Stakes can be withdrawn
+
+**Support threshold**:
+- Must reach minimum support level
+- Typically expressed in ETH staked
+- Higher threshold = higher quality bar
+
+**Why support matters**:
+- Filters out weak proposals
+- Ensures community buy-in
+- Creates accountability
+- Reduces spam
+
+**Example**:
+- Candidate: "Recoil" for React state management
+- Threshold: 0.5 ETH total support
+- Current support: 0.32 ETH (64%)
+- Supporters: 12 users
+- Status: Still gathering support
+
+### Candidate Evaluation
+
+Before supporting a candidate, consider:
+
+**Is it distinct?**
+- Meaningfully different from active opinions?
+- Not redundant or overlapping?
+- Unique perspective?
+
+**Is it relevant?**
+- Addresses the market question?
+- Timely and applicable?
+- Would people trade it?
+
+**Is it defensible?**
+- Has rational basis?
+- Can be argued for?
+- Supported by evidence?
+
+**Is it better?**
+- Stronger than weakest active opinion?
+- Would improve the market?
+- Worth the replacement?
+
+<Callout title="Support Strategically" type="info">
+Supporting candidates is like voting for market evolution. Support opinions that:
+- Add value to the debate
+- Would attract trading volume
+- Are better than current weakest active opinion
+</Callout>
+
+## The Replacement Mechanism
+
+### When Replacement Occurs
+
+Replacement happens when:
+
+1. **Candidate reaches threshold**: Enough support gathered
+2. **Replacement criteria met**: Market conditions allow it
+3. **Weakest active identified**: Lowest-priced active opinion targeted
+4. **Execution**: Candidate activates, weakest deactivates
+
+### Replacement Process
+
+<Steps>
+
+### Candidate Qualifies
+
+Candidate opinion meets all requirements:
+- Sufficient support staked
+- Collateral provided
+- Waiting period elapsed
+- Market not settling soon
+
+### Trigger Replacement
+
+Anyone can trigger the replacement transaction:
+- Calls the replacement function
+- Contract verifies criteria
+- Execution begins
+
+### State Transition
+
+**Outgoing opinion** (weakest active):
+- Status: Active → Inactive
+- Price: Locked at final price
+- Trading: Stops immediately
+- Shares: Converted to equivalent value in other opinions
+
+**Incoming opinion** (candidate):
+- Status: Candidate → Active
+- Price: Initialized (typically low, like replaced opinion)
+- Trading: Becomes available
+- Shares: Can now be traded
+
+### Market Rebalance
+
+AMM adjusts to new opinion set:
+- Liquidity redistributes
+- Prices rebalance
+- New equilibrium established
+- Trading resumes normally
+
+### Compensation
+
+Holders of replaced opinion:
+- Don't lose value
+- Shares converted to basket of remaining opinions
+- Proportional to final prices
+- Can trade new positions immediately
+
+</Steps>
+
+### Replacement Example
+
+**Before replacement**:
+
+**Active opinions**:
+- PostgreSQL: 0.70 (70%)
+- MySQL: 0.55 (55%)
+- MongoDB: 0.45 (45%)
+- Redis: 0.30 (30%) ← Weakest, will be replaced
+
+**Candidate**:
+- SQLite: Has gathered 0.6 ETH support (threshold met)
+
+**Replacement executes**:
+
+**After replacement**:
+
+**Active opinions**:
+- PostgreSQL: 0.68 (68%)
+- MySQL: 0.53 (53%)
+- MongoDB: 0.44 (44%)
+- SQLite: 0.35 (35%) ← New active opinion
+- Verification: √(0.68² + 0.53² + 0.44² + 0.35²) ≈ 1 ✓
+
+**Inactive**:
+- Redis: Removed, holders compensated
+
+**Result**: Market now has SQLite instead of Redis
+
+## Strategic Implications
+
+### For Traders
+
+**Active opinion positions**:
+- **Safest**: High-priced active opinions (0.65+ / 65%+)
+  - Less replacement risk
+  - Established consensus
+  - Lower volatility
+
+- **Moderate risk**: Mid-priced (0.40-0.65 / 40-65%)
+  - Some replacement risk
+  - Active competition
+  - Good risk/reward
+
+- **Highest risk**: Low-priced (under 0.40 / under 40%)
+  - High replacement risk
+  - Could be eliminated
+  - Contrarian opportunity
+
+**Candidate speculation**:
+- Support candidates you believe will succeed
+- Early supporter advantages possible
+- Can trade once activated
+- Risk: May never activate
+
+### For Opinion Creators
+
+**Creating valuable opinions**:
+- Propose as market creator (instant active)
+- OR propose as candidate (needs support)
+- Earn 0.25% fees if active
+- Perpetual revenue stream
+
+**Strategy**:
+- Propose distinct, valuable perspectives
+- Time proposals well
+- Build community support
+- Target weak active opinions
+
+### For Market Creators
+
+**Initial opinion selection**:
+- Choose strong, distinct opinions
+- Cover key perspectives
+- Leave room for evolution
+- Don't over-populate
+
+**Managing evolution**:
+- Monitor candidate proposals
+- Community-driven improvement
+- Market stays relevant
+- Natural selection of ideas
+
+## Advanced Scenarios
+
+### Multiple Candidates
+
+Multiple candidates can compete:
+
+**Scenario**:
+- 3 active opinions + 5 candidates
+- All 5 candidates gathering support
+- Only 1 can replace at a time
+
+**Competition**:
+- First to meet threshold replaces
+- OR highest support replaces
+- Market chooses best new opinion
+- Natural selection
+
+### Preventing Replacement
+
+If you hold a low-priced active opinion:
+
+**Defense strategies**:
+1. **Buy to increase price**: Move it above replacement range
+2. **Exit position**: Sell before replacement
+3. **Accept risk**: Hold and see what happens
+4. **Lobby against candidates**: Argue they're not better
+
+**Reality**: Replacement may be inevitable if opinion is weak
+
+### Replacement Timing
+
+**Good time to replace**:
+- Market still active (not near settlement)
+- Weakest opinion clearly inferior
+- Strong candidate available
+- Community consensus for change
+
+**Bad time to replace**:
+- Market approaching settlement
+- All active opinions strong
+- Weak candidate
+- Would disrupt price stability
+
+## Candidate Opinion Opportunities
+
+### Early Support Advantage
+
+Supporting successful candidates early:
+
+**Benefits**:
+- Influence market evolution
+- Potential fee sharing (if implemented)
+- Reputation as market curator
+- First mover when activated
+
+**Risks**:
+- Candidate may never activate
+- Collateral locked up
+- Opportunity cost
+
+### New Opinion Trading
+
+When candidate activates:
+
+**Opportunities**:
+- Often underpriced initially
+- Less known = mispricing possible
+- Can buy cheap early
+- Profit if consensus builds
+
+**Example**:
+- SQLite activates at 0.35 (35%, low)
+- You believe it's undervalued
+- Buy at 0.38
+- Consensus builds → 0.62 (62%)
+- **Profit**: 63%
+
+## Key Differences Summary
+
+| Aspect | Active | Candidate | Inactive |
+|--------|--------|-----------|----------|
+| **Tradeable** | ✅ Yes | ❌ No | ❌ No |
+| **Has Price** | ✅ Yes | ❌ No | 📜 Historical |
+| **Earns Fees** | ✅ Yes | ❌ No | ❌ No |
+| **Can Support** | ❌ No | ✅ Yes | ❌ No |
+| **Settlement Payout** | ✅ Yes | ❌ No | ❌ No |
+| **Count per Market** | 3-7 | 0-10+ | 0-100+ |
+
+## Key Takeaways
+
+✅ **Active opinions** = currently tradeable, have prices, part of AMM
+
+✅ **Candidate opinions** = proposed but not yet active, gathering support
+
+✅ **Inactive opinions** = previously active, now replaced, historical record
+
+✅ **Replacement mechanism** = candidates can replace weakest active opinions
+
+✅ **Support system** = community vetting before activation
+
+✅ **Traders watch** = replacement risk on low-priced active opinions
+
+✅ **Market evolution** = candidate system keeps markets relevant over time
+
+---
+
+**Understanding opinion states** is essential for navigating market dynamics and managing risk on Trigger Market.

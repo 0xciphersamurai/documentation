@@ -1,0 +1,175 @@
+---
+title: Settlement - When Consensus Forms
+description: How debates settle and you get paid - no oracles, just natural market dynamics
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Settlement - When Consensus Forms
+
+The moment you've been waiting for: **payday**.
+
+Unlike Polymarket where someone has to declare who won, Trigger Market settles automatically when the market reaches natural consensus.
+
+**No oracles. No judges. Just math watching prices.**
+
+## How You Know It's Coming
+
+Markets settle when prices stop moving. Simple as that.
+
+**The logic:** When everyone's had their say, made their trades, and adjusted their positions - prices stabilize. That stability IS the consensus.
+
+The system watches for four things:
+
+```
+Settlement Criteria:
+✅ Minimum Age: Debate at least 7 days old (prevents premature settlement)
+✅ Stable Prices: Variance drops below threshold (prices stopped changing)
+✅ Near Averages: Current prices match long-term averages (no last-minute manipulation)
+✅ Confirmed: Stayed stable across multiple checks (sustained consensus, not temporary)
+```
+
+When all four hit green? **Market settles. Trading freezes. Payouts unlock.**
+
+## What You Get
+
+Dead simple: **Your shares × Final price = Your payout**
+
+**Example:**
+- You hold 500 shares of Opinion A
+- Opinion A settles at $0.68 final price
+- Your payout: 500 × $0.68 = **$340**
+
+If you bought those shares for $200? **You made $140 profit (70% return).**
+
+All opinions pay out proportionally. There's no single "winner" - every opinion pays based on its final price. You profit if you bought below the settlement price.
+
+## The Timeline
+
+**Week 1-2:** Active trading, prices moving, debates happening. Far from settlement.
+
+**Week 3-4:** Patterns emerging, consensus forming, volatility decreasing. Getting closer.
+
+**Week 5+:** Prices stable, little movement, community agreed. Settlement criteria start getting checked.
+
+**Settlement hits:** Market freezes at current prices. Those are your final prices. Payout calculation is instant.
+
+**Claiming:** Click "Claim Payout" button. Your USDC hits your wallet. Done.
+
+<Callout title="No Rush" type="info">
+Once settled, you can claim whenever you want. No deadline pressure. Your payout is locked in at settlement and waiting for you.
+</Callout>
+
+## Reading the Settlement Status
+
+Each debate page shows you progress toward settlement:
+
+**Early Market (Day 3):**
+```
+⏳ Min Age: 3d / 7d required
+❌ Variance: Too high (0.0024)
+❌ Near Averages: Prices still moving
+⏸️  Confirmations: 0/5
+Status: Active trading, far from settlement
+```
+
+**Maturing Market (Day 18):**
+```
+✅ Min Age: 18d / 7d required
+✅ Variance: 0.00008 (< 0.0001 threshold)
+⚠️  Near Averages: Close (2.8% deviation)
+⏳ Confirmations: 1/5
+Status: Consensus forming, watch closely
+```
+
+**About to Settle (Day 25):**
+```
+✅ Min Age: 25d / 7d required
+✅ Variance: 0.00003 (stable)
+✅ Near Averages: 0.4% deviation (tight)
+✅ Confirmations: 5/5 ✓ READY
+Status: SETTLING NOW
+```
+
+## What Triggers It
+
+The system checks settlement criteria automatically during trading. Every time someone trades, it checks: "Should this market settle?"
+
+If yes → market freezes immediately. If no → trading continues.
+
+**You can also manually trigger a check** via the "Update Settlement Status" button. Costs a bit of gas but lets you force a check if you think criteria are met.
+
+## Prices Don't Sum to 1 (And That's Fine)
+
+Quick note: Unlike Polymarket where Yes/No prices sum to 100%, Trigger Market prices don't sum to exactly 1.
+
+**Each price is between 0 and 1** (so they look like probabilities), but the sum can be slightly more or less than 1.
+
+**Why this doesn't matter:** At extremes, it behaves like you'd expect:
+- When one opinion dominates at 0.95, others are near 0.05 - sum is ~1
+- The system normalizes everything correctly for payouts
+- You still get paid proportionally based on final prices
+
+**Bottom line:** Don't overthink it. The math works. Your payout is fair.
+
+## Maximizing Your Payout
+
+**Buy low, hold through settlement:** Classic strategy. Find undervalued opinions, buy early, hold until prices stabilize higher.
+
+**Track settlement progress:** When you see 3/4 criteria met, consider locking in profits on risky positions. Or double down if you think final prices will be even better.
+
+**Don't trade right before settlement:** When markets are close to settling, prices are near their final values. Little profit left. High certainty, low reward.
+
+**Best opportunities are early:** Weeks before settlement, prices are inefficient. That's when you can buy $0.30 opinions that settle at $0.65.
+
+## The Beauty of Automated Settlement
+
+**No waiting for oracles** to make decisions or collect data.
+
+**No disputes** about who won or what happened.
+
+**No trust required** in any third party.
+
+**Just natural market dynamics** revealing consensus and paying you accordingly.
+
+The market itself decides when consensus has formed. Prices tell the story. Settlement is just the period at the end of the sentence.
+
+## What If Prices Never Stabilize?
+
+Rare, but possible: a debate where consensus never forms. Prices keep fluctuating forever.
+
+**In practice:** Debates eventually stabilize. Humans reach conclusions. Capital finds equilibrium. Markets mature.
+
+**If it takes months?** That's fine. You can exit your position anytime. Sell and move capital elsewhere. No one's forcing you to wait for settlement.
+
+**The system is patient.** It only settles when genuine consensus exists. If prices keep moving, that means the debate is still active and settlement shouldn't happen yet.
+
+## After Settlement
+
+**Market becomes historical record.** You can view final prices, see the full trading history, read all comments.
+
+**Payouts are permanent.** Final prices never change. Your payout is locked in.
+
+**Reference in future debates.** "Remember when [Debate X] settled at these prices? Here's why [New Debate] will be different..."
+
+**Creator fees keep accumulating.** If you created the debate or opinions, you earned fees throughout its life. Those are yours to claim.
+
+<Callout title="Settlement = Consensus Revealed" type="info">
+Traditional markets: "Did X happen? Yes or no. Oracle decides. Pay winners."
+
+Consensus markets: "Where did collective opinion land? Prices stabilized. Math decides. Pay everyone proportionally."
+
+No subjective judgment. No oracle risk. Just markets doing what markets do - finding equilibrium and revealing information.
+</Callout>
+
+## Next Steps
+
+**Understand pricing better** to predict where settlement prices will land. See [Prices Explained](/docs/core-concepts/prices-explained).
+
+**Learn to spot** markets approaching settlement early. Read [Winning Strategies](/docs/trading/winning-strategies).
+
+**Maximize all revenue streams** beyond just trading gains. Check [Earning Guide](/docs/earning/trading-profits).
+
+---
+
+**Prices stabilize. Consensus emerges. You get paid. That's settlement.**

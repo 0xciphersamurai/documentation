@@ -1,0 +1,513 @@
+---
+title: How It Works
+description: Comprehensive overview of Trigger Market's core mechanisms - from market creation to settlement
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Steps } from 'fumadocs-ui/components/steps';
+
+# How It Works
+
+Trigger Market enables prediction markets on subjective debates through a novel combination of mechanisms. This page explains the complete system from end to end.
+
+## The Big Picture
+
+Traditional prediction markets require oracles to determine outcomes. This limits them to objective questions with verifiable answers.
+
+**Trigger Market's innovation**: Replace oracles with **endogenous settlement** based on price stability over time.
+
+### Three Core Mechanisms
+
+1. **L² Norm AMM** - Automated market maker that enables continuous trading
+2. **Dynamic Opinion Replacement** - New opinions can replace existing ones
+3. **Time-Weighted Settlement** - Markets settle when sustained consensus is detected
+
+These work together to create a self-contained system for subjective consensus formation.
+
+## Market Lifecycle
+
+<Steps>
+
+### Market Creation
+
+Anyone can create a market by:
+- Defining the debate question
+- Proposing initial opinions (typically 3-5)
+- Providing initial liquidity
+- Setting market parameters
+
+**Example**:
+- Question: "Best database for startups?"
+- Initial opinions: PostgreSQL, MySQL, MongoDB, Redis
+- Initial liquidity: 1 ETH
+- Parameters: Default settlement criteria
+
+The creator earns 0.25% of all future trading volume.
+
+### Opinion Activation
+
+Markets start with a set of active opinions:
+- Users can trade between these opinions
+- Prices are determined by the AMM
+- All active opinion prices satisfy the L² norm constraint √(Σp_i²) = 1
+
+**Initial state example** (4 equal opinions):
+- PostgreSQL: 0.50 (50%)
+- MySQL: 0.50 (50%)
+- MongoDB: 0.50 (50%)
+- Redis: 0.50 (50%)
+- **Verification**: √(0.5² + 0.5² + 0.5² + 0.5²) = √1 = 1 ✓
+
+### Trading Phase
+
+Users trade based on their beliefs:
+
+**Buying an opinion**:
+- Increases its price
+- Decreases other opinions' prices (maintaining L² norm)
+- Removes liquidity from the pool
+
+**Selling an opinion**:
+- Decreases its price
+- Increases other opinions' prices (maintaining L² norm)
+- Adds liquidity to the pool
+
+**Example evolution**:
+- Day 1: PostgreSQL 0.50 → Buy pressure
+- Day 3: PostgreSQL 0.62 (growing consensus)
+- Day 7: PostgreSQL 0.75 (strong leader)
+
+### Opinion Replacement (Optional)
+
+New opinions can be proposed any time:
+
+**Proposal process**:
+1. Submit new opinion with description
+2. Provide collateral
+3. Opinion becomes a "candidate"
+4. If it gains support, it can activate
+
+**Replacement mechanism**:
+- Candidate must gather minimum support
+- If successful, replaces lowest-priced active opinion
+- Price space redistributes
+- Trading continues with new opinion set
+
+This keeps markets dynamic and responsive to new perspectives.
+
+### Settlement Detection
+
+Markets settle when all four criteria are met:
+
+**Criterion 1: Minimum Age**
+- Market must be at least N days old (typically 7)
+- Prevents premature settlement
+
+**Criterion 2: Time-Weighted Variance**
+- Historical price variance below threshold
+- Weights prices by duration, not occurrence
+- Ensures sustained stability
+
+**Criterion 3: Instantaneous Variance**
+- Recent price volatility below threshold
+- Confirms current stability
+- No recent disruptions
+
+**Criterion 4: Age-Weighted Variance**
+- Combines time-weighting with market age
+- Older markets settle more easily
+- Recognizes diminishing returns of extended debate
+
+**All four must be met simultaneously.**
+
+### Settlement and Payouts
+
+When settlement triggers:
+
+1. **Prices lock**: Final prices are recorded
+2. **Trading stops**: No more trades possible
+3. **Payouts available**: Users can claim
+
+**Payout formula**:
+```
+Payout = Number of Shares × Final Settlement Price
+```
+
+**Example**:
+- You hold 500 shares of PostgreSQL
+- PostgreSQL settles at 0.68 (68%)
+- Your payout: 500 × $0.68 = $340
+
+**Every opinion pays out**. No binary win/lose.
+
+</Steps>
+
+## The AMM: L² Norm Market Maker
+
+The automated market maker is the pricing engine.
+
+### How It Works
+
+The AMM maintains a constant:
+```
+C² = q₁² + q₂² + q₃² + ... + qₙ²
+```
+
+Where:
+- `C` = liquidity constant (square root of initial liquidity in cents)
+- `qᵢ` = quantity of shares for opinion i
+
+**Key properties**:
+- Prices satisfy L² norm constraint √(Σp_i²) = 1
+- Larger trades have larger price impact
+- Impact scales with liquidity
+
+### Price Calculation
+
+Each opinion's price is derived from its share quantities:
+
+```
+Price = qᵢ / C = qᵢ / √(q₁² + q₂² + ... + qₙ²)
+```
+
+This creates:
+- **Smooth price curves** (not linear)
+- **Convex trading costs** (large trades expensive)
+- **Automatic arbitrage** (prices self-correct)
+- **Unit sphere constraint** (√(Σp_i²) = 1)
+
+### Liquidity Dynamics
+
+**High liquidity markets**:
+- Lower price impact per trade
+- Smaller bid-ask spreads
+- More efficient price discovery
+
+**Low liquidity markets**:
+- Higher price impact
+- Wider spreads
+- More volatile prices
+
+Liquidity comes from:
+- Initial market creation
+- Net selling (adds liquidity)
+- Opinion replacements can add liquidity
+
+### Example: Price Impact
+
+**Market**: 1 ETH liquidity (10,000¢ worth)
+- C = 100 (√10,000)
+
+**Initial prices** (4 equal opinions):
+- Each: q = 50, price = 50/100 = 0.5 (50%)
+- Verification: √(0.5² × 4) = √1 = 1 ✓
+
+**After buying PostgreSQL with 0.1 ETH**:
+- PostgreSQL q: 50 → 61 (example)
+- PostgreSQL price: 61/100 = 0.61 (61%)
+- Other opinions adjust down geometrically
+- Verification: √(Σp_i²) = 1 still holds
+
+The exact math ensures the L² norm constraint is maintained.
+
+## Opinion Replacement Mechanism
+
+Dynamic opinion replacement keeps markets relevant.
+
+### Why Replacement Matters
+
+Debates evolve:
+- New technologies emerge
+- Perspectives shift
+- Initial options become outdated
+
+Replacement allows markets to adapt without starting over.
+
+### The Replacement Process
+
+<Steps>
+
+### Opinion Proposal
+
+Anyone can propose a new opinion:
+- Submit opinion text/description
+- Provide collateral (typically ~0.01-0.1 ETH)
+- Opinion becomes a candidate
+
+### Candidate Support Phase
+
+The candidate opinion needs support to activate:
+- Users can "support" by staking
+- Support represents belief the opinion is valuable
+- No trading yet - just signaling
+
+### Activation Threshold
+
+If candidate gathers enough support:
+- It becomes "eligible for replacement"
+- Can challenge the weakest active opinion
+- Replacement may trigger based on criteria
+
+### Replacement Execution
+
+When replacement executes:
+1. Lowest-priced active opinion is removed
+2. Candidate opinion becomes active
+3. Liquidity redistributes
+4. New pricing equilibrium established
+5. Trading resumes with new opinion set
+
+### Post-Replacement
+
+- Removed opinion becomes inactive
+- Holders of removed opinion get their shares converted
+- Market continues with updated opinion set
+
+</Steps>
+
+### Replacement Example
+
+**Before**:
+- PostgreSQL: 0.65 (65%)
+- MySQL: 0.55 (55%)
+- MongoDB: 0.45 (45%)
+- Redis: 0.30 (30%) ← Weakest
+
+**New candidate**: "SQLite" gains support
+
+**Replacement**:
+- Redis removed (was 0.30)
+- SQLite added at equilibrium price
+- New distribution:
+  - PostgreSQL: 0.63 (63%)
+  - MySQL: 0.53 (53%)
+  - MongoDB: 0.44 (44%)
+  - SQLite: 0.32 (32%)
+- Verification: √(0.63² + 0.53² + 0.44² + 0.32²) ≈ 1 ✓
+
+**Result**: Market now reflects SQLite as relevant option.
+
+## Time-Weighted Consensus
+
+Settlement is based on **sustained** price stability, not snapshots.
+
+### Why Time-Weighting?
+
+**Problem with snapshots**:
+- Price at 50¢ for 1 second = same weight as 50¢ for 1 hour
+- Allows gaming via brief price manipulation
+- Doesn't capture true sustained consensus
+
+**Solution: Exponentially-weighted moving average (EWMA)**:
+- Prices weighted by how long they persist
+- Brief spikes contribute negligible weight
+- Only sustained prices matter
+
+### How EWMA Works
+
+Imagine price history:
+- 30¢ for 1 day
+- 35¢ for 3 days
+- 32¢ for 1 hour
+- 40¢ for 2 days
+
+**Simple average**: Equal weight to all prices → Misleading
+
+**EWMA**: Weights by duration → 35¢ and 40¢ dominate
+
+### Variance Calculation
+
+Settlement criteria check **variance** of time-weighted prices:
+
+```
+Variance = Average((Price - Mean)² × Duration)
+```
+
+**Low variance** = prices have been stable over time
+**High variance** = prices fluctuating significantly
+
+### The Four Criteria Revisited
+
+Each criterion uses time-weighting differently:
+
+**Criterion 2**: Historical time-weighted variance
+- Looks at entire market history
+- Exponentially weights by duration
+- Must be below threshold T₂
+
+**Criterion 3**: Instantaneous variance
+- Recent price movements only
+- Ensures current stability
+- Must be below threshold T₃
+
+**Criterion 4**: Age-weighted variance
+- Combines time-weighting with market age
+- Threshold decreases as market ages
+- Older markets settle easier
+
+### Anti-Gaming Properties
+
+**Attack vector**: Try to prevent settlement by brief price spikes
+
+**Why it fails**:
+- Brief spike (1 minute at different price)
+- Duration = 1/1440 of a day
+- Weight in EWMA ≈ 0.07%
+- Negligible impact on variance calculation
+
+**Cost**: Attacker loses on trading fees and price impact
+
+**Benefit**: Minimal variance increase
+
+**Result**: Economically irrational to attempt
+
+## Fees and Incentives
+
+The system uses fees to align incentives.
+
+### Fee Structure
+
+**Every trade pays 1% total fees**:
+- **0.5% swap fee** → Goes to the protocol/liquidity
+- **0.25% creator fee** → Goes to market creator
+- **0.25% opinion fee** → Split among opinion creators in the trade
+
+**Example trade** (buying 0.1 ETH of PostgreSQL):
+- 0.0005 ETH → Protocol/liquidity
+- 0.00025 ETH → Market creator
+- 0.00025 ETH → PostgreSQL opinion creator(s)
+
+### Incentive Alignment
+
+**Market creators**:
+- Earn 0.25% of all volume forever
+- Incentivized to create popular, engaging debates
+- Want markets to attract trading
+
+**Opinion creators**:
+- Earn 0.25% of trades involving their opinion
+- Incentivized to propose valuable perspectives
+- Want their opinion to be actively traded
+
+**Traders**:
+- Profit from correct consensus prediction
+- Provide liquidity and price discovery
+- Want efficient, fair markets
+
+**System**:
+- Fees fund protocol development
+- Sustainable without inflation
+- Value accrues from usage
+
+## Information Flow
+
+How information becomes consensus:
+
+<Steps>
+
+### External Information
+
+New information emerges:
+- Technical developments
+- Community discussions
+- Use case evidence
+- Expert opinions
+- Real-world adoption
+
+### Trader Analysis
+
+Traders interpret information:
+- Evaluate credibility
+- Assess impact on consensus
+- Form price expectations
+- Decide trades
+
+### Price Discovery
+
+Trading aggregates beliefs:
+- Buys push prices up
+- Sells push prices down
+- Volume indicates conviction
+- Prices converge to consensus
+
+### Consensus Formation
+
+Over time:
+- Strong signals dominate
+- Weak signals fade
+- Prices stabilize
+- Settlement approaches
+
+### Settlement
+
+Sustained stability indicates:
+- Information has been processed
+- Consensus has formed
+- Debate has matured
+- Market can settle
+
+</Steps>
+
+## Security and Trust
+
+The system is trustless and secure.
+
+### No Oracles Needed
+
+**Traditional markets**:
+- Require trusted oracle
+- Single point of failure
+- Can be corrupted or fail
+- Limits market scope
+
+**Trigger Market**:
+- No external dependencies
+- Purely onchain logic
+- Deterministic settlement
+- Works for any debate
+
+### Smart Contract Guarantees
+
+**Immutable logic**:
+- Settlement criteria hardcoded
+- No admin controls
+- No one can change rules
+- Math is law
+
+**Transparent state**:
+- All data onchain
+- Anyone can verify
+- Full audit trail
+- No hidden information
+
+### Economic Security
+
+**Griefing resistant**:
+- Costs exceed benefits for attacks
+- Time-weighting prevents manipulation
+- Collateral requirements deter spam
+
+**Incentive compatible**:
+- Honest trading is optimal
+- Price manipulation is expensive
+- Truth-seeking is rewarded
+
+## Key Takeaways
+
+✅ **Three core mechanisms**: AMM, Opinion Replacement, Time-Weighted Settlement
+
+✅ **Complete lifecycle**: Creation → Trading → Replacement → Settlement
+
+✅ **L² norm AMM**: Prices satisfy √(Σp_i²) = 1 constraint, smooth price curves
+
+✅ **Dynamic opinions**: Markets adapt through replacement mechanism
+
+✅ **Time-weighted consensus**: Sustained stability, not snapshots
+
+✅ **1% fees**: Aligned incentives for creators and traders
+
+✅ **Trustless**: No oracles, pure onchain logic, mathematical guarantees
+
+---
+
+**These mechanisms work together** to enable markets on anything - even subjective debates without objective answers.

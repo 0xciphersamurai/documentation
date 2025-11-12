@@ -1,0 +1,442 @@
+---
+title: Your First Trade
+description: Complete tutorial on executing your first trade on Trigger Market - from browsing markets to managing positions
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Steps } from 'fumadocs-ui/components/steps';
+
+# Your First Trade
+
+Ready to take your first position on a consensus market? This guide walks you through the entire process, from finding a market to executing your trade.
+
+<Callout title="Prerequisites" type="info">
+Before you start:
+- ✅ Wallet connected to Trigger Market
+- ✅ On the Base network
+- ✅ At least $10-20 worth of ETH for trading + gas
+</Callout>
+
+## Understanding the Trade Flow
+
+Here's what you'll do:
+
+1. **Browse markets** - Find a debate that interests you
+2. **Analyze opinions** - Evaluate the competing perspectives
+3. **Choose your position** - Decide which opinion to support
+4. **Execute trade** - Buy or sell shares
+5. **Monitor position** - Track your investment
+
+Let's dive in.
+
+## Finding a Market
+
+<Steps>
+
+### Navigate to Markets
+
+Click "Markets" in the main navigation or visit the homepage.
+
+### Explore Active Debates
+
+You'll see a list of active markets. Each market shows:
+- **Question**: The debate topic
+- **Number of opinions**: How many perspectives are active
+- **Total volume**: Amount traded so far
+- **Time active**: How long the market has been running
+- **Liquidity**: Available liquidity for trading
+
+### Filter and Sort
+
+Use filters to find markets that match your interests:
+- **Category**: Tech, Business, Culture, Science, etc.
+- **Volume**: High-volume (popular) vs low-volume (niche)
+- **Age**: New markets vs established debates
+- **Settlement status**: Active, approaching settlement, settled
+
+### Read the Market Description
+
+Click on a market to see:
+- Detailed question description
+- Market creator
+- Creation date
+- Settlement criteria status
+- Full list of active and candidate opinions
+
+</Steps>
+
+## Example: "Best State Management for React"
+
+Let's walk through a real example.
+
+**Market Question**: "What's the best state management solution for React applications?"
+
+**Active Opinions**:
+- Redux (Price: 28¢)
+- Zustand (Price: 35¢)
+- Jotai (Price: 22¢)
+- React Context (Price: 15¢)
+
+**Current Analysis**:
+- Zustand is leading at 35¢
+- Redux has historical dominance but declining
+- Jotai is gaining momentum in the community
+- Context is seen as limited for complex apps
+
+## Analyzing Opinions
+
+Before trading, evaluate each opinion:
+
+### Check Current Prices
+
+Prices reflect current consensus:
+- **Higher price (60¢+)**: Strong consensus supporting this opinion
+- **Mid price (30-60¢)**: Competitive, debate ongoing
+- **Lower price (0-30¢)**: Less support, but opportunity if undervalued
+
+### Review Price History
+
+Click "Price Chart" to see how consensus has evolved:
+- **Uptrend**: Growing support
+- **Downtrend**: Declining consensus
+- **Stable**: Consensus has settled
+- **Volatile**: Active debate, no clear winner
+
+### Consider Trading Volume
+
+Higher volume indicates:
+- More liquidity (easier to trade)
+- Higher confidence in prices
+- Active community interest
+
+### Read Opinion Descriptions
+
+Each opinion has a description explaining:
+- The core argument
+- Key benefits
+- Relevant context
+- Proponent's rationale
+
+### Analyze Time to Settlement
+
+Check settlement criteria progress:
+- **Criterion 1** (Minimum Age): Usually 7 days
+- **Criterion 2** (Time-Weighted Variance): Stability of prices
+- **Criterion 3** (Instantaneous Variance): Recent volatility
+- **Criterion 4** (Age-Weighted Variance): Long-term stability
+
+Markets closer to settlement have less price movement expected.
+
+## Making Your Decision
+
+### Strategy 1: Consensus Leader
+
+**Goal**: Buy the emerging consensus leader before settlement
+
+**Example**:
+- Zustand is at 35¢ and trending up
+- Community momentum is strong
+- Buy at 35¢, expect settlement around 50-60¢
+- **Profit**: 43-71% if correct
+
+### Strategy 2: Undervalued Opinion
+
+**Goal**: Identify undervalued opinion that will gain support
+
+**Example**:
+- Jotai is only 22¢ but has strong technical merits
+- Recent React conf featured Jotai prominently
+- You believe it's undervalued
+- Buy at 22¢, target 40¢+
+- **Profit**: 82%+ if community consensus shifts
+
+### Strategy 3: Short the Overvalued
+
+**Goal**: Sell (short) an opinion you think is overpriced
+
+**Example**:
+- Redux is at 28¢ but you believe it's declining
+- Modern alternatives are better
+- Sell at 28¢, expect drop to 15¢
+- **Profit**: 46% if consensus shifts away
+
+<Callout title="Risk Management" type="warn">
+**Start small**: Your first trade should be 1-5% of your trading capital.
+
+**Don't FOMO**: Don't rush into trades based on hype. Do your analysis.
+
+**Diversify**: Don't put everything in one opinion or one market.
+</Callout>
+
+## Executing Your Trade
+
+Let's buy Zustand shares in our example market.
+
+<Steps>
+
+### Select the Opinion
+
+Click on "Zustand" to open the trading interface.
+
+### Choose Buy or Sell
+
+**Buy**:
+- Acquire shares of this opinion
+- Profit if price rises or settles higher
+- You pay the current price
+
+**Sell**:
+- Sell shares you own (if you have any)
+- Or short by selling shares you don't own
+- Profit if price falls
+
+For this example, select **Buy**.
+
+### Enter Trade Amount
+
+You can specify amount in two ways:
+
+**Option A: By ETH Amount**
+- Enter how much ETH you want to spend
+- App calculates shares received
+- Example: 0.1 ETH → ~285 shares at 35¢
+
+**Option B: By Share Count**
+- Enter number of shares desired
+- App calculates ETH cost
+- Example: 500 shares → ~0.175 ETH at 35¢
+
+**Price Impact Display**:
+The interface shows:
+- Current price: 35.0¢
+- Price after trade: 35.8¢ (example)
+- Price impact: 2.3%
+- Shares received: 285
+
+<Callout title="Price Impact" type="info">
+Larger trades move prices more. The AMM adjusts prices based on trade size.
+
+**Tip**: For large positions, consider splitting into multiple smaller trades to reduce impact.
+</Callout>
+
+### Review Trade Details
+
+Before confirming, verify:
+
+**Trade Summary**:
+- Opinion: Zustand
+- Action: Buy
+- Amount: 0.1 ETH
+- Shares: ~285
+- Current price: 35.0¢
+- Execution price: ~35.4¢ (average)
+- Price impact: 2.3%
+- Est. gas fee: ~$0.05
+
+**Fees**:
+- Swap fee: 0.5% (0.0005 ETH)
+- Market creator fee: 0.25% (0.00025 ETH)
+- Opinion creator fee: 0.25% (0.00025 ETH)
+- **Total fees**: 1% (0.001 ETH)
+
+### Confirm Transaction
+
+Click "Confirm Trade"
+
+Your wallet will open showing:
+- Contract interaction
+- Total cost (trade + gas)
+- Gas fee estimate
+
+Click "Confirm" in your wallet.
+
+### Wait for Confirmation
+
+The transaction typically confirms in 1-2 seconds on Base.
+
+You'll see:
+- "Transaction submitted" (immediate)
+- "Transaction confirmed" (1-2 seconds)
+- "Position updated" (your shares are now in your portfolio)
+
+</Steps>
+
+## After Your Trade
+
+### View Your Position
+
+Navigate to "Portfolio" to see:
+
+**Position Details**:
+- Opinion: Zustand
+- Shares held: 285
+- Average entry price: 35.4¢
+- Current price: 35.8¢ (already up!)
+- Current value: 0.102 ETH
+- Unrealized P&L: +0.002 ETH (+2%)
+- Position age: 0 days
+
+### Monitor Price Movements
+
+Track your position:
+- **Price chart**: See price movements over time
+- **Market activity**: Monitor trading volume
+- **Settlement progress**: Check criteria status
+- **Community sentiment**: Follow discussions
+
+### Set Price Alerts (Optional)
+
+Some traders set alerts for:
+- Price targets (e.g., notify if Zustand hits 50¢)
+- Settlement imminent
+- Large trades in the market
+
+### Consider Your Exit Strategy
+
+Think about when you'll exit:
+
+**Strategy A: Target Price**
+- Set a target (e.g., 50¢)
+- Sell when reached
+- Lock in profit
+
+**Strategy B: Hold to Settlement**
+- Believe in long-term consensus
+- Hold until market settles
+- Receive final payout
+
+**Strategy C: Dynamic Management**
+- Monitor market developments
+- Adjust based on new information
+- Sell partial position to de-risk
+
+## Understanding Your Profit/Loss
+
+### Unrealized P&L
+
+While you hold the position:
+
+**If price rises**:
+- Entry: 35.4¢
+- Current: 45.0¢
+- Unrealized profit per share: 9.6¢
+- Total: 285 shares × 9.6¢ = 27.36 ETH worth of profit
+- Percentage: +27%
+
+**If price falls**:
+- Entry: 35.4¢
+- Current: 28.0¢
+- Unrealized loss per share: 7.4¢
+- Total: 285 shares × 7.4¢ = 21.09 ETH worth of loss
+- Percentage: -21%
+
+### Realized P&L (After Selling)
+
+When you sell or market settles:
+
+**Selling example**:
+- Bought at: 35.4¢ (285 shares for 0.1 ETH)
+- Sold at: 45.0¢ (285 shares for ~0.128 ETH)
+- Gross profit: 0.028 ETH
+- Fees (1% × 2): -0.002 ETH
+- **Net profit: 0.026 ETH** (+26%)
+
+**Settlement example**:
+- Bought at: 35.4¢ (285 shares)
+- Settled at: 52.0¢
+- Payout: 285 × $0.52 = $148.20 worth of ETH
+- Initial cost: 0.1 ETH ($100 at purchase)
+- **Net profit: ~48%** (assuming stable ETH price)
+
+## Common First Trade Mistakes
+
+### Mistake 1: Trading Too Large
+
+**Problem**: Putting too much capital in first trade
+
+**Solution**: Start with 1-5% of your capital to learn
+
+### Mistake 2: Ignoring Price Impact
+
+**Problem**: Large trades that move price significantly
+
+**Solution**: Check price impact before confirming. Split large trades.
+
+### Mistake 3: Not Understanding Fees
+
+**Problem**: Surprised by 1% total fees eating into profits
+
+**Solution**: Factor fees into your profit calculations from the start
+
+### Mistake 4: Panic Selling
+
+**Problem**: Selling at a loss due to short-term volatility
+
+**Solution**: Have a plan before trading. Small drops are normal.
+
+### Mistake 5: No Exit Strategy
+
+**Problem**: Holding without a clear plan
+
+**Solution**: Decide entry AND exit criteria before trading
+
+### Mistake 6: Following the Crowd
+
+**Problem**: Buying the highest-priced opinion because it's "winning"
+
+**Solution**: Do your own analysis. The consensus leader might be overvalued.
+
+## Advanced: Selling (Shorting)
+
+You can also **sell** shares you don't own (shorting):
+
+**How it works**:
+1. Sell Zustand at 35¢ (receive ETH)
+2. You now have a -285 share position
+3. Price drops to 20¢
+4. Buy back at 20¢ to close position
+5. **Profit**: 15¢ per share
+
+**Risks**:
+- Price can rise indefinitely (but capped at 100¢)
+- You profit when consensus shifts away
+- Higher risk than buying
+
+<Callout title="Shorting Tip" type="info">
+Shorting is best when:
+- You believe an opinion is clearly overvalued
+- There's momentum shifting to alternatives
+- You have strong conviction and analysis
+
+New traders should focus on buying until comfortable with the platform.
+</Callout>
+
+## Next Steps
+
+<Callout title="Congratulations!" type="info">
+You've completed your first trade on Trigger Market!
+
+**Next**: [Understanding Positions](/docs/getting-started/understanding-positions)
+
+**Learn more**: [Trading Strategies](/docs/guides/trading-strategies)
+
+**Deep dive**: [How the AMM Works](/docs/mechanics/amm-explained)
+</Callout>
+
+## Key Takeaways
+
+✅ **Start small** - Learn with small positions first
+
+✅ **Do your research** - Analyze opinions, prices, and market dynamics
+
+✅ **Understand fees** - 1% total (swap + creator fees)
+
+✅ **Monitor positions** - Track your portfolio regularly
+
+✅ **Have a plan** - Know your entry and exit strategy
+
+✅ **Manage risk** - Diversify, don't FOMO, stay disciplined
+
+---
+
+**Welcome to consensus markets.** Your first trade is just the beginning.

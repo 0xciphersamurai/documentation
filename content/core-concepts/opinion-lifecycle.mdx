@@ -1,0 +1,267 @@
+---
+title: Opinion Lifecycle
+description: Understanding how opinions move between active and candidate states, and what happens to your shares
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Opinion Lifecycle
+
+One of Trigger Market's most important features is that **opinions aren't static**. They exist in a continuous cycle between two states: **Active** (trading in the AMM) and **Candidate** (accumulating stakes).
+
+Understanding this lifecycle is essential for knowing what happens to your positions.
+
+## The Two States
+
+### Active State (AMM Trading)
+
+When an opinion is active:
+- It has a quantity `q_i` in the automated market maker
+- It has a price: `p_i = q_i / √(Σq_j²)`
+- Users can buy and sell shares through the AMM
+- It contributes to settlement tracking
+- Maximum 10 opinions can be active simultaneously
+
+### Candidate State (Staking Pool)
+
+When an opinion is a candidate:
+- It has accumulated stake `M_c` (measured in USDC)
+- It has **no price** (not trading in the AMM)
+- Users can stake or unstake directly
+- Ownership is proportional to stake contribution
+- It does **not** contribute to settlement tracking
+- Unlimited number of candidates allowed
+
+## The Circular Cycle
+
+```
+┌─────────────────┐
+│ Candidate State │ ← Opinion gets replaced
+│  (Staking)      │    (receives liquidation value)
+└────────┬────────┘
+         │
+         │ Gathers stake ≥ threshold
+         │ (105% of weakest vault value)
+         ↓
+┌─────────────────┐
+│  Replacement    │
+│   Triggered     │
+└────────┬────────┘
+         │
+         ↓
+┌─────────────────┐
+│  Active State   │
+│  (AMM Trading)  │
+└────────┬────────┘
+         │
+         │ Another candidate replaces it
+         │ (if it becomes weakest)
+         │
+         └─────────────────────────────┐
+                                       │
+                                       ↓
+                             Back to Candidate State
+```
+
+Opinions can cycle through these states multiple times. An opinion that gets replaced doesn't disappear—it returns to the candidate pool and can re-enter if it regains support.
+
+## State Transitions Explained
+
+### Candidate → Active (Entry)
+
+**When it happens:**
+A candidate accumulates stake `M_c ≥ (1 + θ) × V_weakest` where:
+- `θ` = threshold buffer (default: 0.05 or 5%)
+- `V_weakest` = vault value of the weakest active opinion
+
+**What happens:**
+1. Anyone can trigger `replaceOpinion(candidateId)`
+2. Contract automatically identifies the weakest active opinion (lowest vault value)
+3. Weakest opinion is liquidated, receives payout `V_weakest`
+4. Candidate's stake converts to AMM quantity: `q_new = √(M_c(2C' + M_c))`
+5. Candidate becomes active, ready for trading
+
+**Example:**
+- Active opinions have vault values: $120, $95, $180, $75
+- Weakest opinion: $75
+- Replacement threshold: $75 × 1.05 = $78.75
+- Candidate "New Approach" has $85 in stakes
+- Anyone triggers replacement → "New Approach" enters AMM, weakest opinion exits
+
+<Callout title="Replacement Threshold Buffer" type="info">
+The 5% buffer prevents rapid flip-flopping. Without it, an opinion at exactly $75 could be replaced by one with $75.01, which could immediately be replaced back. The buffer ensures replacements demonstrate meaningfully stronger support.
+</Callout>
+
+### Active → Candidate (Exit)
+
+**When it happens:**
+A different candidate accumulates enough stake to replace this active opinion (which happens to be the weakest).
+
+**What happens:**
+1. Opinion is fully liquidated from the AMM
+2. Receives liquidation value: `V_i = q_i² / (C + √(C² - q_i²))`
+3. Moves to candidate pool with `M_c = V_i`
+4. All shareholders' positions remain tracked
+
+**Example:**
+- "Old Approach" is active with 25 AMM shares, vault value $75
+- Gets replaced by stronger candidate
+- Receives $75 liquidation payout
+- Becomes candidate with $75 in stake pool
+- Previous shareholders now have proportional claims on this $75
+
+## What Happens to Your Shares
+
+This is critical: **Your shares don't disappear during state transitions.** They represent **proportional claims** whose value adapts to the opinion's current state.
+
+### When Your Active Opinion Gets Replaced
+
+**Before (Active):**
+- You own 100 shares out of 1,000 total (10% of the opinion)
+- Opinion has quantity `q_i = 50` in AMM
+- Your share of quantity: 5 (10% of 50)
+
+**After (Candidate):**
+- You still own 100 shares out of 1,000 total (10% of the opinion)
+- Opinion now has stake `M_c = $150` in candidate pool
+- Your share of stake: $15 (10% of $150)
+
+**Your ownership percentage stays the same.** What changes is the interpretation of those shares.
+
+### When Your Candidate Opinion Enters AMM
+
+**Before (Candidate):**
+- You own 50 shares out of 500 total (10% of the opinion)
+- Opinion has stake `M_c = $200`
+- Your share of stake: $20 (10% of $200)
+
+**After (Active):**
+- You still own 50 shares out of 500 total (10% of the opinion)
+- Opinion now has quantity `q_new = 28` in AMM
+- Your share of quantity: 2.8 (10% of 28)
+
+**Again, your ownership percentage is preserved.**
+
+## Proportional Claims Visualized
+
+```
+State A (Active):                  State B (Candidate):
+┌──────────────────┐              ┌──────────────────┐
+│ AMM Quantity: 50 │              │ Stake Pool: $150 │
+│                  │   Replace    │                  │
+│ You: 10% of 50   │──────────────▶│ You: 10% of $150 │
+│    = 5 quantity  │              │    = $15 stake   │
+└──────────────────┘              └──────────────────┘
+                                           │
+                                           │ Re-entry
+                                           ↓
+                                  ┌──────────────────┐
+                                  │ AMM Quantity: 35 │
+                                  │                  │
+                                  │ You: 10% of 35   │
+                                  │    = 3.5 quantity│
+                                  └──────────────────┘
+```
+
+Your share count never changes on-chain. Only the total pool changes (quantity or stake), and your proportional claim adapts automatically.
+
+## No Migration Required
+
+Unlike some systems that require you to manually "migrate" positions during state changes, Trigger Market handles this automatically:
+
+- Your shares remain in `userShares[yourAddress][opinionId]`
+- On-chain balances never change during replacement
+- The **meaning** of shares changes (claim on quantity vs claim on stake)
+- Value is preserved through proportional claims
+- Gas costs for replacement are O(1) regardless of shareholder count
+
+## Real-World Example: Multi-Cycle Opinion
+
+Let's follow "Approach A" through multiple cycles:
+
+**Week 1 - Active:**
+- Starts as one of 5 initial opinions
+- You buy 200 shares (20% of total)
+- Price: 0.52
+
+**Week 2 - Replaced:**
+- "Approach B" (candidate) gathers enough stake
+- "Approach A" is weakest, gets replaced
+- Receives $180 liquidation value
+- Now candidate with $180 stake
+- Your 200 shares = 20% of $180 = $36
+
+**Week 3-4 - Candidate:**
+- You and others continue staking
+- Total stake grows to $250
+- Your shares still 20% = $50
+
+**Week 5 - Re-enters:**
+- "Approach A" now has $250, exceeds threshold
+- Replaces current weakest opinion
+- Enters AMM with quantity q = 35
+- Your 200 shares = 20% of 35 = 7 quantity
+
+**Week 6 - Trading:**
+- Back in active trading
+- Current price: 0.58
+- You can trade again
+
+**Week 8 - Settlement:**
+- Debate settles with "Approach A" at 0.61
+- Your payout: 7 shares × $0.61 = $4.27
+
+This shows how opinions can exit, accumulate support, re-enter, and ultimately settle—with your ownership preserved throughout.
+
+## Key Takeaways
+
+✅ **Opinions cycle between Active and Candidate states**
+- Active = trading in AMM
+- Candidate = accumulating stakes
+
+✅ **Your shares represent proportional claims**
+- Ownership percentage stays constant
+- Value interpretation adapts to current state
+
+✅ **No manual migration needed**
+- Transitions happen automatically
+- On-chain balances unchanged
+- System handles value preservation
+
+✅ **Opinions can return multiple times**
+- Getting replaced isn't permanent
+- Can regain support and re-enter
+- Creates evolutionary market dynamics
+
+✅ **Weakest opinion is always the target**
+- Determined by vault value, not price
+- Automatic targeting ensures fairness
+- 5% threshold prevents flip-flopping
+
+## Practical Implications
+
+**When trading:**
+- Consider the full lifecycle, not just current state
+- Strong opinions that get replaced often return
+- Weak opinions might exit permanently
+
+**When staking on candidates:**
+- You're betting the opinion will enter and succeed
+- Entry converts stakes to AMM shares
+- Can unstake before entry if you change your mind
+
+**When holding through replacement:**
+- Your position value is preserved
+- You get proportional stake in candidate pool
+- Can unstake or hold for potential re-entry
+
+**When creating debates:**
+- 10-opinion hard cap encourages quality over quantity
+- Dynamic replacement keeps debates relevant
+- Initial opinions aren't guaranteed to stay
+
+Understanding the opinion lifecycle helps you make better decisions about which positions to take, when to enter or exit, and how to think about long-term versus short-term holdings.
+
+<Callout title="Why This Matters" type="warn">
+The opinion lifecycle is what makes Trigger Market different from static prediction markets. Debates can evolve as understanding deepens. Weak perspectives get replaced by stronger ones. Your ownership persists through these changes, creating markets that adapt while preserving value.
+</Callout>

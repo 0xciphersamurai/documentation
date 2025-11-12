@@ -1,0 +1,207 @@
+---
+title: What is Trigger Market?
+description: Learn how Trigger Market enables prediction markets on subjective debates without needing oracles
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+
+# What is Trigger Market?
+
+**Trigger Market** is a fully onchain platform for creating and trading prediction markets on subjective debates - topics that don't have objective right answers.
+
+## The Problem with Traditional Prediction Markets
+
+Platforms like Polymarket and Augur work great for objective questions:
+
+- "Who will win the 2024 election?"
+- "Will Bitcoin hit $100K by December?"
+- "Will the Fed raise rates next month?"
+
+These markets work because:
+1. **The outcome is objective** - there's a clear yes/no answer
+2. **An oracle can verify it** - trusted sources determine what happened
+3. **Everyone agrees on the result** - no ambiguity
+
+But what about questions like:
+- "Which programming framework is best?"
+- "Should we fund this DAO proposal?"
+- "What's the most promising AI research direction?"
+
+**These have no objective answer.** Different people have legitimate disagreements. Traditional prediction markets can't handle them.
+
+## The Trigger Market Solution
+
+Trigger Market enables markets on **subjective debates** by replacing oracles with a novel settlement mechanism:
+
+<div className="not-prose">
+  <div className="grid gap-4 my-6">
+    <div className="border rounded-lg p-6">
+      <h3 className="text-lg font-semibold mb-2">Traditional Markets</h3>
+      <p className="text-muted-foreground mb-4">Require external oracles to determine outcomes</p>
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <span className="text-green-500">✓</span>
+          <span className="text-sm">Objective events only</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-green-500">✓</span>
+          <span className="text-sm">Clear resolution source</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-red-500">✗</span>
+          <span className="text-sm">Can't handle subjective debates</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-red-500">✗</span>
+          <span className="text-sm">Centralization risk</span>
+        </div>
+      </div>
+    </div>
+
+    <div className="border rounded-lg p-6 border-primary">
+      <h3 className="text-lg font-semibold mb-2">Trigger Market</h3>
+      <p className="text-muted-foreground mb-4">Settles based on price stability (consensus)</p>
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <span className="text-green-500">✓</span>
+          <span className="text-sm">Subjective debates supported</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-green-500">✓</span>
+          <span className="text-sm">No oracle needed</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-green-500">✓</span>
+          <span className="text-sm">Fully onchain</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-green-500">✓</span>
+          <span className="text-sm">Dynamic opinions</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+## How It Works (Simple Version)
+
+<Steps>
+
+<Step>
+### Create a Market
+
+Anyone can create a debate with initial opinions. For example:
+
+**Market**: "Best state management for React in 2025?"
+
+**Initial Opinions**:
+- Redux
+- Zustand
+- Jotai
+- MobX
+</Step>
+
+<Step>
+### Trade on Opinions
+
+Participants buy and sell shares of different opinions. Prices adjust based on demand:
+- More buying → Price increases
+- More selling → Price decreases
+
+Prices satisfy the L² norm constraint: √(Σp_i²) = 1 (unit sphere geometry).
+</Step>
+
+<Step>
+### Markets Evolve
+
+New opinions can be proposed. If they gather enough support, they can replace weak opinions in the market. The debate evolves organically.
+</Step>
+
+<Step>
+### Settlement via Stability
+
+When prices stabilize (stop changing significantly), the market settles automatically. No oracle needed - mathematical stability = consensus.
+
+Participants get paid based on final prices:
+- Own 100 shares of "Zustand" at 0.68 (68%) final price → Receive $68
+</Step>
+
+</Steps>
+
+## Key Innovations
+
+### 1. Oracle-Free Settlement
+
+Markets settle when prices remain stable for a specified period. **Price stability indicates consensus formation.**
+
+The protocol uses four criteria:
+- **Minimum age**: Market must be old enough (e.g., 7 days)
+- **Low variance**: Prices must be historically stable
+- **Current agreement**: Recent prices must match historical averages
+- **Sustained confirmation**: Stability must persist across multiple checks
+
+When all criteria are met → Market settles → Payouts distributed.
+
+<Callout title="Why this works" type="info">
+  When participants with real money at stake reach equilibrium, that *is* the consensus. Forcing further trading wouldn't change anything - the market has decided.
+</Callout>
+
+### 2. Dynamic Opinions
+
+Unlike traditional markets where outcomes are fixed at creation, Trigger Market debates can evolve:
+
+- Anyone can **propose new opinions** (costs nothing to create, requires stake to compete)
+- Opinions accumulate **candidate stakes** while outside the main market
+- When a candidate's stake exceeds the weakest active opinion's value (+ 5% threshold), **replacement** occurs
+- Replaced opinions become candidates again - they can re-enter if support returns
+
+This creates a **competitive marketplace of ideas** where the most compelling perspectives survive.
+
+### 3. Elegant Mathematics
+
+The system uses an **L² norm AMM** (Automated Market Maker) which provides:
+- **Closed-form pricing**: Instant price calculation (no iteration)
+- **Natural price bounds**: Prices stay in (0%, 100%) automatically
+- **Convergence property**: As liquidity grows, prices become more stable
+
+You don't need to understand the math to use the platform, but it's what makes oracle-free settlement possible.
+
+<Callout title="For the technically curious" type="warn">
+  The Hessian magnitude (measure of price sensitivity) decreases cubically with total liquidity. This means mature markets naturally resist price manipulation, creating conditions for stable settlement.
+
+  Read more in [Market Dynamics](/docs/advanced/market-dynamics).
+</Callout>
+
+## Who is Trigger Market For?
+
+### Traders & Speculators
+Buy opinions you believe will win consensus. Early positions in winning perspectives yield profits.
+
+### DAOs & Communities
+Create markets to gauge collective opinion on governance decisions, funding priorities, or strategic direction.
+
+### Researchers & Analysts
+Aggregate expert opinion on technical questions, forecast trends, and identify emerging consensus.
+
+### Market Creators
+Launch debates on any topic and earn a percentage of all trading fees. Popular markets = passive income.
+
+### Opinion Leaders
+Propose compelling new perspectives in existing debates. If your opinion gets adopted, you earn fees on all trades.
+
+## Next Steps
+
+Ready to get started? Here's what to read next:
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+  <a href="/docs/introduction/why-it-matters" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">Why It Matters →</div>
+    <div className="text-sm text-muted-foreground">The bigger picture and applications</div>
+  </a>
+
+  <a href="/docs/getting-started/quick-start" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">Quick Start →</div>
+    <div className="text-sm text-muted-foreground">Make your first trade in 5 minutes</div>
+  </a>
+</div>
