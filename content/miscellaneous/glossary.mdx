@@ -1,0 +1,262 @@
+---
+title: Glossary
+description: Key terms and concepts in Trigger Market
+---
+
+# Glossary
+
+Quick reference for terms used throughout Trigger Market.
+
+## Core Concepts
+
+**Consensus Market**
+A market for subjective debates where settlement emerges from price stability rather than external oracles. Unlike prediction markets that need objective outcomes, consensus markets reveal collective belief through economic commitment.
+
+**Debate**
+A market created around a subjective question (e.g., "Best anime of 2025", "Pineapple on pizza?"). Each debate contains multiple opinions that compete for support.
+
+**Opinion**
+A possible answer or position within a debate. Opinions can be either active (currently tradeable) or candidates (proposed but not yet active). Example opinions: "Python", "JavaScript", "Rust" in a "Best programming language for beginners" debate.
+
+**Settlement**
+The process by which a debate reaches consensus and determines final payouts. Happens automatically when price stability criteria are met—no oracle needed.
+
+**Skin in the Game**
+Having capital at risk based on your position. The core principle: when money is on the line, people reveal true beliefs versus performative takes.
+
+## Opinion States
+
+**Active Opinion**
+An opinion currently tradeable in the market. Active opinions have liquidity vaults and prices that update with trades. Limited to 10 active opinions per debate.
+
+**Candidate Opinion**
+A proposed opinion waiting to enter the active market. Candidates accumulate support and can replace the weakest active opinion if they gain enough backing (105% of the weakest vault value).
+
+**Replacement**
+When a candidate opinion has 105% of the weakest active opinion's vault value, it can trigger replacement—entering the active market while the weakest becomes a candidate. This creates evolutionary markets that adapt over time.
+
+## Market Mechanics
+
+**L² Norm AMM**
+The Automated Market Maker using Euclidean distance (L² norm) as its cost function. Key property: price sensitivity decreases cubically (1/L³) as liquidity grows, creating natural stability that enables consensus emergence.
+
+**Vault**
+Each opinion has a vault that holds all USDC committed to that position. Vault value determines opinion price and relative support.
+
+**Price**
+An opinion's price (always 0-100%) = its vault value divided by total liquidity across all active opinions. Prices always sum to 100%.
+
+**Liquidity**
+Total capital committed across all active opinions. Higher liquidity = more stable prices = harder to manipulate = better consensus conditions.
+
+**Slippage**
+Price impact from your trade. In the AMM, larger trades relative to liquidity cause more slippage. Example: $100 trade with $1000 liquidity = significant slippage; same trade with $100k liquidity = minimal slippage.
+
+## Trading
+
+**Position**
+Your holdings in an opinion. Represented as share count. Share value depends on current vault value and total shares.
+
+**Entry**
+Buying into an opinion. You receive shares proportional to your contribution. Price of the opinion rises, others fall proportionally.
+
+**Exit**
+Selling your shares to claim current value. You receive portion of vault proportional to your shares. Price of the opinion falls, others rise proportionally.
+
+**Claim**
+After settlement, converting your shares into their final value based on settled prices. Settlement payouts never expire—claim whenever you want.
+
+## Fees
+
+**Exit Fee**
+1% charged when you exit a position (if all fees enabled). Currently 0.5% total with platform fees disabled.
+
+**Creator Fee**
+0.25% of exit value goes to debate creator, 0.25% to opinion creators. Accumulated forever as long as the opinion exists.
+
+**Platform Fee**
+0.5% of exit value (currently disabled). Can be enabled by governance with 7-day announcement.
+
+**Fee Deadline**
+Creator fees must be claimed within 365 days after settlement. Settlement payouts have NO deadline.
+
+## Settlement Criteria
+
+**Minimum Age**
+Debates must be at least 7 days old before eligible for settlement. Prevents premature consensus.
+
+**Low Variance (EWMA)**
+Historical price volatility must be below threshold. Uses Exponentially Weighted Moving Average to measure stability over time.
+
+**Current Agreement**
+Recent prices must closely match historical averages. Ensures current state reflects historical consensus.
+
+**Multiple Confirmations**
+All criteria must be met across multiple check intervals. Prevents false settlement from temporary stability.
+
+## Advanced Concepts
+
+**Value Conservation**
+Mathematical guarantee (Euler's theorem) that total vault value exactly equals sum of all position values. Every dollar in = every dollar claimable out.
+
+**Proportional Claims**
+Settlement mechanism where share counts stay unchanged but interpretation adapts to new market composition. Enables seamless opinion replacement without position disruption.
+
+**Convergence Pressure**
+Natural tendency for prices to stabilize as liquidity grows. The 1/L³ sensitivity decrease creates conditions where consensus can emerge without external resolution.
+
+**Oracle-Free**
+No external authority determines outcomes. Settlement based purely on observable on-chain price history and stability criteria.
+
+**Permissionless**
+Anyone can create debates, propose opinions, trade, or participate. No gatekeepers, no KYC, no approval needed.
+
+## Network Terms
+
+**Base**
+Ethereum Layer 2 where Trigger Market is deployed. Low fees, fast transactions, full Ethereum security.
+
+**USDC**
+The stablecoin used for all trading and settlements. 1 USDC = $1 USD.
+
+**Smart Contract**
+Code running on blockchain that executes all market logic, holds all funds, and determines settlement. No trusted intermediaries.
+
+**Pull Pattern**
+System where users actively claim their fees/payouts rather than automatically receiving them. More gas-efficient and secure.
+
+## Blockchain & Crypto Terms
+
+**Blockchain**
+A distributed ledger technology where transactions are recorded in blocks and linked together chronologically. Each block contains a cryptographic hash of the previous block, creating an immutable chain.
+
+**Wallet**
+Software that stores your private keys and allows you to interact with blockchain applications. Examples: MetaMask, Coinbase Wallet, Rainbow. Your wallet controls your funds—you're responsible for securing it.
+
+**Transaction**
+An action recorded on the blockchain. Examples: buying shares, exiting positions, claiming fees. Each transaction requires gas fees and must be signed with your wallet.
+
+**Gas Fees**
+Payment required to execute transactions on blockchain. On Base (L2), typically $0.01-$0.10 per transaction. Goes to network validators, not to Trigger Market.
+
+**Layer 2 (L2)**
+A blockchain built on top of Ethereum (Layer 1) to provide faster, cheaper transactions while inheriting Ethereum's security. Base is a Layer 2.
+
+**Onchain / On-chain**
+Happening directly on the blockchain. All Trigger Market logic, funds, and state are on-chain—verifiable by anyone.
+
+**Stablecoin**
+A cryptocurrency designed to maintain stable value, typically pegged to fiat currency. USDC aims to maintain 1:1 parity with USD.
+
+**Smart Contract**
+Self-executing code deployed on blockchain. Once deployed, the code can't be changed. Trigger Market's smart contracts hold all funds and execute all market logic autonomously.
+
+**Decentralized**
+No single entity controls the system. Trigger Market runs on public blockchain—anyone can verify the code, see all transactions, and interact without permission.
+
+**Permissionless**
+No approval needed to participate. Anyone can create debates, trade, or use the system without KYC, registration, or gatekeepers.
+
+**Trustless**
+You don't need to trust any person or company. The smart contract code is public and executes exactly as written. Math and code replace trust in intermediaries.
+
+## Financial & Trading Terms
+
+**Capital**
+Money or assets you can deploy. In Trigger Market, capital is USDC you use to take positions.
+
+**Liquidity**
+Available capital in a market. Higher liquidity means trades have less price impact. Low liquidity = volatile prices, high slippage.
+
+**Volatility**
+How much prices fluctuate over time. High volatility = large price swings. Low volatility = stable, steady prices.
+
+**Slippage**
+The difference between expected price and actual execution price. Caused by your trade moving the market. Larger trades relative to liquidity = more slippage.
+
+**Portfolio**
+Collection of all your positions across different debates. Your portfolio value = sum of all your position values.
+
+**Arbitrage**
+Profiting from price differences. If the same opinion is priced differently in theory vs reality, arbitrageurs exploit the gap, pushing prices toward efficiency.
+
+**Market Maker**
+In traditional markets, an entity providing liquidity. In Trigger Market, the AMM (Automated Market Maker) is code that automatically provides liquidity using a mathematical formula.
+
+**Exit Liquidity**
+Capital available for you to sell into. In Trigger Market, you're selling shares back to the vault—liquidity comes from accumulated capital, not needing another buyer.
+
+## Mathematical & Statistical Terms
+
+**Exponentially Weighted Moving Average (EWMA)**
+A method of averaging data that gives more weight to recent values. Used in settlement criteria to measure if prices have been historically stable, while emphasizing recent behavior.
+
+**Variance**
+Statistical measure of how spread out data is. High variance = values differ a lot from average. Low variance = values cluster near average. Settlement requires low price variance.
+
+**Norm**
+Mathematical measure of size or distance. L² norm (Euclidean distance) is like measuring straight-line distance. Used in the AMM formula.
+
+**Euclidean Distance**
+The straight-line distance between two points, like you'd measure with a ruler. The "L² norm" is based on this concept.
+
+**Homogeneous Function**
+A mathematical function where scaling all inputs by a factor scales the output by that factor raised to some power. Enables Euler's theorem proof for value conservation.
+
+**Euler's Theorem**
+Mathematical theorem about homogeneous functions. Guarantees that vault value equals sum of position values in Trigger Market—no value is created or destroyed.
+
+**Convergence**
+Tendency for something to approach a stable state. In Trigger Market, prices converge (stabilize) as liquidity grows and consensus forms.
+
+**Cubically Decreasing**
+Decreasing at rate of 1/L³. As liquidity L grows, price sensitivity drops very fast (cube relationship). This creates strong convergence pressure in mature markets.
+
+## Consensus & Settlement Terms
+
+**Oracle**
+External source of truth that tells a smart contract what happened in the real world. Traditional prediction markets need oracles to verify outcomes. Trigger Market doesn't—consensus emerges from price stability.
+
+**Consensus**
+General agreement reached by a group. In Trigger Market, consensus = stable price distribution that participants with skin in the game have accepted.
+
+**Settlement**
+Final resolution of a debate. Prices freeze, and everyone can claim their share of the vaults based on those final prices. Happens automatically when stability criteria are met.
+
+**Finality**
+State where something can't be changed. After settlement, prices are final—no further trading, no reversals.
+
+## Security & Attack Terms
+
+**Sybil Attack**
+Creating many fake identities to gain unfair influence. In Trigger Market, ineffective because each position requires real capital—fake identities are expensive.
+
+**Manipulation**
+Attempting to artificially move prices for profit. In Trigger Market, resistance grows cubically with liquidity—mature markets are extremely expensive to manipulate.
+
+**Front-running**
+Seeing someone's pending transaction and placing your own first to profit. On blockchain, everyone sees pending transactions. Less profitable in Trigger Market due to slippage.
+
+**Rug Pull**
+When project creators steal user funds. Impossible in Trigger Market—no admin keys can access user deposits. Smart contracts hold funds and execute automatically.
+
+## General Concepts
+
+**Skin in the Game**
+Having personal risk in an outcome. When you stake money, you have skin in the game—you profit if right, lose if wrong. Creates incentive to be truthful.
+
+**Revealed Preference**
+What people actually do vs. what they say. Markets reveal preferences through capital allocation—more honest than surveys or votes.
+
+**Performative**
+Done for show rather than genuine belief. Example: virtue signaling. Markets expose performative takes by requiring capital backing.
+
+**Capital Efficiency**
+How well capital is utilized. In Trigger Market, your capital can enter/exit fluidly—not locked up unnecessarily.
+
+**Network Effect**
+When a product/service becomes more valuable as more people use it. Trigger Market has strong network effects—more participants = better liquidity = better prices = more participants.
+
+---
+
+*For detailed explanations and examples, see the main documentation sections.*

@@ -1,0 +1,316 @@
+---
+title: Frequently Asked Questions
+description: Common questions about Trigger Market
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Frequently Asked Questions
+
+Common questions about how Trigger Market works and what to expect.
+
+## Getting Started
+
+### How do I start trading?
+
+1. Connect a Web3 wallet (MetaMask, Coinbase Wallet, etc.) to the site
+2. Ensure you have USDC on Base network
+3. Browse debates and pick one you have an opinion about
+4. Click on an opinion to buy shares
+5. Confirm the transaction
+
+You'll receive shares immediately and can exit anytime.
+
+### Do I need a lot of money to participate?
+
+No. You can start with any amount. Smaller positions let you learn the mechanics without much risk. Many debates have meaningful participation with $10-$50 positions.
+
+### What if I don't know anything about crypto?
+
+You'll need basic Web3 wallet skills (connecting wallet, signing transactions). If you can use MetaMask and have USDC, you're good to go. The market mechanics themselves are straightforward—you buy positions in opinions you believe in.
+
+### Where do I get USDC on Base?
+
+Bridge from Ethereum mainnet using the official Base bridge, or buy directly on centralized exchanges that support Base withdrawals (Coinbase, Binance, etc.).
+
+## Trading Mechanics
+
+### How do prices work?
+
+Opinion prices (0-100%) = that opinion's vault value ÷ total liquidity. If Python has $5,000 in its vault and total liquidity is $20,000, Python is at 25%.
+
+When you buy Python:
+- Python's vault grows → its price rises
+- Other vaults unchanged → their prices fall proportionally
+- All prices still sum to 100%
+
+### What's slippage and why does it matter?
+
+Slippage is the price impact from your trade. Larger trades relative to liquidity cause more slippage.
+
+Example: In a debate with $10k liquidity, a $1k trade will move prices significantly. In a debate with $1M liquidity, same $1k trade barely affects prices.
+
+Trade size relative to liquidity matters more than absolute trade size.
+
+### Can I lose all my money?
+
+Yes. If the opinion you backed ends up with near-zero support at settlement, your shares become worthless. This is why you should only back positions you genuinely believe in.
+
+However, you can exit anytime before settlement to limit losses.
+
+### When should I exit vs hold until settlement?
+
+**Exit early if:**
+- Your opinion is losing support and prices dropping
+- You need the capital
+- You no longer believe in your position
+
+**Hold until settlement if:**
+- Your opinion's price is rising or stable
+- You believe it will have strong support at consensus
+- You want to avoid exit fees on multiple trades
+
+Settlement payouts never expire, so no rush to claim after settlement.
+
+### What happens to my position if my opinion gets replaced?
+
+Your shares become candidate shares. You can still hold them—if the opinion re-enters the active market later, your shares are valid. Or you can exit to claim current candidate vault value.
+
+Candidate opinions can have value and can re-enter. Nothing forces you to sell.
+
+## Debates and Opinions
+
+### How are debates created?
+
+Anyone can create a debate by:
+1. Writing a clear question
+2. Adding 3-6 initial opinions
+3. Paying gas for the transaction
+
+Creators earn 0.25% of all trading volume forever.
+
+### Can I propose new opinions in existing debates?
+
+Yes! Navigate to any debate and submit a proposed opinion. If it gains support (105% of weakest active opinion's vault), it can enter the market.
+
+You earn 0.25% of all trading volume on that opinion forever if it enters.
+
+### What makes a good debate topic?
+
+Simple test: Are people already arguing about this online somewhere?
+
+Great debates:
+- Capture existing passionate arguments
+- Have multiple legitimate positions
+- No objective "right" answer
+- People care enough to stake capital
+
+Bad debates:
+- Objective facts ("What's 2+2?")
+- Questions with oracles ("Will it rain tomorrow?")
+- Topics literally nobody argues about
+
+### Are "trivial" debates allowed?
+
+Yes! "Trivial" is subjective. If people care enough to argue about pineapple on pizza or best anime, it's valid. The market decides what has value by how much people trade.
+
+## Settlement
+
+### How does settlement work without an oracle?
+
+Settlement emerges from price stability. When all four criteria are met:
+1. Minimum 7 days old
+2. Low historical volatility (EWMA)
+3. Current prices match historical averages
+4. Multiple confirmations of stability
+
+The debate settles at those prices. No external authority needed—the market reached equilibrium.
+
+### What if settlement happens at surprising prices?
+
+The prices reflect what participants with skin in the game believe, weighted by capital commitment. If you disagree with the consensus, you had the opportunity to stake capital on your view.
+
+The point isn't to be "right" by external standards—it's to reveal what participants actually believe when money is on the line.
+
+### How long until debates settle?
+
+Varies. Minimum 7 days, but could be weeks or months depending on how long it takes for consensus to emerge. Active debates with lots of trading take longer to stabilize.
+
+### What if a debate never settles?
+
+If prices never stabilize enough to meet settlement criteria, the debate remains active. Participants can exit anytime to realize current value.
+
+Extremely unlikely for debates with real participation—eventually people stop changing positions and consensus emerges.
+
+### Can I claim my settlement payout anytime?
+
+Yes! Settlement payouts never expire. Claim whenever convenient. No deadline.
+
+(Note: Creator fees have 365-day deadline, but your position payouts do not.)
+
+## Fees
+
+### What fees do I pay?
+
+Currently: 0.5% on exits only
+- 0.25% to debate creator
+- 0.25% to opinion creators
+- 0% platform fee (disabled)
+
+When platform fees enabled: 1% total on exits.
+
+No fees on entries. No fees on holding.
+
+### Why charge fees on exit only?
+
+Incentivizes participation and liquidity. Entering positions adds liquidity (good for the market). Exiting removes liquidity. Fee structure encourages long-term positions over quick flips.
+
+### Do I pay fees when claiming settlement?
+
+Yes, the exit fee applies when you claim your settled shares (if fees are enabled). This goes to creators who built the debate infrastructure.
+
+### Are there gas fees?
+
+Yes, all transactions require gas on Base. Gas fees are typically $0.01-$0.10 per transaction—much cheaper than Ethereum mainnet.
+
+### Can fees change?
+
+Yes, through governance:
+- Platform fees can be enabled (requires 7-day announcement)
+- Creator fees can be disabled
+- Fee percentages adjustable
+
+Current fee toggles are controlled by the platform team, with plans for progressive decentralization.
+
+## Safety and Security
+
+### Is my money safe?
+
+Funds are held in audited smart contracts on Base. Standard smart contract risks apply:
+- Code bugs (contracts will be audited)
+- Base network issues
+- Your wallet security
+
+No individual or team can access your funds. No admin keys that can steal deposits. No custodians.
+
+### What if the frontend goes down?
+
+The smart contracts are independent of the frontend. You can interact directly with contracts, build your own interface, or wait for the frontend to return.
+
+All logic and funds are on-chain. Frontend is just a convenient UI.
+
+### Can the platform rug pull?
+
+No admin keys can:
+- Steal deposited funds
+- Force settlements
+- Manipulate prices
+- Block withdrawals
+- Change market outcomes
+
+Platform team can only adjust fee parameters through governance mechanisms.
+
+### What if someone manipulates the market?
+
+As liquidity grows, manipulation becomes exponentially more expensive (1/L³ resistance).
+
+Large manipulation attempts:
+- Cost significant capital
+- Are temporary (arbitrageurs correct)
+- Get more expensive as market grows
+- Are visible on-chain
+
+Small markets more manipulable, large markets extremely resistant.
+
+### Is this legal?
+
+Trigger Market is a decentralized protocol deployed on public blockchain. No gambling mechanics—outcomes based on consensus formation, not random events.
+
+Legal status varies by jurisdiction. Users responsible for compliance with local laws. Platform does not custody funds or control outcomes.
+
+## Philosophy and Vision
+
+### How is this different from prediction markets?
+
+**Prediction markets** need:
+- Objective future events
+- External oracles to verify
+- Clear right/wrong answers
+
+**Consensus markets** work for:
+- Subjective debates with no oracle
+- Questions where "the answer" is collective belief
+- Arguments where consensus *is* the resolution
+
+Different tools for different purposes.
+
+### Isn't this just gambling?
+
+No. Gambling involves random chance or house edge. Consensus markets involve:
+- Skill in reading collective belief
+- Research and information gathering
+- Strategic positioning
+- Social consensus formation
+
+More like financial markets or expertise-weighted polls with skin in the game.
+
+### Why would I participate if I might lose money?
+
+- Profit by being right about consensus
+- Put money on opinions you already argue about
+- Expose false conviction in others
+- Be part of fixing online discourse
+- Earn creator fees from debates/opinions
+
+Plus: arguments are more interesting when stakes are real.
+
+### What's the big picture vision?
+
+Make every online argument accountable. When anyone can ask "Will you bet on that?", discourse improves:
+- Trolls cost money
+- Performative takes get expensive
+- Virtue signals become measurable
+- Being right becomes profitable
+- Truth-seeking has incentives
+
+Infrastructure for skin-in-the-game discourse.
+
+## Technical Questions
+
+### What's the L² norm AMM?
+
+The pricing mechanism using Euclidean distance (L² norm) as cost function. Key properties:
+- Closed-form solutions (exact math, no approximations)
+- Price sensitivity scales as 1/L³ (cubically decreasing)
+- Natural convergence pressure as liquidity grows
+- Value conservation via Euler's theorem
+
+See [Market Dynamics](/docs/advanced/market-dynamics) for details.
+
+### Why does price sensitivity decrease as 1/L³?
+
+Mathematical property of L² norm. As total liquidity L grows, the cost function's curvature flattens, meaning same-sized trades have less price impact.
+
+This creates conditions favorable for consensus: large markets naturally resist price swings and converge toward stability.
+
+### How does opinion replacement work mathematically?
+
+Proportional claims mechanism:
+- Share counts unchanged during replacement
+- Vault values redistributed according to removal/addition
+- Shares now represent proportional claims on new vault configuration
+- Position values preserved through the transition
+
+See [Opinion Replacement](/docs/how-it-works/opinion-replacement) for math.
+
+### Can I see the smart contract code?
+
+Yes! Deployed on Base (public blockchain). Contract addresses and verification available. All logic is transparent and verifiable.
+
+<Callout title="Still have questions?" type="info">
+Join the community on Discord or Twitter. Documentation is open-source—submit improvements via GitHub.
+</Callout>
+
+---
+
+*These FAQs cover common questions. For deeper dives, explore the main documentation sections.*

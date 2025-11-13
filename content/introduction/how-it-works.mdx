@@ -46,7 +46,7 @@ Morgan thinks Zustand should be higher. They buy $100 worth of Zustand shares.
 
 **What happens:**
 1. Morgan's $100 goes into the market vault
-2. They receive shares in Zustand (quantity calculated by L² norm formula)
+2. They receive shares in Zustand (quantity calculated by the AMM formula)
 3. Zustand's price increases to ~53%
 4. All other prices adjust downward slightly (they compete for the price "space")
 5. Morgan's position is now visible in their profile
@@ -175,19 +175,19 @@ The system tracks this stability using exponential moving averages (EWMA). It's 
 
 ## Key Mechanics Explained
 
-### The L² Norm AMM
+### The AMM (Automated Market Maker)
 
-The market uses a special pricing formula based on the L² norm (Euclidean distance).
+The market uses a special pricing formula that enables oracle-free consensus.
 
 **What you need to know:**
 - Prices automatically normalize to valid ranges
 - As liquidity grows, prices become naturally more stable
-- All trades have closed-form solutions (instant calculation, no iteration)
+- All trades are calculated instantly
 - The math creates conditions where consensus *can* emerge
 
 **What you don't need to know:**
 - The detailed formulas (unless you're curious—see Advanced section)
-- The Hessian matrix properties
+- The underlying mathematics
 - The mathematical proofs
 
 **The key property:** Price sensitivity decreases cubically as liquidity grows. Mature markets are naturally resistant to manipulation.
@@ -283,7 +283,7 @@ Capital is at stake. This creates:
 
 **2. Mathematical Convergence**
 
-The L² norm AMM naturally facilitates stability:
+The AMM naturally facilitates stability:
 - Price sensitivity decreases as liquidity grows
 - Mature markets resist manipulation
 - Settlement can emerge without external triggers

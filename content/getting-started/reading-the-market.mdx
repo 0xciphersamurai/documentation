@@ -1,529 +1,209 @@
 ---
 title: Reading the Market
-description: How to interpret prices, charts, and market signals
+description: Understanding Trigger Market-specific mechanics and UI
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 # Reading the Market
 
-Prices tell a story. Learning to read that story is how you make better decisions. This guide teaches you to interpret market signals.
+This guide explains Trigger Market-specific mechanics: how prices work, what the UI tells you, and what's unique about this system. We won't tell you when to trade—that's your call.
 
-## Price as Information
+## How Prices Work
 
-Remember: **Prices aggregate beliefs of everyone with capital at stake.**
+**Core rule: Prices always sum to 100%**
 
-When you see an opinion at 45%, that reflects:
-- All the research people have done
-- All the capital they've committed
-- All the arguments they've evaluated
-- Current collective belief
-
-You're not just guessing—you're evaluating whether the market has it right.
-
-## Reading Absolute Prices
-
-### High Prices (50%+)
-
-**What it means:**
-- Strong consensus forming around this opinion
-- Significant capital backing it
-- Market believes this is most likely outcome
-
-**Consider:**
-- Is consensus deserved or herd mentality?
-- What would change this view?
-- Is there value in contrarian position?
+Opinion price = its vault value ÷ total liquidity
 
 **Example:**
-Opinion A: 58%
-- Clear leader
-- Safe bet if you agree
-- Limited upside (already priced in)
+- Python vault: $5,000
+- JavaScript vault: $3,000
+- Rust vault: $2,000
+- Total liquidity: $10,000
 
-### Medium Prices (30-50%)
+**Prices:**
+- Python: 50%
+- JavaScript: 30%
+- Rust: 20%
 
-**What it means:**
-- Viable contender, not dominant
-- Significant but not overwhelming support
-- Market sees real merit
+When you buy Python for $1,000:
+- Python vault becomes $6,000
+- Total liquidity becomes $11,000
+- Python price: 54.5%
+- JavaScript price: 27.3% (vault unchanged, but now smaller slice)
+- Rust price: 18.2% (vault unchanged, but now smaller slice)
 
-**Consider:**
-- Could this emerge as winner?
-- What would push it higher?
-- Good risk/reward if thesis develops
+**Prices are relative.** One opinion rising means all others fall proportionally.
 
-**Example:**
-Opinion B: 42%
-- Strong alternative
-- Room to grow if momentum builds
-- More upside potential than leader
+## Opinion States
 
-### Low Prices (10-30%)
+### Active Opinions
 
-**What it means:**
-- Minority view but present
-- Some believers, not many
-- Market skeptical but not dismissive
+**What they are:**
+- Currently tradeable
+- Have vaults you can enter/exit
+- Shown in main market interface
+- Maximum 10 active opinions per debate
 
-**Consider:**
-- Why so low? Missing something?
-- Or market missing something?
-- High risk, high reward
+**What you see:**
+- Current price (0-100%)
+- Vault value (total USDC committed)
+- Your position (if you have shares)
 
-**Example:**
-Opinion C: 18%
-- Underdog
-- Could be undervalued dark horse
-- Or could go to near-zero
+### Candidate Opinions
 
-### Very Low Prices (Below 10%)
+**What they are:**
+- Proposed but not yet active
+- Accumulating support to enter market
+- Need 105% of weakest active opinion's vault to trigger replacement
 
-**What it means:**
-- Minimal support
-- Market largely dismissive
-- Vulnerable to replacement if candidate pool active
+**What you see:**
+- Candidate vault value
+- Percentage toward replacement threshold
+- Which active opinion they'd replace (the weakest)
 
-**Consider:**
-- Is this legitimately weak?
-- Or massively undervalued?
-- Risk of opinion getting replaced
+**Why it matters:**
+If you hold shares in the weakest active opinion, it could get replaced. Your shares become candidate shares (still valid, but the opinion is no longer active).
 
-## Reading Price Changes
+## Settlement Progress
 
-### Rapid Increase
-
-**Pattern:**
-30% → 35% → 42% (over days)
-
-**Possible causes:**
-- New information favoring this view
-- Key community member backed it
-- Arguments gaining traction
-- Momentum building
-
-**How to react:**
-- Research WHY price is rising
-- If fundamentals changed: trend might continue
-- If just momentum: could reverse
-- FOMO is dangerous—understand reason first
-
-### Rapid Decrease
-
-**Pattern:**
-45% → 38% → 32% (over days)
-
-**Possible causes:**
-- New information contradicting this view
-- Alternative opinions strengthening
-- Support eroding
-- Negative discovery
-
-**How to react:**
-- Understand the cause
-- Has your thesis changed?
-- If thesis intact: possible buying opportunity
-- If thesis broken: consider exiting
-
-### Stable Prices
-
-**Pattern:**
-42% → 42% → 43% → 42% (over weeks)
-
-**Possible causes:**
-- Market reached equilibrium
-- No new information
-- Positions established
-- Approaching settlement
-
-**How to react:**
-- Less opportunity for trading gains
-- Good for settlement holds
-- Watch for breakdown signals
-
-### Oscillation
-
-**Pattern:**
-40% → 45% → 38% → 43% → 39%
-
-**Possible causes:**
-- Market uncertain
-- New information flowing
-- Active debate ongoing
-- Competing narratives
-
-**How to react:**
-- High volatility = high opportunity
-- Can trade around oscillations
-- Or wait for clearer picture
-
-## Chart Patterns
-
-### Uptrend
+The UI shows four criteria that must all be met:
 
 ```
-Price over time:
-    /
-   /
-  /
- /
-/
+✅ Age: 15 days (minimum: 7)
+✅ Low Variance: Price stability over time
+✅ Current Agreement: Recent prices match historical
+⏳ Confirmations: 3/5 needed
 ```
 
-**Characteristics:**
-- Higher highs, higher lows
-- Sustained upward movement
-- Volume often increasing
+**What each means:**
 
-**Interpretation:**
-- Building consensus
-- Momentum with opinion
-- Trend may continue
+**Age:** Debate must be at least 7 days old. Simple countdown.
 
-**Strategy:**
-- Consider buying dips
-- Hold existing position
-- Take profits on spikes
+**Low Variance (EWMA):** Historical price volatility below threshold. Measures if prices have been stable over the debate's lifetime.
 
-### Downtrend
+**Current Agreement:** Recent prices closely match historical averages. Ensures current state reflects established consensus, not temporary spike.
 
-```
-Price over time:
-\
- \
-  \
-   \
-    \
-```
+**Multiple Confirmations:** All criteria must stay true across multiple checks. Prevents false settlement from brief stability.
 
-**Characteristics:**
-- Lower highs, lower lows
-- Sustained downward movement
-- Support eroding
+**When all four are met:** Debate settles automatically at those prices.
 
-**Interpretation:**
-- Consensus moving away
-- Fundamentals weakening
-- Trend may continue
-
-**Strategy:**
-- Consider exiting
-- Or wait for reversal signals
-- Don't try to catch falling knife
-
-### Consolidation
-
-```
-Price over time:
-_____
-```
-
-**Characteristics:**
-- Price range-bound
-- No clear direction
-- Lower volume
-
-**Interpretation:**
-- Market digesting information
-- Waiting for catalyst
-- Could break either direction
-
-**Strategy:**
-- Wait for breakout
-- Or accumulate if bullish
-- Patience key
-
-### Breakout
-
-```
-Price over time:
-        /
-_______/
-```
-
-**Characteristics:**
-- Price breaks above resistance
-- Often with volume spike
-- New trend beginning
-
-**Interpretation:**
-- New information or momentum
-- Previous equilibrium broken
-- Could signal start of trend
-
-**Strategy:**
-- Confirm breakout with volume
-- Consider entering on pullback
-- Watch for false breakouts
-
-## Volume Interpretation
-
-### High Volume + Rising Price
-
-**Signal:** Strong bullish momentum
-**Interpretation:** Many people agreeing, adding capital
-**Confidence:** High (confirmed by volume)
-
-### High Volume + Falling Price
-
-**Signal:** Strong bearish momentum
-**Interpretation:** Many people exiting, losing faith
-**Confidence:** High (confirmed by volume)
-
-### Low Volume + Price Change
-
-**Signal:** Weak move, low conviction
-**Interpretation:** Few participants, could easily reverse
-**Confidence:** Low (not confirmed)
-
-### Declining Volume During Trend
-
-**Signal:** Trend losing steam
-**Interpretation:** Fewer new participants joining
-**Watch for:** Possible reversal coming
-
-## Holder Analysis
-
-### Top Holders Tab
-
-Shows who holds what:
-
-**Large concentration:**
-- Few holders own most shares
-- Higher risk (could sell suddenly)
-- "Whale" risk
-
-**Distributed holdings:**
-- Many smaller holders
-- More stable
-- True consensus
-
-**New holders accumulating:**
-- Fresh capital entering
-- Possible new trend starting
-
-**Old holders exiting:**
-- Original believers leaving
-- Possible top signal
-
-## Activity Feed
-
-### What to Watch
-
-**Buying activity:**
-- Who's buying?
-- How much?
-- Frequency?
-
-**Selling activity:**
-- Who's exiting?
-- Why now?
-- Position sizes?
-
-**Patterns:**
-- Same address buying repeatedly: high conviction
-- Large sells: possible profit-taking or capitulation
-- Many small trades: distributed interest
-
-## Candidate Pool Signals
-
-### Strong Candidate Accumulation
-
-**Signal:**
-Candidate approaching replacement threshold fast
-
-**Interpretation:**
-- New perspective gaining traction
-- Current opinions might be inadequate
-- Market composition could change
-
-**Strategy:**
-- Review the candidate opinion
-- Is it actually better?
-- Consider if your opinion vulnerable
-- Or stake on candidate if compelling
-
-### Stagnant Candidates
-
-**Signal:**
-Multiple candidates, none gaining momentum
-
-**Interpretation:**
-- Current active opinions adequate
-- No compelling alternatives yet
-- Stable composition
-
-**Strategy:**
-- Focus on trading active opinions
-- Less concern about replacement
-
-## Settlement Signals
-
-### Approaching Settlement
-
-Watch settlement progress box:
-
-```
-✅ Age: 15 days (required: 7)
-✅ Stability: Low variance
-✅ Agreement: Within 2%
-⏳ Confirmations: 3/5
-```
-
-**When 3-4 criteria met:**
-- Settlement likely within days
-- Price movements limited
-- Time to finalize positions
-
-**Strategy:**
-- Decide: hold to settlement or exit now?
-- Less time for price to move significantly
-- Lock in gains vs. wait for final payout
-
-### Far from Settlement
-
-```
-✅ Age: 10 days
-⏳ Stability: Moderate variance
-❌ Agreement: Prices diverging
-```
-
-**Interpretation:**
-- Still active debate
-- Prices will continue moving
-- More opportunity for trading
-
-**Strategy:**
-- More time to trade
-- Can be patient
-- Don't rush decisions
-
-## Common Patterns to Recognize
-
-### The Pump
-
-**Pattern:**
-Rapid price increase, often on news or hype
-
-**Warning signs:**
-- Too fast, not sustainable
-- Volume doesn't support move
-- No fundamental change
-
-**Strategy:**
-- Be skeptical
-- Don't FOMO in
-- Wait for confirmation or pullback
-
-### The Dump
-
-**Pattern:**
-Rapid price decrease, often panic-driven
-
-**Opportunity:**
-- If fundamentals intact: buying opportunity
-- If fundamentals changed: stay away
-
-**Strategy:**
-- Assess why it's happening
-- Don't catch falling knife blindly
-- Wait for stabilization
-
-### The Rotation
-
-**Pattern:**
-Capital shifts from one opinion to another
-
-**Watch for:**
-- Opinion A down, Opinion B up (similar amounts)
-- Suggests preference shift, not capital leaving
-- New consensus forming
-
-**Strategy:**
-- Understand why rotation happening
-- Follow or fade?
-
-### The Consensus
-
-**Pattern:**
-Prices stabilizing around distribution that persists
-
-**Characteristics:**
-- Low volume
-- Tight ranges
-- Multiple confirmations
-
-**Signal:**
-Settlement approaching
-
-**Strategy:**
-- Finalize positions
-- Prepare for settlement
-
-## Combining Signals
-
-Never rely on one signal. Combine:
-
-**Price + Volume + Holder Distribution + Activity + Settlement Progress**
-
-**Example bullish setup:**
-- ✅ Price in uptrend
-- ✅ Volume increasing
-- ✅ New holders accumulating
-- ✅ Positive news/arguments
-- ✅ Far from settlement (time to develop)
-
-**Example bearish setup:**
-- ❌ Price in downtrend
-- ❌ Volume on down days
-- ❌ Large holders exiting
-- ❌ Negative developments
-- ⏳ Approaching settlement (limited time)
-
-## Practice Makes Better
-
-Reading markets is a skill developed through:
-
-**Observation:**
-- Watch multiple debates
-- Note patterns
-- See what works
-
-**Experience:**
-- Make trades
-- See outcomes
-- Learn from results
-
-**Reflection:**
-- Why were you right/wrong?
-- What signals did you miss?
-- What patterns emerged?
-
-<Callout title="Key Insight" type="info">
-Markets are conversations in price form. Learning to read them is learning to understand what the collective is saying—and identifying when the collective might be wrong.
+<Callout title="Settlement is automatic" type="info">
+No voting, no oracle, no admin decision. When on-chain price history meets the mathematical criteria, settlement executes.
 </Callout>
 
-## Next Steps
+## Replacement Mechanics
 
-You now have the foundation:
-- How to make your first trade
-- How to manage positions
-- How to read market signals
+**The threshold: 105%**
 
-Ready to explore ways to participate more deeply?
+A candidate can replace the weakest active opinion when:
 
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-  <a href="/docs/participating" className="block p-4 border rounded-lg hover:border-primary transition-colors">
-    <div className="font-semibold mb-1">Ways to Participate →</div>
-    <div className="text-sm text-muted-foreground">Trade, create debates, propose opinions</div>
-  </a>
+```
+Candidate vault value ≥ (Weakest active vault × 1.05)
+```
 
-  <a href="/docs/how-it-works" className="block p-4 border rounded-lg hover:border-primary transition-colors">
-    <div className="font-semibold mb-1">How the System Works →</div>
-    <div className="text-sm text-muted-foreground">Settlement, fees, and mechanics</div>
-  </a>
-</div>
+**Example:**
+- Weakest active opinion: $1,000 vault
+- Candidate needs: $1,050 to trigger replacement
+
+**The 5% buffer** prevents constant back-and-forth. Meaningful gap required.
+
+**What happens on replacement:**
+1. Candidate becomes active (its vault enters active market)
+2. Weakest active becomes candidate (its vault enters candidate pool)
+3. All share counts unchanged
+4. Position values adjust to new vault configuration
+
+**If you hold the replaced opinion:** Your shares are still valid. The opinion can re-enter if it gains support again. You can exit anytime to claim current candidate vault value.
+
+## Liquidity and Slippage
+
+**Liquidity = Total vault value across all active opinions**
+
+Higher liquidity = less price impact from same-sized trade
+
+**Example trade: $1,000 purchase**
+- In $10k liquidity debate: ~10% of liquidity, significant slippage
+- In $1M liquidity debate: 0.1% of liquidity, minimal slippage
+
+**Slippage scales nonlinearly** due to how the AMM works—higher liquidity means less price impact.
+
+You can see expected slippage when previewing trades in the UI.
+
+## UI Elements
+
+### Debate Overview
+
+- **Title/Question:** What's being debated
+- **Total Liquidity:** Sum of all active opinion vaults
+- **Settlement Status:** Progress toward criteria
+- **Time Active:** How long debate has existed
+
+### Opinion Cards
+
+Each active opinion shows:
+- **Price:** Current percentage (0-100%)
+- **Vault Value:** Total USDC backing this opinion
+- **Your Position:** If you hold shares, your current value
+
+### Your Positions Tab
+
+- Shows all opinions you hold shares in
+- Current value of each position
+- Unrealized gain/loss (if applicable)
+- Exit button for each
+
+### Candidate Pool Tab
+
+- All proposed opinions not yet active
+- Vault value for each candidate
+- Distance to replacement threshold
+- Which active opinion each would replace
+
+### Activity Feed
+
+- Recent trades (entries/exits)
+- Opinion replacements
+- Proposal submissions
+
+This is informational only—do your own analysis.
+
+## Mechanics-Specific Insights
+
+### Price Distribution Tells You Nothing About "Correctness"
+
+Prices reflect collective capital-weighted belief. That's it.
+
+High price = lots of capital backing it. Doesn't mean it's "right" in any external sense. The consensus *is* what matters in these markets.
+
+### Settlement Prices Lock Final Value
+
+Your shares' value at settlement = their proportion of the vault at those frozen prices.
+
+If Python settles at 50%, holding 10% of Python shares means you claim 10% of Python's final vault value.
+
+### Replaced Opinions Don't Disappear
+
+Their vaults move to candidate pool. Holders can exit or wait for re-entry. Nothing forces you to sell.
+
+### You Can Exit Anytime Before Settlement
+
+No lock-ups. Want out? Exit at current prices (minus fees). You're never forced to hold until settlement.
+
+## What We're NOT Telling You
+
+We won't advise on:
+- When to buy or sell
+- What constitutes a "good" price
+- Trading strategies or patterns
+- Risk management
+- Position sizing
+- Whether markets are "efficient"
+- Technical analysis
+- Chart patterns
+
+**That's your responsibility.** We explain the system mechanics. You make your own decisions.
 
 ---
 
-*The market is always teaching. Pay attention, stay curious, and develop your ability to read what prices are saying.*
+*Understanding how the system works is different from knowing how to trade it. We provide the former. The latter is on you.*
