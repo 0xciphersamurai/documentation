@@ -1,0 +1,427 @@
+---
+title: Market Dynamics
+description: How the L² norm creates unique market properties
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Market Dynamics
+
+Trigger Market uses the L² norm (Euclidean distance) as its cost function. This choice creates unique market dynamics that encourage consensus formation. Let's understand why.
+
+## The Cost Function
+
+**Formula:** C = √(Σq²_i)
+
+Where:
+- C = Total cost (vault value)
+- q_i = Quantity of opinion i
+- Σ = Sum across all active opinions
+
+**In words:** The cost is the square root of the sum of squared quantities.
+
+**Why this specific formula?** Three key properties:
+
+## Property 1: Diminishing Marginal Returns
+
+### What It Means
+
+The more of an opinion exists, the cheaper it becomes to add more (in relative terms).
+
+**Example:**
+
+**Small opinion (q = 10):**
+- Cost to add 1 unit: Higher marginal cost
+- Price impact: Significant
+- Liquidity: Lower
+
+**Large opinion (q = 50):**
+- Cost to add 1 unit: Lower marginal cost
+- Price impact: Smaller
+- Liquidity: Higher
+
+### Why This Helps Consensus
+
+**Discourages extremes:**
+- Very high prices (one dominant opinion): Expensive to push higher
+- Very low prices (tiny opinions): Expensive to push lower
+- Sweet spot: Balanced distribution
+
+**Encourages diversity:**
+- Easy to support underdogs (cheap to add)
+- Hard to create monopolies (expensive at high q)
+- Natural balance emerges
+
+**Promotes stability:**
+- Large opinions resistant to manipulation
+- Small opinions easy to boost
+- System self-corrects toward balance
+
+## Property 2: Smooth Price Curves
+
+### What It Means
+
+Prices change continuously and predictably as quantities change. No sudden jumps.
+
+**Marginal price formula:**
+p_i = q_i / C = q_i / √(Σq²_j)
+
+**Properties:**
+- Differentiable everywhere
+- No discontinuities
+- No edge cases with infinite prices
+- Predictable slippage
+
+### Why This Matters
+
+**Predictable trading:**
+- You can calculate exact slippage before trading
+- No surprises
+- Better decision-making
+
+**Stable market making:**
+- Smooth curves = easier to provide liquidity
+- No sudden shocks
+- Reduces manipulation vectors
+
+**Fair pricing:**
+- Price reflects true marginal cost
+- No arbitrary jumps
+- Economically rational
+
+## Property 3: Convergence Pressure
+
+### What It Means
+
+The L² norm creates mathematical pressure toward stable equilibria.
+
+**How it works:**
+
+**When opinions have widely different quantities:**
+- High variance in distribution
+- Large price disparities
+- High trading incentives
+- System far from equilibrium
+
+**When quantities converge:**
+- Lower variance
+- Prices stabilizing
+- Fewer trading incentives
+- Approaching equilibrium
+
+### The Mechanism
+
+**If Opinion A is overpriced relative to opinion B:**
+1. Traders notice arbitrage opportunity
+2. Sell A (decreases q_A, increases p_B relatively)
+3. Buy B (increases q_B, decreases p_A relatively)
+4. Process continues until prices reflect consensus
+5. Equilibrium reached when no profitable trades remain
+
+**The L² norm ensures:**
+- Arbitrage opportunities diminish as equilibrium approaches
+- Final state is stable (no incentive to trade further)
+- Convergence is guaranteed given rational traders
+
+### Practical Example
+
+**Start state:**
+- Opinion A: q = 60, p ≈ 60%
+- Opinion B: q = 30, p ≈ 30%
+- Opinion C: q = 10, p ≈ 10%
+
+**If community actually believes A and B are equally good:**
+- Traders buy B (cheaper, undervalued)
+- Traders sell A (expensive, overvalued)
+- Process continues...
+
+**End state (equilibrium):**
+- Opinion A: q = 45, p ≈ 45%
+- Opinion B: q = 45, p ≈ 45%
+- Opinion C: q = 10, p ≈ 10%
+
+**Key insight:** The math makes it profitable to push toward true consensus.
+
+## Liquidity Dynamics
+
+### Depth vs. Constant Product
+
+**Traditional AMM (like Uniswap):**
+- Constant product: x × y = k
+- Liquidity concentrated in middle
+- Extreme prices have terrible liquidity
+- Works for 2-asset pools
+
+**L² norm (Trigger Market):**
+- Works natively for N opinions (not just 2)
+- Liquidity proportional to √(total quantity)
+- All opinions benefit from shared liquidity
+- No "isolated" positions
+
+### Shared Liquidity Pool
+
+**Key difference:** Every opinion shares the same liquidity pool.
+
+**Impact:**
+- Adding liquidity to Opinion A improves liquidity for all opinions
+- Trading Opinion A affects Opinion B's price (correlation)
+- System-wide liquidity, not per-pair
+- More efficient capital usage
+
+**Example:**
+- 10 opinions in debate
+- Total liquidity shared across all 10
+- Adding $100 to Opinion A improves liquidity for all
+- Compare to: 45 separate pairs in traditional AMM (10 choose 2)
+
+## Price Sensitivity
+
+### Relationship to Quantity
+
+Price sensitivity (slippage per unit) depends on current quantities:
+
+**Low quantity (q = 5):**
+- High sensitivity
+- Large price impact per unit
+- Illiquid
+- Suitable for small positions
+
+**Medium quantity (q = 25):**
+- Moderate sensitivity
+- Reasonable price impact
+- Decent liquidity
+- Suitable for most trading
+
+**High quantity (q = 80):**
+- Low sensitivity
+- Small price impact per unit
+- High liquidity
+- Suitable for large positions
+
+### Strategic Implications
+
+**For traders:**
+- Large positions: Buy gradually (reduce impact)
+- Small opinions: Expect higher slippage
+- Timing matters: After others trade, liquidity changes
+
+**For stakeholders:**
+- Want more liquidity? Increase quantity (buy or stake)
+- Defending position? Add liquidity naturally defends
+- Shared liquidity helps everyone
+
+## Convergence Timeline
+
+### Early Phase (Days 0-7)
+
+**Characteristics:**
+- High volatility
+- Large price swings
+- Active discovery
+- High trading volume
+
+**Why:**
+- Information being incorporated
+- Participants learning
+- Positions being established
+- Far from equilibrium
+
+**Opportunity:** Most profit potential, but highest risk
+
+### Middle Phase (Days 7-30)
+
+**Characteristics:**
+- Moderate volatility
+- Smaller price movements
+- Refinement happening
+- Steady volume
+
+**Why:**
+- Main positions established
+- New information causes adjustments
+- Approaching equilibrium
+- Some stability emerging
+
+**Opportunity:** Balanced risk/reward, still tradeable
+
+### Late Phase (Days 30+)
+
+**Characteristics:**
+- Low volatility
+- Minimal price changes
+- Near settlement criteria
+- Lower volume
+
+**Why:**
+- Consensus largely formed
+- Most information priced in
+- At or near equilibrium
+- Settlement approaching
+
+**Opportunity:** Low risk, low reward, good for holds
+
+## Manipulation Resistance
+
+### Why L² Norm Helps
+
+**1. Cost scaling:**
+- Manipulating prices requires moving quantities
+- Cost scales with √(magnitude)
+- Larger manipulations disproportionately expensive
+
+**2. Reversion pressure:**
+- Artificial prices create arbitrage opportunities
+- Other traders profit by correcting
+- Manipulator loses to arbitrageurs
+- Self-correcting system
+
+**3. Shared liquidity:**
+- Can't isolate one opinion pair
+- Manipulation affects whole market
+- More eyes watching
+- Harder to hide
+
+### Attack Examples
+
+**Pump attack (inflate one opinion):**
+- Attacker buys large amount of Opinion A
+- Price rises, q_A increases
+- Cost: Scales with √(q_A)
+- Result: Others sell A back down (arbitrage)
+- Outcome: Attacker loses on round-trip
+
+**Dump attack (crash one opinion):**
+- Attacker sells large amount of Opinion B
+- Price falls, q_B decreases
+- Cost: Opportunity cost of sold position
+- Result: Others buy B back up (cheap)
+- Outcome: Attacker sold low, others profit
+
+**Wash trading (fake volume):**
+- Attacker trades back and forth
+- Cost: Transaction fees on every trade
+- Result: No lasting price impact (equilibrium stays)
+- Outcome: Attacker pays fees for nothing
+
+**The math protects honest participants.**
+
+## Comparison to Alternatives
+
+### Why Not Linear Cost?
+
+C = Σq_i (simple sum)
+
+**Problems:**
+- Prices don't depend on distribution
+- No price discovery mechanism
+- No convergence pressure
+- Doesn't work for consensus markets
+
+### Why Not Constant Product?
+
+C = Π(q_i) (product, like Uniswap)
+
+**Problems:**
+- Only works for 2 opinions (extending to N is messy)
+- Creates isolated pairs (N choose 2 = many pairs)
+- Liquidity fragmentation
+- Complex arbitrage across pairs
+
+### Why L² Norm?
+
+**Advantages:**
+- Works elegantly for any number of opinions
+- Shared liquidity pool
+- Smooth, predictable prices
+- Convergence properties
+- Manipulation resistant
+- Value conservation (Euler's theorem)
+- Closed-form solutions (gas efficient)
+
+**The choice isn't arbitrary—it's mathematically optimal for multi-opinion consensus markets.**
+
+## Equilibrium States
+
+### Stable Equilibrium
+
+**Characteristics:**
+- All opinions priced fairly relative to collective belief
+- No arbitrage opportunities
+- Low volatility
+- Matches settlement criteria
+
+**How reached:**
+- Trading drives toward this state
+- Arbitrageurs eliminate mispricings
+- Convergence theorem guarantees approach
+- Time allows discovery
+
+### Unstable Equilibrium
+
+**Characteristics:**
+- Prices don't reflect true collective belief
+- Arbitrage opportunities exist
+- High volatility
+- Not sustainable
+
+**Why temporary:**
+- Profitable to trade away from
+- Natural reversion to stable state
+- Can't persist long-term
+
+### Multiple Equilibria?
+
+**Question:** Could there be multiple valid equilibria?
+
+**Answer:** For given beliefs, equilibrium is unique.
+
+**But:** Beliefs can change (new information), creating new equilibrium.
+
+**The system tracks collective belief toward whatever the current true equilibrium is.**
+
+## Practical Trading Insights
+
+### From Market Dynamics
+
+**1. Trade with the convergence:**
+- Identify mispriced opinions
+- Buy undervalued, sell overvalued
+- Let convergence do the work
+- Profit from correction
+
+**2. Watch quantity distributions:**
+- Extremely uneven = more volatility coming
+- Relatively even = approaching stability
+- Use as settlement signal
+
+**3. Liquidity scales with participation:**
+- More active debates = better liquidity
+- Better liquidity = tighter spreads
+- Network effects in action
+
+**4. Time is on truth's side:**
+- Short-term: Noise and volatility
+- Long-term: Convergence to consensus
+- Patience rewarded
+
+**5. Share liquidity means everything affects everything:**
+- Understand full market, not just your opinion
+- Rotations between opinions are common
+- System-level thinking helps
+
+<Callout title="The Elegance" type="info">
+The L² norm isn't just a technical choice—it's the mathematical foundation that makes consensus markets possible. Its properties create the incentives, stability, and convergence that turn trading activity into collective intelligence.
+</Callout>
+
+## Next: Security
+
+Market dynamics explain how the system naturally converges. But what about attacks and edge cases?
+
+<a href="/docs/advanced/security-considerations" className="block p-4 border rounded-lg hover:border-primary transition-colors mt-6">
+  <div className="font-semibold mb-1">Security Considerations →</div>
+  <div className="text-sm text-muted-foreground">Attack vectors, defenses, and safety mechanisms</div>
+</a>
+
+---
+
+*The mathematics creates the incentives. The incentives create the behavior. The behavior reveals consensus. Understanding the dynamics helps you work with the system, not against it.*

@@ -1,238 +1,93 @@
 ---
 title: Welcome to Trigger Market
-description: Where debates have weight, opinions have stakes, and consensus emerges through conviction
+description: Oracle-free consensus markets for subjective debates
 ---
-
-import { Callout } from 'fumadocs-ui/components/callout';
 
 # Welcome to Trigger Market
 
-**Debates matter.** They shape communities, drive decisions, and determine directions. But everywhere you look, debates are broken.
+**Trigger Market** enables something that hasn't existed before: prediction markets that don't need oracles. Markets where the answer emerges from the participants themselves.
 
-Arguments lost in comment threads. Opinions without consequences. No way to measure what the community actually believes. Endless discussion, zero resolution.
+## What This Means
 
-**We built something different.**
+Traditional prediction markets work great for objective questions: "Who will win the election?" or "Will Bitcoin hit $100K?" These have clear, verifiable answers.
 
-A platform where debates have real weight. Where backing your beliefs means putting stake behind them. Where consensus doesn't require oracles or authorities - it emerges naturally from collective conviction.
+But what about questions that don't have objective answers? Questions where reasonable people disagree, and the answer is what the community collectively decides?
 
-**This is Trigger Market.**
+- "Which technical approach should we prioritize?"
+- "What values should guide our DAO?"
+- "Which research direction deserves funding?"
 
-## What Makes This Different
+**These questions can now have markets too.** Not through some authority declaring truth, but through observable consensus formation.
 
-You've used social platforms. Forums. Discord. DAOs with endless governance debates.
+## How It Works (In Brief)
 
-**Traditional debates:**
-- ✗ Your voice gets lost in noise
-- ✗ No consequences for hot takes
-- ✗ No way to measure consensus
-- ✗ Loud voices dominate, not good arguments
-- ✗ Discussions never conclude
+1. **Someone creates a debate** with initial opinions
+2. **People trade on opinions they believe in** - prices adjust based on support
+3. **New opinions can challenge existing ones** - the market evolves dynamically
+4. **When prices stabilize, consensus is reached** - no oracle needed
+5. **Settlement happens automatically** based on final prices
 
-**Trigger Market:**
-- ✓ Your conviction moves prices - visible weight
-- ✓ Backing opinions requires stake - skin in the game
-- ✓ Prices reflect collective belief - measurable consensus
-- ✓ Quality arguments attract support - merit matters
-- ✓ Debates settle when natural consensus forms
-
-**Built on Base** - Ethereum's L2. Fast, cheap, fully onchain. No gatekeepers.
-
-## Three Ways to Participate
-
-<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-  <div className="p-6 border rounded-lg">
-    <h3 className="font-bold mb-3">🗣️ Back Opinions</h3>
-    <p className="text-sm text-muted-foreground mb-3">
-      Support perspectives you believe in. Your stake moves their price. Earn when consensus aligns with your conviction.
-    </p>
-    <p className="text-xs text-muted-foreground">
-      → Domain knowledge = edge<br/>
-      → Passion matters<br/>
-      → Profit when you're right
-    </p>
-  </div>
-
-  <div className="p-6 border rounded-lg">
-    <h3 className="font-bold mb-3">🎯 Create Debates</h3>
-    <p className="text-sm text-muted-foreground mb-3">
-      Launch questions your community cares about. Build the venue for consensus formation. Earn fees on all activity forever.
-    </p>
-    <p className="text-xs text-muted-foreground">
-      → 0.25% of all trades<br/>
-      → Build platform content<br/>
-      → Passive income compounds
-    </p>
-  </div>
-
-  <div className="p-6 border rounded-lg">
-    <h3 className="font-bold mb-3">💡 Propose Opinions</h3>
-    <p className="text-sm text-muted-foreground mb-3">
-      Spot what debates are missing. Add perspectives others overlooked. Earn fees when your insight matters.
-    </p>
-    <p className="text-xs text-muted-foreground">
-      → 0.25% of your opinion's trades<br/>
-      → Monetize insight<br/>
-      → Fill gaps, add value
-    </p>
-  </div>
-</div>
-
-## How It Works (The Essentials)
-
-### **Debates Replace Events**
-
-Traditional prediction markets: "Will X happen?"
-**Trigger Market:** "Which approach is best?" - Subjective questions, real disagreement
-
-### **Opinions Compete for Support**
-
-**Big League (10 max):** Active opinions in the main debate, tradeable prices, visible
-**Baby League (unlimited):** Candidates gathering stakes, waiting to enter
-
-**The cycle:** Strong opinions enter big league. Weak ones get replaced. Replaced ones can return if they regain support. Natural selection for ideas.
-
-### **Prices Reflect Collective Belief**
-
-Each opinion has a price representing community support. Prices between 0-1, but don't sum to exactly 1 (L² norm math - don't worry, it works).
-
-**What moves prices:**
-- You backing an opinion → price rises
-- Community loses faith → price falls
-- Arguments win in comments → price adjusts
-- External events → sentiment shifts
-
-### **Settlement = Natural Consensus**
-
-No oracle decides winners. Markets settle when prices stabilize naturally over time.
-
-**Four criteria (all required):**
-1. Debate at least 7 days old
-2. Price variance below threshold (stability)
-3. Current prices near historical means (no manipulation)
-4. Sustained across multiple checks (genuine consensus)
-
-**When settled:** Your shares pay out at final prices. Consensus recorded permanently onchain.
-
-### **The Math Works (Trust It)**
-
-You don't need to understand the formulas. The system is mathematically sound:
-- Prices can't be easily manipulated
-- Value is always conserved
-- Settlement is fair and deterministic
-- Everything verifiable onchain
-
-**Built by people who know AMM design, consensus mechanisms, and blockchain security.** It works. Participate confidently.
+The magic is in step 4: When people with real money at stake stop changing their positions, that *is* the consensus. The market has decided.
 
 ## Why This Matters
 
-**For Communities:**
-Finally a way to measure what you collectively believe. Governance decisions. Technical choices. Strategic directions. Let consensus emerge through economic stakes.
+This unlocks an entirely new class of coordination tools:
 
-**For Individuals:**
-Your voice amplified by conviction. Back what you believe, earn when you're right. Build debates that matter. Propose perspectives others miss.
+- **DAOs** can gauge sentiment on governance decisions
+- **Research communities** can prioritize competing approaches
+- **Organizations** can discover collective preferences
+- **Communities** can resolve debates with economic commitment
 
-**For Truth-Seeking:**
-Beliefs with consequences. Skin in the game. Quality arguments attract support. Bad arguments lose backing. Consensus emerges from merit, not volume.
+All without needing trusted authorities to declare outcomes.
 
-**For Builders:**
-You're not just participating - you're building the platform. Early contributors become owners. Reputation compounds. Create debates, propose opinions, shape the ecosystem.
+## What Makes It Possible
 
-## Quick Start
+Two key innovations work together:
 
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-  <a href="/docs/getting-started/quick-start" className="group block p-6 border rounded-lg hover:border-primary transition-all no-underline">
-    <h3 className="font-semibold mb-2 flex items-center gap-2">
-      Start Participating
-      <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
-    </h3>
-    <p className="text-sm text-muted-foreground">Connect wallet, join debates, make your voice count. 5 minutes to first participation.</p>
+**1. Mathematical Convergence**
+The L² norm AMM (the math powering the market) has a beautiful property: as liquidity grows, prices naturally become more stable. This creates favorable conditions for consensus to emerge. You don't need to understand the math—just know it makes oracle-free settlement possible.
+
+**2. Dynamic Evolution**
+Unlike traditional markets where outcomes are fixed, opinions can compete for inclusion. Weak perspectives get replaced by stronger ones. The debate evolves as understanding deepens.
+
+## Getting Started
+
+Ready to participate? Here's where to go next:
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+  <a href="/docs/introduction" className="block p-6 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-2 text-lg">📖 Introduction</div>
+    <div className="text-sm text-muted-foreground">Understand the vision and why it matters</div>
   </a>
 
-  <a href="/docs/understanding-debates/how-consensus-forms" className="group block p-6 border rounded-lg hover:border-primary transition-all no-underline">
-    <h3 className="font-semibold mb-2 flex items-center gap-2">
-      Understand How It Works
-      <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
-    </h3>
-    <p className="text-sm text-muted-foreground">Learn how debates evolve, consensus forms, and why social intelligence matters most.</p>
+  <a href="/docs/getting-started" className="block p-6 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-2 text-lg">🚀 Getting Started</div>
+    <div className="text-sm text-muted-foreground">Connect your wallet and make your first trade</div>
   </a>
 
-  <a href="/docs/ways-to-participate/creating-debates" className="group block p-6 border rounded-lg hover:border-primary transition-all no-underline">
-    <h3 className="font-semibold mb-2 flex items-center gap-2">
-      Launch Your Debate
-      <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
-    </h3>
-    <p className="text-sm text-muted-foreground">Create debates your community needs. Earn 0.25% of all activity. Build content, earn forever.</p>
+  <a href="/docs/understanding-debates" className="block p-6 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-2 text-lg">🧠 Understanding Debates</div>
+    <div className="text-sm text-muted-foreground">Learn how opinions, prices, and consensus work</div>
   </a>
 
-  <a href="/docs/ways-to-participate/building-presence" className="group block p-6 border rounded-lg hover:border-primary transition-all no-underline">
-    <h3 className="font-semibold mb-2 flex items-center gap-2">
-      Build Long-Term
-      <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
-    </h3>
-    <p className="text-sm text-muted-foreground">Reputation compounds. Early builders become owners. This is the long game.</p>
+  <a href="/docs/participating" className="block p-6 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-2 text-lg">🎯 Ways to Participate</div>
+    <div className="text-sm text-muted-foreground">Trade, create debates, propose opinions</div>
   </a>
 </div>
 
-## The Spirit
+## Built Fully Onchain
 
-**This isn't a trading platform** - It's a debate platform with economic stakes.
+Everything happens on Base (Ethereum L2):
+- All market logic in smart contracts
+- Permissionless participation
+- Transparent settlement
+- Censorship resistant
 
-**This isn't about profit maximization** - It's about making your voice count with real consequences.
-
-**This isn't finance** - It's social consensus formation where passion, domain knowledge, and community understanding matter more than charts.
-
-**You're not a trader** - You're a participant, contributor, and builder.
-
-**The platform is what users make it** - Every debate created, every opinion proposed, every argument made - that's the content. You're building this.
-
-## Who This Is For
-
-**Community members** who have strong opinions and want them to matter
-
-**Domain experts** whose knowledge should be rewarded when they're right
-
-**Governance participants** tired of endless forum debates with no resolution
-
-**Content creators** who want to earn from the debates and perspectives they contribute
-
-**Truth-seekers** who believe good arguments should win through merit, not volume
-
-**Builders** who see the opportunity to shape a genuinely new primitive
-
-## What You Need
-
-**A wallet** - MetaMask, Coinbase Wallet, Rainbow - anything that supports Base
-
-**Some USDC on Base** - Start with $50-200 to learn how it works
-
-**Opinions you care about** - Topics that matter to you, debates you want to participate in
-
-**Willingness to learn** - This is genuinely new. Understanding how it works gives you edge.
-
-**That's it.** No KYC, no approval, no gatekeepers. Connect and start participating immediately.
-
-<Callout title="You're Early" type="info">
-Consensus markets are genuinely new infrastructure. Traditional prediction markets are limited to objective events. This works for subjective debates - questions with no oracles, just collective agreement.
-
-**Early participants:**
-- Build reputation while competition is low
-- Claim the best debate topics
-- Establish presence as platform grows
-- Likely become governance token holders
-
-The opportunity right now won't last forever. Build while it's early.
-</Callout>
-
-## Next Steps
-
-**New to this?** Start here: [Quick Start Guide](/docs/getting-started/quick-start)
-
-**Want to understand the vision?** Read: [The Future of Consensus](/docs/welcome/the-future-of-consensus)
-
-**Curious how mechanisms work?** See: [How Consensus Forms](/docs/understanding-debates/how-consensus-forms)
-
-**Ready to build?** Launch: [Create Your First Debate](/docs/getting-started/launch-your-debate)
+The frontend is just a convenient interface. The blockchain is the source of truth.
 
 ---
 
-**The debates are live. Your voice matters. Make it count.**
+**The vision:** A world where any community can create markets for their debates, where consensus emerges from participants with skin in the game, and where collective intelligence becomes visible through prices.
+
+Let's build it together.

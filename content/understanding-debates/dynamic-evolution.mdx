@@ -1,0 +1,402 @@
+---
+title: Dynamic Evolution
+description: How markets adapt through opinion competition and replacement
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Dynamic Evolution
+
+Traditional prediction markets lock in outcomes at creation. Consensus markets are different: they **evolve as understanding deepens**.
+
+This adaptability is what makes them suitable for complex, subjective debates where the right framing emerges over time.
+
+## The Problem with Static Markets
+
+Imagine creating a prediction market in 2010: "Which mobile OS will dominate?"
+
+Initial options:
+- Symbian
+- BlackBerry OS
+- Windows Mobile
+- Palm OS
+
+**What's missing?** iOS and Android—the actual winners—barely existed yet.
+
+A static market would be stuck with outdated options. Participants forced to choose from a set that doesn't reflect reality.
+
+## The Dynamic Solution
+
+In Trigger Market, opinions **compete for inclusion**:
+
+- Markets start with initial opinions (3-10)
+- Anyone can propose new opinions
+- New opinions accumulate support in the candidate pool
+- When a candidate demonstrates sufficient support, it can **replace** a weak active opinion
+- Replaced opinions don't disappear—they become candidates and can return
+
+The market **adapts** based on demonstrated economic support.
+
+## How Opinion Competition Works
+
+### The 10-Opinion Limit
+
+Active markets are capped at 10 opinions maximum.
+
+**Why?**
+1. **Cognitive clarity**: Users can meaningfully evaluate 10 competing perspectives
+2. **Mathematical stability**: L² norm prices remain well-behaved
+3. **UX simplicity**: Interface stays usable and clear
+
+With 10 slots, opinions must compete to stay included.
+
+### What Makes an Opinion "Weak"
+
+Opinions are ranked by **vault value**—the total value they could pay out if completely liquidated.
+
+Mathematically: V = q² / (||q|| + √(||q||² - q²))
+
+In practice: **Lower support = lower vault value = more vulnerable to replacement.**
+
+### The Replacement Threshold
+
+A candidate can replace the weakest opinion when:
+
+**Candidate stake ≥ 1.05 × (Weakest opinion's vault value)**
+
+The 5% buffer (threshold) prevents rapid flip-flopping.
+
+**Example:**
+- Weakest opinion value: $100
+- Candidate needs: $105+
+- Buffer prevents immediate back-and-forth replacement
+
+This threshold is governance-adjustable (typically 0-20%), balancing market stability with evolutionary pressure.
+
+## The Replacement Cycle
+
+### Stage 1: Proposal
+
+Riley believes "Approach X" is missing from the debate. They propose it with initial stake ($25).
+
+**Approach X enters candidate pool:**
+- Not yet in the AMM
+- No price, just accumulated stake
+- Progress bar shows: "$25 / $105 needed"
+- Others can add stake if they agree
+
+### Stage 2: Accumulation
+
+More people review Approach X and stake:
+- Alice adds $30
+- Bob adds $25
+- Carol adds $30
+- Total: $110
+
+**Threshold reached!** Approach X is now eligible for replacement.
+
+### Stage 3: Replacement Trigger
+
+Anyone (doesn't have to be a staker) clicks "Replace Weakest Opinion"
+
+**What happens:**
+1. **Contract identifies weakest opinion** (say, "Approach Z" with $100 vault value)
+2. **Approach Z exits:**
+   - Liquidated at $100
+   - Becomes candidate with $100 stake
+   - All Z shareholders' shares now represent claims on $100 candidate stake
+3. **Approach X enters:**
+   - $110 stake converts to AMM quantity
+   - Now has price and trades
+   - All X stakers' shares now represent claims on AMM quantity
+
+**Gas cost:** ~$0.10-0.30 paid by whoever triggers
+**Net result:** Market evolved. X in, Z out. Z can return if support builds.
+
+### Stage 4: The Cycle Continues
+
+**Weeks later:**
+- Approach Z (now candidate) accumulates $130 stake
+- Becomes eligible to replace whoever is now weakest
+- Can re-enter the AMM
+- Cycle continues...
+
+## Why This Creates Better Markets
+
+### Initial Framings Can Be Wrong
+
+Debate creators don't always know the best way to frame questions. Initial opinions might:
+- Miss important perspectives
+- Include irrelevant options
+- Use unclear language
+- Reflect limited understanding
+
+**Dynamic evolution lets the market correct this organically.**
+
+### New Information Emerges
+
+As debates progress:
+- New approaches develop
+- Technology evolves
+- Understanding deepens
+- Better framings become clear
+
+**Markets adapt to incorporate new information.**
+
+### Community Discovery
+
+The best perspectives often emerge from collective exploration, not individual insight.
+
+**Example:**
+Initial debate: "Best database for our use case?"
+- PostgreSQL
+- MongoDB
+- MySQL
+
+After discussion:
+- "Actually, we need a hybrid approach"
+- This perspective gets proposed
+- Gains support, enters market
+- Market now reflects deeper understanding
+
+### Natural Selection for Quality
+
+Opinions that:
+- Don't resonate with the community
+- Lose relevance over time
+- Were based on outdated information
+- Simply don't have support
+
+...get replaced by stronger alternatives.
+
+The market **self-curates** based on demonstrated support.
+
+## Practical Examples
+
+### Example 1: Technology Debate
+
+**Debate:** "Best frontend framework for 2025?"
+
+**Week 1 (initial):**
+- React: 55%
+- Vue: 45%
+- Angular: 35%
+- Svelte: 30%
+
+**Week 3 (evolution):**
+- Someone proposes "Solid.js"
+- Gains traction in candidate pool
+- Replaces Angular (lowest support)
+- New market: React, Vue, Svelte, Solid.js
+
+**Week 6 (continued evolution):**
+- "Qwik" proposed and enters
+- Replaces Vue
+- Market keeps adapting
+
+**Result:** Market reflects current thinking, not initial assumptions.
+
+### Example 2: DAO Governance
+
+**Debate:** "How should we structure governance?"
+
+**Initial:**
+- Token voting: 48%
+- Quadratic voting: 42%
+- Conviction voting: 40%
+
+**After research:**
+- "Liquid democracy" proposed
+- Community researches, discusses
+- Gains support, enters market
+- Replaces conviction voting (least supported)
+
+**After more exploration:**
+- "Futarchy" proposed
+- Enters discussion, gains support
+- Eventually enters market
+
+**Result:** The debate evolved through collective learning.
+
+### Example 3: Opinion Comeback
+
+**Week 1:** "Approach A" active at 25%
+**Week 3:** Replaced by "Approach B" (became candidate)
+**Week 5:** New information favors A, people stake
+**Week 7:** "Approach A" re-enters, replaces "Approach C"
+**Week 10:** Settles at 38% (strongest opinion)
+
+**Result:** The market wasn't locked into initial mistake. A came back when understanding shifted.
+
+## Managing Evolution as a Participant
+
+### When Your Opinion Gets Replaced
+
+**Don't panic.** This is normal market evolution.
+
+**Your options:**
+1. **Unstake immediately** - Cut losses, move on (1% fee)
+2. **Hold and wait** - Believe in comeback, keep stake
+3. **Add more stake** - Support re-entry campaign
+
+**What you lost:** Exposure to AMM trading, potential gains from price appreciation
+
+**What you kept:** Proportional ownership, optionality on comeback
+
+### Supporting a Comeback
+
+If you believe a replaced opinion deserves to return:
+
+1. **Review the candidate**
+   - Why was it replaced?
+   - Has anything changed?
+   - Does it have merit?
+
+2. **Add stake**
+   - Contribute to re-entry pool
+   - Show economic commitment
+   - Help reach threshold
+
+3. **Advocate**
+   - Discuss in debate comments
+   - Explain why it matters
+   - Build community support
+
+**If enough people agree:** Opinion re-enters. You profit from being right.
+
+### Defending Your Opinion
+
+To prevent your active opinion from being replaced:
+
+**Maintain support:**
+- Keep position or add more
+- Attract other believers
+- Demonstrate ongoing value
+
+**Stay relevant:**
+- Respond to new information
+- Adapt arguments
+- Remain competitive
+
+**Accept evolution:**
+- If legitimately weaker, replacement is fair
+- Can re-enter later if circumstances change
+
+## The Meta-Game
+
+Opinion replacement creates interesting dynamics:
+
+### Strategic Timing
+
+**When to propose:**
+- Too early: Market not ready, wastes stake
+- Too late: Consensus already forming
+- Right time: Discussion active, minds open
+
+### Coalitional Dynamics
+
+Groups can coordinate to:
+- Support promising candidates
+- Defend valuable opinions
+- Shape market composition
+
+This isn't manipulation—it's collective action to express shared beliefs.
+
+### Information Cascades
+
+**Pattern:**
+1. Someone proposes compelling opinion
+2. Early stakers take risk
+3. If good, others pile in
+4. Rapid accumulation, enters market
+5. Market adapts quickly
+
+### Persistence vs. Adaptation
+
+**Tension:**
+- Hold weak position hoping for comeback?
+- Cut losses and find better opportunity?
+
+No right answer—depends on conviction and information.
+
+## Why Evolution Matters
+
+### Better Consensus Quality
+
+Dynamic markets produce higher-quality consensus because:
+- Initial framings can be corrected
+- New information incorporated
+- Bad options filtered out
+- Good options emerge organically
+
+### Longer Useful Life
+
+Static markets become stale. Dynamic markets stay relevant longer:
+- Adapt to changing context
+- Incorporate new developments
+- Remain useful as situation evolves
+
+### More Engaging
+
+Participants stay engaged because:
+- Market composition changes
+- New opportunities arise
+- Strategic depth increases
+- Learning continues
+
+### True Discovery
+
+The process itself generates knowledge:
+- What perspectives matter most?
+- How do framings shape outcomes?
+- Where does consensus naturally form?
+
+These insights emerge through evolutionary process, not initial planning.
+
+<Callout title="The Vision" type="info">
+Markets aren't just measuring consensus—they're discovering what consensus even means. Evolution is part of the process, not a bug to eliminate.
+</Callout>
+
+## Governance Parameters
+
+The replacement threshold (currently 5%) can be adjusted by governance:
+
+**Lower threshold (0-5%):**
+- Faster evolution
+- More replacements
+- Higher churn
+- More dynamic
+
+**Higher threshold (5-20%):**
+- Slower evolution
+- Fewer replacements
+- More stability
+- Less churn
+
+Different debates might warrant different settings. Critical decisions might use higher thresholds for stability. Exploratory debates might use lower for rapid adaptation.
+
+## Next Steps
+
+You now understand how consensus markets work:
+- Opinions and prices (what they mean)
+- Opinion lifecycle (how states work)
+- Consensus formation (how settlement happens)
+- Dynamic evolution (how markets adapt)
+
+Ready to participate?
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+  <a href="/docs/getting-started" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">Getting Started →</div>
+    <div className="text-sm text-muted-foreground">Connect wallet and make your first trade</div>
+  </a>
+
+  <a href="/docs/participating" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">Ways to Participate →</div>
+    <div className="text-sm text-muted-foreground">Trade, create, propose—find your role</div>
+  </a>
+</div>
+
+---
+
+*Evolution through economic competition. The market discovers what matters through demonstrated support.*

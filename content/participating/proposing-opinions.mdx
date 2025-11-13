@@ -1,0 +1,487 @@
+---
+title: Proposing Opinions
+description: How to add new perspectives to existing debates and earn creator fees
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Proposing Opinions
+
+Sometimes the best perspective isn't in the original debate. When you spot what's missing and propose it, you can earn fees if it gains traction.
+
+## Why Propose Opinions?
+
+### Fill the Gap
+
+Initial debates often miss important perspectives:
+- Creator couldn't anticipate every angle
+- New information emerged
+- Framings proved inadequate
+- Better alternatives exist
+
+**You can add what's missing.**
+
+### Earn Creator Fees
+
+**You earn 0.25% of all trading volume** for your opinion. Forever.
+
+When your opinion:
+- Enters the AMM (gets traded)
+- Stays active
+- Generates volume
+
+**You earn fees on every trade** involving that opinion.
+
+**Example:**
+- Your opinion generates $50K in trading volume
+- You earn: $50K × 0.25% = $125
+
+Popular opinions earn significant fees.
+
+### Shape the Debate
+
+By proposing quality opinions, you:
+- Improve debate quality
+- Expand the conversation
+- Contribute better perspectives
+- Help consensus formation
+
+## What Makes a Good Opinion?
+
+### 1. Genuinely Missing Perspective
+
+**Good proposals:**
+- Offer something current options don't
+- Address gaps in the debate
+- Represent legitimate alternative viewpoints
+- Would actually help the discussion
+
+**Bad proposals:**
+- Duplicate existing options
+- Offer nothing new
+- Just trying to earn fees
+- Low-effort spam
+
+**Test:** Would the debate be better with this opinion included?
+
+### 2. Well-Articulated
+
+**Your opinion should have:**
+- Clear thesis statement
+- Supporting arguments
+- Evidence or reasoning
+- Acknowledgment of trade-offs
+- Professional presentation
+
+**Quality matters.** The community won't stake on poorly written opinions.
+
+### 3. Appropriately Timed
+
+**Consider:**
+- Is the debate still active?
+- Has consensus already formed?
+- Is there room for this perspective?
+- Will it get attention?
+
+Proposing to a near-settled debate wastes effort.
+
+### 4. Viable Competitor
+
+**Ask honestly:**
+- Could this actually win consensus?
+- Or is it clearly inferior to existing options?
+- Does it have realistic support potential?
+
+Don't propose doomed opinions just to claim creator fees.
+
+## The Proposal Process
+
+### Step 1: Find the Right Debate
+
+**Look for debates where:**
+- Active discussion happening
+- Current opinions inadequate
+- Gap you can fill
+- Community would appreciate the addition
+
+**Browse:**
+- Trending debates (most activity)
+- Topics you understand deeply
+- Areas where you have expertise
+
+### Step 2: Formulate Your Opinion
+
+**Title:**
+- Clear, concise label
+- What this perspective is called
+- Maximum 200 characters
+- Example: "Hybrid Approach: Combine A and B"
+
+**Description:**
+- Full argument for this perspective
+- Why it has merit
+- How it differs from existing options
+- Supporting evidence
+- Maximum 10,000 characters
+
+**Use Markdown:**
+- Headers, lists, emphasis
+- Make it readable
+- Structure your argument
+
+### Step 3: Set Initial Stake
+
+**You must stake a minimum amount** (typically $10-25, governance parameter).
+
+This demonstrates:
+- You believe in this opinion
+- You have skin in the game
+- This isn't spam
+
+**How much to stake:**
+- Enough to show seriousness
+- Check replacement threshold (need 105% of weakest opinion's vault value to enter)
+- Consider if you want to get close to threshold alone or rely on others
+
+**Your stake:**
+- Goes into candidate pool
+- Others can add to it
+- You own proportional shares
+- Can unstake if opinion doesn't gain traction
+
+### Step 4: Submit Proposal
+
+**Review preview:**
+- How it will appear
+- Your initial stake
+- Gas cost (~$0.10-0.30)
+
+**Confirm transaction:**
+- Sign in wallet
+- Wait for confirmation
+- Opinion appears in "Candidate Opinions" tab
+
+**Done!** Your opinion is now a candidate.
+
+## After Proposing
+
+### Promote Your Opinion
+
+**Share why it matters:**
+- Comment in the debate explaining your thinking
+- Share on social media
+- Direct outreach to stakeholders
+- Present the case
+
+**Without promotion:** Good opinions can languish unnoticed.
+
+### Engage with Feedback
+
+**In the comments:**
+- Answer questions
+- Respond to critiques
+- Refine your arguments
+- Build support
+
+Engagement helps build momentum.
+
+### Monitor Progress
+
+**Watch the progress bar:**
+```
+$45 / $105 needed (105% of weakest active)
+43% to replacement threshold
+```
+
+**Track:**
+- Who's staking on your opinion
+- How fast stake is accumulating
+- What the weakest active opinion's value is (threshold changes)
+
+### Add More Stake (Optional)
+
+**If your opinion is close but needs a push:**
+- Add more of your own stake
+- Shows continued conviction
+- Helps reach threshold
+
+**But don't force it:** If organic support isn't coming, maybe the opinion isn't resonating.
+
+## Getting Into the AMM
+
+### Reaching the Threshold
+
+Your opinion can replace the weakest when:
+
+**Your stake ≥ 1.05 × (Weakest opinion's vault value)**
+
+**Example:**
+- Weakest opinion: vault value $100
+- Your opinion needs: $105+
+- The 5% buffer prevents immediate flip-flops
+
+### Triggering Replacement
+
+**Once eligible:**
+- Anyone can click "Replace Weakest Opinion"
+- Gas cost: ~$0.10-0.30 (paid by trigger)
+- Replacement happens automatically
+- Contract identifies weakest and swaps
+
+**You don't need to trigger it yourself** - anyone can (and will, since it costs little).
+
+### What Happens
+
+**Your opinion:**
+- Exits candidate pool
+- Enters AMM with calculated quantity
+- Now has a price
+- Can be traded
+
+**Replaced opinion:**
+- Exits AMM
+- Becomes candidate with its liquidation value
+- Can potentially return later
+
+**Your stake:**
+- Converts to AMM shares proportionally
+- You now hold AMM shares
+- Can trade them or hold
+
+**Example:**
+- You staked $30 out of $110 total (27% ownership)
+- Opinion enters with quantity q_new = 25 units
+- You receive 27% of 25 = 6.75 units
+- Current price: 0.38
+- Your position value: 6.75 × 0.38 = $2.565
+
+### Earning Fees
+
+**From this point forward:**
+- Every trade involving your opinion generates fees
+- You earn 0.25% of the volume
+- Accumulates in the contract
+- Claimable after settlement (365-day deadline)
+
+## If Your Opinion Stays Candidate
+
+### Managing Disappointment
+
+**Not every proposal succeeds.** That's okay.
+
+**Possible reasons:**
+- Timing wasn't right
+- Similar to existing option
+- Didn't resonate with community
+- Communication could have been better
+
+### Options
+
+**1. Unstake and Exit:**
+- Get your initial stake back (minus 1% fee if enabled)
+- Move on to other opportunities
+- Try again elsewhere
+
+**2. Hold and Wait:**
+- Maybe support will come later
+- New information might help
+- Patience could pay off
+- No deadline to unstake
+
+**3. Adjust and Repromote:**
+- Refine your arguments in comments
+- Address critiques
+- Try different messaging
+- See if fresh promotion helps
+
+### Learning
+
+**What can you learn?**
+- Was the opinion actually valuable?
+- Could you have presented it better?
+- Was timing the issue?
+- What would you do differently?
+
+Each attempt teaches something.
+
+## After Entering the AMM
+
+### Your Opinion is Now Active
+
+**It can:**
+- Be traded (generates fees for you)
+- Rise or fall in price
+- Eventually get replaced by another candidate
+- Be present at settlement
+
+### Managing Your Position
+
+**You hold shares as the proposer.**
+
+**Decisions:**
+- Hold through settlement (conviction play)
+- Sell if price rises (take profits)
+- Add more if you want more exposure
+- Manage like any other position
+
+**Your creator fees are separate from your position** - you earn 0.25% regardless of your holdings.
+
+### If Your Opinion Gets Replaced
+
+**Your opinion exits the AMM:**
+- Becomes candidate again
+- Receives liquidation value
+- Your shares convert to candidate stake claims
+
+**Your creator fees continue:**
+- If it re-enters later, fees resume
+- Previous trading already generated fees (claimable after settlement)
+
+**Can cycle multiple times:**
+- CANDIDATE → ACTIVE → CANDIDATE → ACTIVE...
+- You earn fees whenever it's active and trading
+
+## Multiple Proposals
+
+**You can propose multiple opinions:**
+- In the same debate (if you see multiple gaps)
+- Across different debates
+- Building portfolio of perspectives
+
+**Each opinion:**
+- Separate candidate pool
+- Separate stake requirement
+- Separate fee earning potential
+
+**Strategy:**
+- Diversify across debates/topics
+- One "hit" opinion can earn substantial fees
+- Quality over quantity
+
+## Best Practices
+
+### Do Your Research
+
+**Before proposing:**
+- Read all existing opinions thoroughly
+- Understand the debate context
+- Check if your idea is already covered
+- Evaluate if there's genuine demand
+
+### Write Quality Content
+
+**Your description is your pitch:**
+- Clear, structured, convincing
+- Acknowledge counterarguments
+- Provide evidence
+- Professional presentation
+
+### Be Patient
+
+**Good opinions take time:**
+- Building awareness
+- Accumulating support
+- Entering AMM
+
+Don't expect instant success.
+
+### Engage Constructively
+
+**In the debate:**
+- Discuss ideas, not personalities
+- Accept critique gracefully
+- Refine arguments based on feedback
+- Build relationships
+
+### Respect the Process
+
+**Don't:**
+- Spam multiple low-quality proposals
+- Manipulate or shill aggressively
+- Create sock puppets to stake
+- Game the system
+
+Reputation matters.
+
+## The Economics
+
+### Fee Potential
+
+**If your opinion:**
+- Enters AMM
+- Stays active through settlement
+- Generates $100K volume
+
+**You earn: $250** (0.25% of $100K)
+
+**If it cycles:**
+- Active for 2 weeks, generates $30K → You earn $75
+- Replaced, then re-enters
+- Active for 3 more weeks, generates $50K → You earn $125
+- Total: $200
+
+**Fees accumulate** across all active periods.
+
+### Risk/Reward
+
+**Cost:** Initial stake ($10-25) + gas (~$0.30)
+**Potential:** Unlimited fee earnings if opinion succeeds
+**Risk:** Lose initial stake if opinion fails badly
+
+**Break-even:** Need enough volume to cover initial stake + opportunity cost.
+
+**Example:**
+- Stake $20
+- Need $20 / 0.25% = $8,000 in volume to break even
+- Popular opinions easily exceed this
+
+## Advanced Strategies
+
+### Strategic Timing
+
+**Propose when:**
+- Debate has momentum
+- Clear gap exists
+- You can get initial supporters lined up
+- Market is receptive
+
+### Coalition Building
+
+**Before proposing:**
+- Discuss with community
+- Line up early stakers
+- Create shared ownership
+- Built-in promotion network
+
+### Iterative Refinement
+
+**Use comments to:**
+- Test reception before formal proposal
+- Refine based on feedback
+- Build consensus around framing
+- Launch with momentum
+
+### Portfolio Approach
+
+**Propose multiple opinions across debates:**
+- Diversify risk
+- Learn what works
+- Build reputation
+- Increase odds of success
+
+<Callout title="The Opportunity" type="info">
+Every valuable perspective added to a debate improves the entire system. If you can articulate what's missing, and the community agrees, you contribute to better consensus while earning fees.
+</Callout>
+
+## Next Steps
+
+You've learned about trading, creating debates, and proposing opinions. Understand why participation matters:
+
+<a href="/docs/participating/why-participation-matters" className="block p-4 border rounded-lg hover:border-primary transition-colors mt-6">
+  <div className="font-semibold mb-1">Why Participation Matters →</div>
+  <div className="text-sm text-muted-foreground">Network effects and collective success</div>
+</a>
+
+---
+
+*The best opinions often come from outside the initial framing. If you see what's missing, propose it. The market will decide if you're right.*

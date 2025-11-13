@@ -1,0 +1,417 @@
+---
+title: Understanding Your Position
+description: How to track, manage, and think about your holdings
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Understanding Your Position
+
+You've made your first trade. Now let's understand exactly what you own and how to manage it effectively.
+
+## What Shows in Your Profile
+
+Navigate to your profile (click your avatar → "Positions"). You'll see each position listed:
+
+```
+DEBATE: "Best React State Management 2025"
+OPINION: Zustand
+STATE: Active
+POSITION: 51.2 shares
+VALUE: $20.45
+P&L: +$0.45 (+2.25%)
+```
+
+Let's break down each element.
+
+## The Components
+
+### Debate
+
+The market this position belongs to. Click to return to debate page and see:
+- Current prices for all opinions
+- Recent trading activity
+- Settlement progress
+- Community discussion
+
+One debate can have multiple positions if you hold shares in different opinions.
+
+### Opinion
+
+The specific perspective you're backing. In the debate page:
+- Click the opinion name to see full description
+- Review the case being made
+- Check who else is holding
+- See its price history
+
+### State: Active vs. Candidate
+
+This is critical to understand:
+
+**ACTIVE (in the AMM):**
+- Opinion is trading in the main market
+- Has a price that changes with trades
+- Your shares represent AMM quantity claims
+- Can buy/sell using trading interface
+
+**CANDIDATE (in the pool):**
+- Opinion is not in main market currently
+- Accumulating stake, waiting to enter (or was replaced)
+- Your shares represent proportional stake claims
+- Can stake/unstake, cannot "trade" per se
+
+If you see "Previously Active" badge: Opinion was active, got replaced, now candidate. Can return if support builds.
+
+### Position (Shares)
+
+The quantity you own. This number is fixed unless you:
+- Buy more (increases shares)
+- Sell some (decreases shares)
+
+**Important:** Share count doesn't change when opinion switches between active/candidate states. Only the *interpretation* changes (AMM quantity vs. candidate stake).
+
+### Value
+
+What your position is worth right now:
+
+**If ACTIVE:**
+Value = Shares × Current price
+
+**If CANDIDATE:**
+Value = (Your shares / Total shares) × Total candidate stake
+
+This changes as:
+- Prices move (for active opinions)
+- More people stake (for candidates)
+- Trading happens
+
+Value is real-time. Refresh to see latest.
+
+### P&L (Profit & Loss)
+
+How much you're up or down:
+
+P&L = Current value - Amount you paid
+
+**Green (+):** You're profitable
+**Red (-):** You're at a loss
+**Percentage:** Relative to initial investment
+
+**Example:**
+- Bought for: $20.00
+- Current value: $23.50
+- P&L: +$3.50 (+17.5%)
+
+## Position Types
+
+### Long Positions (Buy and Hold)
+
+**What it means:**
+- You bought shares
+- Betting price will rise (or at least not fall much)
+- Profit if final settlement price > your average cost
+
+**When this works:**
+- Opinion gaining momentum
+- Community consensus shifting your way
+- New information supporting your view
+
+### Active Management
+
+**What it means:**
+- Buying and selling to capture price movements
+- Taking profits when prices spike
+- Accumulating when prices dip
+
+**When this works:**
+- You actively monitor the debate
+- Can identify temporary mispricings
+- Willing to pay transaction fees
+
+### Settlement Hold
+
+**What it means:**
+- Buy and hold until settlement
+- No intermediate trading
+- Payout determined by final price
+
+**When this works:**
+- Strong conviction in long-term consensus
+- Don't want to time the market
+- Willing to wait for resolution
+
+## Managing Active Positions
+
+### Monitoring
+
+**Daily check:**
+- Current price vs. your cost basis
+- Has anything changed in debate?
+- New opinions proposed?
+- Settlement getting close?
+
+**Weekly review:**
+- Overall P&L across all positions
+- Rebalance if needed
+- Consider selling laggards
+- Consider adding to winners
+
+### Adding to Positions
+
+**When to buy more:**
+- Price dipped but thesis unchanged
+- New positive information emerged
+- Want to increase exposure
+- "Averaging down" if you believe in recovery
+
+**How:**
+1. Navigate to debate page
+2. Select your opinion
+3. Enter additional amount
+4. Confirm trade
+
+New shares added to existing position. Your average cost basis adjusts.
+
+### Reducing Positions
+
+**When to sell some:**
+- Price spiked, want to lock gains
+- Conviction weakened
+- Need capital elsewhere
+- Risk management (cut losses)
+
+**How:**
+1. Go to debate page or profile
+2. Click "Sell"
+3. Enter share amount or USDC value you want
+4. Preview shows: USDC you'll receive, new position size
+5. Confirm
+
+Remaining shares stay in your position.
+
+### Full Exit
+
+**When to sell all:**
+- Thesis completely wrong
+- Settlement imminent and price acceptable
+- Need capital urgently
+- Want to eliminate exposure
+
+**How:** Same as reducing, but enter "Max" or all shares.
+
+After exit, position disappears from active positions (moves to history).
+
+## Managing Candidate Positions
+
+If your opinion got replaced and is now a candidate:
+
+### Your Options
+
+**1. Unstake immediately:**
+- Convert proportional stake to USDC
+- Cut losses and move on
+- 1% fee applies (if enabled)
+
+**2. Hold and wait:**
+- Opinion might regain support and re-enter
+- No deadline pressure
+- No costs to hold
+
+**3. Add more stake:**
+- Support comeback attempt
+- Help reach re-entry threshold
+- Increase potential gain if successful
+
+### Tracking Progress
+
+For candidate positions, watch:
+
+**Progress bar:**
+```
+$85 / $105 (105% of weakest active)
+Needs $20 more to be eligible for replacement
+```
+
+**Other stakers:**
+- Who else is supporting?
+- Is stake growing or stagnant?
+- Community sentiment?
+
+**Weakest active opinion:**
+- What's its current vault value?
+- Is it gaining or losing support?
+- Threshold changing?
+
+### If Opinion Re-Enters
+
+When your candidate opinion replaces the weakest active:
+
+1. **You receive notification**
+2. **Your shares now represent AMM quantity** (automatically)
+3. **Opinion has price again**
+4. **Can trade normally**
+
+No action needed—conversion happens automatically.
+
+## Multiple Positions Strategy
+
+You can hold positions in multiple opinions within same debate:
+
+### Spread Strategy
+
+**Approach:** Hold 2-3 different opinions
+**Why:** Diversify within the debate, reduce single-opinion risk
+**Risk:** Lower potential upside if one opinion dominates
+
+**Example:**
+- 40% of capital in Opinion A (most likely)
+- 30% in Opinion B (strong alternative)
+- 30% in Opinion C (dark horse)
+
+### Conviction Strategy
+
+**Approach:** All capital in one opinion
+**Why:** Maximum upside if you're right
+**Risk:** Maximum loss if you're wrong
+
+**Example:**
+- 100% in Opinion A
+- High conviction, willing to accept risk
+
+### Pairs Strategy
+
+**Approach:** Long one opinion implicitly "short" another (by not holding it)
+**Why:** Express relative belief
+**Risk:** Both could move against you
+
+**Example:**
+- Buy Opinion A, don't hold B
+- Betting A outperforms B
+- Useful when comparing close alternatives
+
+## Position Sizing
+
+How much to allocate to each position?
+
+### General Guidelines
+
+**High conviction, high knowledge:**
+- 20-40% of trading capital
+- You've researched deeply
+- Strong thesis
+
+**Medium conviction:**
+- 10-20% of capital
+- Reasonable thesis, some uncertainty
+- Want exposure but not max
+
+**Experimental/Learning:**
+- 5-10% of capital
+- Testing hypothesis
+- Learning experience
+
+**Never allocate:**
+- Money you can't afford to lose
+- More than you're comfortable with
+- Borrowed funds
+
+### Risk Management
+
+**Diversify across debates:**
+- Don't put all capital in one debate
+- Spread across different topics
+- Reduces correlation risk
+
+**Consider time horizons:**
+- Near-settlement debates: lower risk, lower reward
+- Early debates: higher volatility, more opportunity
+
+**Track total exposure:**
+- Sum of all position values
+- Should be ≤ your comfortable risk level
+
+## Understanding P&L
+
+### Unrealized vs. Realized
+
+**Unrealized P&L** (paper gains/losses):
+- Shown in profile while position open
+- Changes as prices move
+- Not final until you sell or settle
+
+**Realized P&L** (actual gains/losses):
+- Locked in when you sell
+- Or when debate settles and you claim
+- Actual USDC in/out
+
+### Accounting
+
+The system tracks for you:
+- Total amount spent acquiring position (accumulated vault)
+- Current position value
+- P&L = Value - Accumulated vault
+
+**Example:**
+- First buy: $20 → 50 shares
+- Second buy: $15 → 35 shares
+- Total shares: 85
+- Accumulated vault: $35
+- Current value (at price 0.45): 85 × 0.45 = $38.25
+- P&L: $38.25 - $35 = +$3.25 (+9.3%)
+
+### After Replacement
+
+If opinion exits to candidate:
+- Accumulated vault stays the same (what you spent)
+- Current value is now stake claim
+- P&L adjusts based on stake value vs. what you paid
+
+**Example:**
+- You spent $35 (accumulated vault)
+- Opinion exits with $30 liquidation value
+- Your 25% of shares → $7.50 stake value
+- P&L: $7.50 - $35 = -$27.50 (loss)
+
+This is why replacement can hurt if you bought high.
+
+## Best Practices
+
+### Track Your Reasoning
+
+For each position, remember:
+- Why did you take it?
+- What would change your mind?
+- What's your price target?
+- When will you reassess?
+
+### Set Rules
+
+Before entering positions:
+- "I'll sell if price reaches ___"
+- "I'll sell if opinion loses support and becomes candidate"
+- "I'll hold until settlement no matter what"
+
+### Review Regularly
+
+Weekly position review:
+- What's working? Why?
+- What's not? Why?
+- What did you learn?
+- Adjust strategy
+
+### Don't Panic
+
+Price movements are normal. Short-term volatility doesn't mean your thesis is wrong. Give positions time to develop unless fundamental thesis changes.
+
+## Next: Reading the Market
+
+Understanding your position is one thing. Understanding the broader market context is another:
+
+<a href="/docs/getting-started/reading-the-market" className="block p-4 border rounded-lg hover:border-primary transition-colors mt-6">
+  <div className="font-semibold mb-1">Reading the Market →</div>
+  <div className="text-sm text-muted-foreground">How to interpret prices, trends, and signals</div>
+</a>
+
+---
+
+*Your positions are expressions of belief. Managing them well means staying informed, being honest about what you know, and adapting when circumstances change.*

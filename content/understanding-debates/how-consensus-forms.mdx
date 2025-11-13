@@ -1,242 +1,324 @@
 ---
 title: How Consensus Forms
-description: Understanding the natural flow from chaos to agreement - and why the math works
+description: Understanding price stability and settlement through observable market dynamics
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 # How Consensus Forms
 
-Every debate starts chaotic. Multiple opinions competing. No clear winner. Prices moving as people discover it and stake their positions.
+The breakthrough of consensus markets is **settlement without oracles**. But how does the system actually know when consensus is reached? The answer: by watching the market itself.
 
-Then something beautiful happens: **consensus emerges naturally.**
+## The Core Insight
 
-Understanding this process helps you participate effectively. Not to game it - you can't. But to recognize where debates are in their lifecycle and what that means.
+When people with real money at stake stop changing their positions, consensus has formed.
 
-## The Natural Arc of Debates
+Think of it like a pendulum:
+- **Early**: Wild swings as opinions clash
+- **Middle**: Dampening oscillations as patterns emerge
+- **Late**: Tiny fluctuations around equilibrium
+- **Settled**: Still. The market has decided.
 
-Debates follow a predictable pattern. Not because they're forced to, but because this is how communities naturally reach agreement.
+The system doesn't decide truth. It observes: **Have prices stabilized?**
 
-### **Phase 1: Discovery (Days 1-7)**
+## What Price Stability Means
 
-**What's happening:**
-- Debate just launched or newly discovered
-- People finding it, reading opinions, forming initial views
-- Prices volatile as early stakes move things dramatically
-- No clear consensus yet - everything feels uncertain
+### Active Debate = Moving Prices
 
-**What it means for you:**
-- If you have strong conviction, this is when backing opinions is cheapest
-- Expect chaos - prices will swing wildly
-- Domain knowledge matters most here (you understand the topic better than prices reflect)
+In an active debate:
+- New information arrives → people trade → prices change
+- Arguments are made → opinions shift → prices adjust
+- People reconsider → capital reallocates → prices move
 
-**The feeling:** Like a party just starting. People arriving, conversations beginning, no clear vibe yet.
+High price variance means: **No consensus yet. Still debating.**
 
-### **Phase 2: Debate (Days 7-21)**
+### Emerging Consensus = Slowing Movement
 
-**What's happening:**
-- Arguments being made in comments
-- New information arriving
-- Opinions gaining or losing support based on merit
-- Some perspectives pulling ahead, others falling behind
-- Candidate opinions entering, weak ones exiting
+As debates mature:
+- Most arguments have been made
+- Strong positions reflected in prices
+- Fewer trades, smaller price impacts
+- Prices oscillate in narrower ranges
 
-**What it means for you:**
-- The debate is actually happening - participate in it
-- Your job is reading where sentiment is heading, not where it is now
-- Good time to propose new opinions if you see gaps
-- Still decent prices for backing opinions before consensus locks in
+Decreasing volatility means: **Consensus forming. Getting closer.**
 
-**The feeling:** Like a dinner party in full swing. Passionate discussions. Some arguments winning, some losing. Energy is high.
+### Consensus Reached = Stable Prices
 
-### **Phase 3: Crystallization (Days 21-40)**
+When consensus forms:
+- Prices stopped moving meaningfully
+- Participants expressed their views fully
+- No new information changing minds
+- Market at equilibrium
 
-**What's happening:**
-- Patterns becoming clear
-- One or two opinions pulling significantly ahead
-- Volatility decreasing as consensus forms
-- Trading slowing as positions settle
-- People mostly holding, not changing minds much
+Stable prices over time means: **Consensus achieved. Ready to settle.**
 
-**What it means for you:**
-- Consensus is forming - you can see where it's landing
-- Less opportunity for huge gains, but more certainty
-- Time to evaluate: does your conviction match where consensus formed?
-- If not, exit. If yes, hold for settlement
+## The Four Settlement Criteria
 
-**The feeling:** Like the dinner party winding down. Main arguments have been made. People found their positions. Calm settling in.
+For a market to settle, **all four criteria** must be met simultaneously:
 
-### **Phase 4: Settlement (Day 40+, varies)**
+### 1. Minimum Age
 
-**What's happening:**
-- Prices stabilized
-- Very little movement
-- System detecting sustained stability
-- Market approaching settlement
+**Requirement:** Market must exist for at least 7 days (default, set by creator)
 
-**What it means for you:**
-- The debate has concluded naturally
-- Consensus reached
-- Soon payouts will happen based on final prices
-- Too late to enter profitably, but you can see the outcome
+**Why:** Prevents premature settlement. Gives debates time to develop, arguments to be made, information to flow.
 
-**The feeling:** Like everyone leaving the party. Conversations concluded. Consensus reached. Natural ending.
+**Example:** A market created Tuesday cannot settle before next Tuesday, regardless of price stability.
 
-## What Drives Opinion Prices?
+### 2. Historical Stability (Low Variance)
 
-Not just "supply and demand" - that's too abstract. Here's what actually moves prices:
+**Requirement:** Time-weighted price variance < 0.0001 (about 1% standard deviation)
 
-**Community Support** - When more people believe in an opinion, they back it. More backing = higher price. This is the core driver.
+**What this means:** Prices have been stable over the market's history, weighted by how long each price persisted.
 
-**New Information** - Someone posts compelling arguments. A related project ships something impressive. New data arrives. Opinions whose case got stronger rise. Those whose case weakened fall.
+**Why time-weighted:** A 10-minute price spike contributes negligible weight. Days of stability dominate the calculation. This naturally filters manipulation.
 
-**Momentum & Attention** - Opinions getting discussed draw more attention. More attention = more evaluation = more backing (if the opinion is good) or more selling (if it's weak).
+**Example:**
+- Week 1: Prices volatile (variance: 0.05) ❌
+- Week 2: Prices calmer (variance: 0.002) ❌
+- Week 3: Prices stable (variance: 0.00008) ✅
 
-**Opinion Competition** - When a new candidate enters the big league, it takes support from others. When an opinion exits, its support redistributes. The ecosystem is dynamic.
+### 3. Current Agreement (Near Historical Mean)
 
-**Network Effects** - Early backers promote what they believe in. This brings more attention. If the opinion is solid, it compounds. If it's weak, scrutiny kills it.
+**Requirement:** Current prices must be within 2% of their historical averages
 
-## The Opinion Lifecycle (What It Means)
+**What this means:** Recent prices match long-term prices. No recent manipulation shifting things.
 
-You've heard "baby league" and "big league" - here's why that matters:
+**Why:** Prevents "sniping" where someone moves prices dramatically right before settlement.
 
-### **Baby League (Candidates)**
+**Example:**
+- Historical average for Opinion A: 45%
+- Current price: 44.5%
+- Difference: 0.5% < 2% ✅
 
-**What it is:** Opinions gathering support outside the main debate.
+- If current price: 48%
+- Difference: 3% > 2% ❌
 
-**What it means:** These are perspectives trying to prove they deserve to be in the main conversation. They need believers to stake on them.
+### 4. Sustained Confirmation
 
-**Why it matters to you:**
-- Backing baby league opinions = betting they'll make it to the big league
-- If they do, you were early → better effective price
-- But risk they never make it → stake sits there or you unstake at loss
+**Requirement:** Conditions 2 and 3 must hold for 5+ consecutive checks (at least 2.5 hours with 30-min update intervals)
 
-**The dynamic:** Like minor league sports. Proving themselves. Some graduate to majors. Some don't.
+**What this means:** Stability isn't a lucky moment—it's sustained over multiple independent observations.
 
-### **Big League (Active)**
+**Why:** Guards against temporary calm followed by renewed volatility.
 
-**What it is:** The top opinions actively debated and priced by the community.
+**Example:**
+```
+Check 1 (12:00): Stable ✅ (1/5)
+Check 2 (12:30): Stable ✅ (2/5)
+Check 3 (13:00): Volatile ❌ (reset to 0/5)
+Check 4 (13:30): Stable ✅ (1/5)
+Check 5 (14:00): Stable ✅ (2/5)
+Check 6 (14:30): Stable ✅ (3/5)
+Check 7 (15:00): Stable ✅ (4/5)
+Check 8 (15:30): Stable ✅ (5/5) → Settlement eligible
+```
 
-**What it means:** These are the main contenders. The conversation centers on them. They have real prices reflecting real community support.
+## How Tracking Works
 
-**Why it matters to you:**
-- This is where most action happens
-- Prices are "real" - reflect actual consensus
-- Backing these is straightforward: you think the price is too low, you back it
+### EWMA (Exponentially Weighted Moving Averages)
 
-**The dynamic:** Like major league sports. The main stage. Highest stakes. Most attention.
+The system tracks price stability using EWMA—a mathematical technique that:
 
-### **The Circulation**
+- **Weights recent prices more** than old prices (exponential decay)
+- **Weights by duration** prices persisted, not just occurrence
+- **Updates efficiently** without storing full price history
+- **Detects stability** through variance calculation
 
-**Here's the key insight:** Opinions move between these states based on support.
+You don't need to understand the math. The key property: **Brief manipulation filtered out, sustained stability detected.**
 
-**Baby → Big:** Gets enough backing → enters main debate → starts trading with real price
+### Update Timing
 
-**Big → Baby:** Loses support, gets replaced → drops to candidates → can come back if it regains support
+Settlement criteria are checked:
 
-**Why this matters:** Nothing is permanent. Weak arguments get cycled out. Strong arguments can return. The debate self-curates based on what the community values.
+1. **During trades:** If 30+ minutes passed since last check, automatically update
+2. **Manual trigger:** Anyone can click "Update Settlement Status" (if 30+ min passed)
 
-**Your role:** You shape which opinions circulate. Your backing determines what rises and what falls.
+**30-minute cooldown:** Batches multiple trades into single update, saves gas, prevents spam.
 
-## Why The Math Works (Don't Worry About It)
+### What You See
 
-You might wonder: "How do prices stay fair? How does settlement work without an oracle? What prevents manipulation?"
+On the debate page:
 
-**The short answer:** The math is designed so that:
-- Prices automatically reflect collective support
-- Big stakes cost more than small stakes (you can't pump cheaply)
-- Settlement happens when real stability is achieved (can't be faked)
-- Every dollar in equals every dollar accounted for (no hidden value creation)
+```
+Settlement Progress:
+✅ Minimum Age: 14 days (required: 7 days)
+✅ Historical Stability: Low (variance: 0.00008 < 0.0001)
+✅ Current Agreement: Yes (max deviation: 1.2% < 2%)
+⏳ Confirmations: 3/5 (needs 2 more consecutive checks)
+```
 
-**What you need to know:**
-- ✅ The system is mathematically sound
-- ✅ Prices can't be easily manipulated
-- ✅ Settlement is fair and deterministic
-- ✅ Your stake is always accounted for
+When all show green checkmarks → settlement triggers automatically on next check.
 
-**What you don't need to know:**
-- ❌ The L² norm cost function formula
-- ❌ How the Hessian decreases with liquidity
-- ❌ Exactly how EWMA calculates stability
+## The Settlement Process
 
-**Think of it like driving a car:** You don't need to understand internal combustion to drive safely. The engineers handled that. Same here - the math works, the system is secure, you can participate confidently.
+### When Criteria Met
 
-<Callout title="Built on Solid Foundations" type="info">
-The mechanisms are based on well-studied automated market maker mathematics and consensus detection algorithms. Multiple reviews, audits, and testing ensure correctness.
+1. **Market freezes immediately**
+   - No more trading
+   - No more staking/unstaking
+   - No more replacements
 
-**You don't need to trust - you can verify.** Everything is on-chain. The code is open. But for participation, just know: it works as intended.
-</Callout>
+2. **Final prices recorded**
+   - Current prices become permanent
+   - These determine all payouts
 
-## Reading Where Debates Are Headed
+3. **100-block confirmation period begins**
+   - Safety buffer (~20 minutes on Base)
+   - Prevents settlement during potential blockchain reorganization
 
-The most valuable skill isn't predicting outcomes - it's reading social dynamics.
+4. **After 100 blocks:**
+   - Payouts become claimable
+   - Fees become claimable (365-day deadline)
 
-**Signs consensus is forming around an opinion:**
-- Steady price increases over time (not spikes, steady)
-- Growing discussion and arguments in its favor
-- Key community members backing it
-- Counterarguments getting weaker or less frequent
+### Why 100 Blocks?
 
-**Signs an opinion is losing:**
-- Slow price decline or stagnation
-- Arguments against it gaining traction
-- Backers exiting positions
-- Newer, better alternatives emerging
+Blockchain finality isn't instant. A "reorg" (chain reorganization) could theoretically reverse recent blocks.
 
-**Signs a debate is maturing:**
-- Decreasing volatility
-- Fewer big price moves
-- Slower trading activity
-- Comments slowing down as people reach conclusions
+100 blocks ensures settlement is truly final and won't be undone. Standard safety practice for important state transitions.
 
-**Your advantage:** If you're deep in the community, you see sentiment shifts before prices reflect them. That's your edge - not finance skills, but social awareness.
+## Why This Works
 
-## Settlement: When Debates End
+### Defense in Depth
 
-Debates don't end on arbitrary timelines. They end when consensus naturally forms.
+Each criterion defends against different attacks:
 
-**How you know it's coming:**
-- Prices barely moving anymore
-- Very little trading activity
-- Comment discussions concluded
-- Clear leader(s) emerged
+**Minimum age** → Prevents instant manipulation at market creation
+**Historical stability** → Ensures genuine consensus, not temporary calm
+**Current agreement** → Blocks last-second sniping attempts
+**Sustained confirmation** → Requires consistency over time, not luck
 
-**What triggers it:**
-The system watches for sustained price stability. When prices stop changing for long enough, that signals consensus has been reached.
+All four together create robust protection.
+
+### Natural Manipulation Resistance
+
+The time-weighting is key:
+
+**Attacker's attempt:**
+- Spend $10K to manipulate prices for 30 minutes
+- Hope to trigger settlement
 
 **What happens:**
-- Market freezes at current prices
-- Those prices become final
-- Everyone's shares pay out at those final prices
-- Debate becomes historical record
+- Those 30 minutes contribute minimal weight (30 min out of days/weeks)
+- Historical variance barely changes
+- Criteria not met
+- Money spent, attack failed
 
-**Why this works:**
-When genuine consensus exists, prices naturally stabilize. People stop changing positions because the community has decided. The system just detects this natural endpoint.
+**To actually trigger settlement through manipulation:**
+- Must maintain artificial prices for *days*
+- At massive cost (fighting against natural equilibrium)
+- Economically irrational
 
-## Participating Effectively
+The math naturally filters attacks without complex detection logic.
 
-**Early phases:** Back what you believe in. Your conviction versus the chaos. High risk, high potential.
+### Adaptive to Market Types
 
-**Middle phases:** Engage in the actual debate. Comment, argue, share information. Shape consensus.
+Different debates have different dynamics:
 
-**Late phases:** Evaluate if your views align with where consensus landed. Hold if yes, exit if no.
+**Fast-moving debates:**
+- High trading activity
+- Frequent price changes
+- More updates, more data
+- System adapts, still detects stability when it comes
 
-**Throughout:** Remember you're part of forming consensus, not just betting on it. Your participation literally shapes outcomes.
+**Slow-moving debates:**
+- Occasional trades
+- Long periods of stability
+- Fewer updates but still tracked correctly
+- System works the same
 
-<Callout title="Consensus is Participation" type="info">
-You're not observing consensus formation from outside. You're IN it. Your backing moves prices. Your arguments shape opinions. Your proposals add options.
+The EWMA approach handles both gracefully.
 
-**This isn't prediction - it's participation in collective decision-making with economic stakes.**
+## Practical Example
+
+Let's follow a debate from creation to settlement:
+
+### Week 1: Active Debate
+```
+Prices volatile: 52% → 48% → 55% → 50%
+Variance: 0.02 (high)
+Settlement status: ❌ Age met, ❌ Stability not met
+```
+
+### Week 2: Maturing
+```
+Prices calming: 53% → 52% → 53% → 52%
+Variance: 0.005 (medium)
+Settlement status: ✅ Age met, ❌ Stability not met
+```
+
+### Week 3: Converging
+```
+Prices stable: 52.5% → 52.3% → 52.6% → 52.4%
+Variance: 0.00008 (low)
+Current prices match historical average
+Settlement status: ✅✅✅ Three criteria met, ⏳ Confirmations: 2/5
+```
+
+### Week 3, Days Later: Ready
+```
+Prices still stable for 5 consecutive checks
+Settlement status: ✅✅✅✅ All criteria met
+Next update: Settlement triggers
+```
+
+## Understanding Payouts
+
+### Payout Calculation
+
+**For each opinion you hold:**
+
+Payout = (Your shares) × (Final price)
+
+**Example:**
+- You hold 200 shares in Opinion A
+- Final price at settlement: 0.48
+- Your gross payout: 200 × 0.48 = $96
+- Minus 1% fee (if enabled): $95.04
+
+### Only Active Opinions
+
+**Important:** Only ACTIVE opinions (those in the AMM at settlement) receive payouts based on final prices.
+
+If your opinion is CANDIDATE at settlement:
+- No price (candidates don't have prices)
+- Your claim is on the candidate stake pool
+- You can unstake your proportional share (no deadline)
+
+### Claiming
+
+**No deadline for payouts:** Claim anytime after 100-block finality period.
+
+The system tracks your entitled payout forever. No rush. No expiration.
+
+(Fee claims for creators have 365-day deadline, but participant payouts never expire.)
+
+<Callout title="Key Takeaway" type="info">
+Settlement happens when observable price stability indicates consensus formation. No oracle judges truth. No authority declares winners. The market reveals its equilibrium, and that equilibrium determines outcomes.
 </Callout>
 
-## Next Steps
+## Why This Matters
 
-**Understand opinion dynamics deeper** - How the baby/big league cycle works in practice. See [Opinion Dynamics](/docs/understanding-debates/opinion-dynamics).
+Traditional prediction markets need:
+- External events to happen
+- Oracles to verify what happened
+- Clear "right" answers
 
-**Learn when to back opinions** - Timing, conviction, and participation strategies. See [Backing What You Believe](/docs/understanding-debates/backing-what-you-believe).
+Consensus markets need:
+- Participants to reach equilibrium
+- Observable price stability
+- Math to detect convergence
 
-**Master reading debates** - Spot where consensus is forming early. See [Reading the Room](/docs/understanding-debates/reading-the-room).
+This unlocks an entirely new class of markets—for debates, not predictions. For coordination, not forecasting.
+
+## Next: Dynamic Evolution
+
+Settlement is one half of what makes consensus markets work. The other half is how markets adapt and evolve:
+
+<a href="/docs/understanding-debates/dynamic-evolution" className="block p-4 border rounded-lg hover:border-primary transition-colors mt-6">
+  <div className="font-semibold mb-1">Dynamic Evolution →</div>
+  <div className="text-sm text-muted-foreground">How markets adapt as understanding deepens</div>
+</a>
 
 ---
 
-**Consensus forms naturally. Your job is to participate authentically and understand where the community is headed.**
+*Price stability is consensus made visible. The system doesn't decide—it observes and confirms.*

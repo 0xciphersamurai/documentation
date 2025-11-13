@@ -1,255 +1,237 @@
 ---
 title: Why It Matters
-description: Understand the broader implications and applications of oracle-free consensus markets
+description: The broader vision and what becomes possible with consensus markets
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 # Why It Matters
 
-Trigger Market isn't just another prediction market platform. It's infrastructure for a new kind of collective intelligence - one that works for questions traditional markets can't touch.
+Consensus markets aren't just a clever technical innovation. They're infrastructure for a fundamental problem: **how groups make decisions about questions that don't have objectively correct answers**.
 
-## The Limits of Traditional Prediction Markets
+## The Coordination Problem
 
-Prediction markets have proven remarkably effective at forecasting objective events. But they've remained limited to a narrow set of questions because they require:
+Every organization, community, and movement faces subjective debates:
 
-### External Resolution
+- Which direction should we go?
+- What values should guide us?
+- Which approaches deserve resources?
+- What priorities matter most?
 
-Someone or something must declare what happened. This creates:
-- **Centralization points**: Who do you trust?
-- **Manipulation risk**: Oracles can be corrupted
-- **Edge case ambiguity**: What if the event is unclear?
-- **Operational overhead**: Running oracles is expensive
+Traditional tools are inadequate:
 
-### Objective Outcomes
+**Voting** gives equal weight to everyone, regardless of information or commitment. It's easily gamed, often leads to polarization, and doesn't aggregate intensity of belief.
 
-Markets need discrete, verifiable results. This excludes:
-- Value judgments ("What's the best approach?")
-- Ongoing debates ("Which framework is superior?")
-- Complex evaluations ("Is this research promising?")
-- Philosophical questions ("What should we prioritize?")
+**Authority** centralizes decision-making in individuals or committees. It's efficient but eliminates diverse perspectives and creates single points of failure.
 
-**Result**: Huge classes of important questions remain unaddressed by market mechanisms.
+**Discussion** helps build understanding but rarely leads to clear consensus. Debates can continue indefinitely without resolution.
 
-## What Trigger Market Unlocks
+**Prediction markets** work brilliantly when there's an objective answer coming, but fail completely for subjective questions.
 
-### 1. Subjective Consensus Formation
+We've been missing a tool that:
+- Aggregates beliefs weighted by conviction
+- Incentivizes honest participation
+- Produces clear consensus signals
+- Works without trusted authorities
 
-For the first time, you can create markets on questions like:
+**Consensus markets fill this gap.**
 
-**Technology**
-- "Which architecture pattern is best for microservices?"
-- "Will Rust replace C++ in systems programming?"
-- "Is Server Components the future of React?"
+## What Becomes Possible
 
-**Governance**
-- "Should we fund this grant proposal?"
-- "Which product feature should we prioritize?"
-- "Is this protocol upgrade worth the complexity?"
+### DAO Governance That Actually Works
 
-**Research**
-- "Which AI safety approach is most promising?"
-- "Will quantum computing be practical by 2030?"
-- "Is dark energy real or a modeling artifact?"
+Current DAO governance often fails because:
+- Voter apathy (low participation)
+- Whale dominance (plutocracy concerns)
+- Binary choices (yes/no on complex questions)
+- No skin in the game (voting is free)
 
-**Strategy**
-- "Should we pivot to enterprise?"
-- "Is now the right time to launch?"
-- "Which market should we enter first?"
+**With consensus markets:**
 
-These questions have no objective answer, but they benefit enormously from aggregating informed opinion.
+A DAO considering "Which technical framework should we adopt?" can create a market with options:
+- Framework A
+- Framework B
+- Custom solution
+- Continue research
 
-### 2. Economic Truth-Seeking
+Members don't just vote—they **stake capital** on their beliefs. This creates:
 
-Traditional forums, polls, and voting suffer from:
-- **No cost to poor judgment**: Easy to have uninformed opinions
-- **Sybil attacks**: One person, many accounts
-- **Social pressure**: Groupthink and bandwagons
-- **No skin in the game**: Words are cheap
+- **Better information aggregation**: People who've researched deeply can express conviction through position size
+- **Real consequences**: You profit if you support the option that wins consensus, lose if you don't
+- **Clear signals**: Prices show real-time collective belief
+- **Natural evolution**: As information emerges, better options can enter
 
-Trigger Market solves this by requiring participants to **put money behind their beliefs**:
-
-<div className="grid gap-4 my-6">
-  <div className="border rounded-lg p-6">
-    <h3 className="font-semibold mb-2">With Trigger Market</h3>
-    <div className="space-y-3 mt-4">
-      <div className="flex items-start gap-3">
-        <span className="text-green-500 mt-1">✓</span>
-        <div>
-          <div className="font-medium">Economic commitment</div>
-          <div className="text-sm text-muted-foreground">Bad judgment costs you money</div>
-        </div>
-      </div>
-      <div className="flex items-start gap-3">
-        <span className="text-green-500 mt-1">✓</span>
-        <div>
-          <div className="font-medium">Sybil resistance</div>
-          <div className="text-sm text-muted-foreground">Each position requires capital</div>
-        </div>
-      </div>
-      <div className="flex items-start gap-3">
-        <span className="text-green-500 mt-1">✓</span>
-        <div>
-          <div className="font-medium">Incentivized honesty</div>
-          <div className="text-sm text-muted-foreground">Profit from being right, not popular</div>
-        </div>
-      </div>
-      <div className="flex items-start gap-3">
-        <span className="text-green-500 mt-1">✓</span>
-        <div>
-          <div className="font-medium">Information aggregation</div>
-          <div className="text-sm text-muted-foreground">Prices synthesize distributed knowledge</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-When people risk real money, they think harder, research deeper, and contribute genuine insight.
-
-### 3. Permissionless Coordination
-
-Anyone can:
-- **Create markets** on topics they care about (no approval needed)
-- **Propose opinions** that others might not have considered
-- **Participate globally** regardless of jurisdiction
-- **Earn from contribution** (creating markets, proposing opinions, early trading)
-
-This is coordination infrastructure that:
-- **Can't be shut down** (deployed on Base, a decentralized L2)
-- **Has no gatekeepers** (smart contracts enforce rules, not humans)
-- **Provides transparent records** (all trades and outcomes verifiable onchain)
-- **Enables programmable settlement** (DAOs can trigger actions based on results)
-
-### 4. Dynamic Truth Discovery
-
-Traditional markets are static: outcomes fixed at creation. Trigger Market debates **evolve**:
-
-**Initial framing** (Day 1):
-"Best state management for React?"
-- Redux
-- Zustand
-- Jotai
-
-**Community discovers** (Day 15):
-"Wait, server state is different from client state. We need better options."
-
-**New opinion proposed**:
-- TanStack Query (for server state)
-
-**Gets adopted**, market now reflects better understanding of the problem space.
-
-<Callout title="Living Markets" type="info">
-  Debates don't end when created. They evolve as understanding deepens, new perspectives emerge, and weak options get replaced by stronger ones. Markets become living records of collective intelligence.
-</Callout>
-
-## Real-World Applications
-
-### DAO Governance
-
-Instead of binary voting, create markets on strategic decisions:
-
-**Example**: "Should Uniswap deploy on Cosmos?"
-
-**Opinions**:
-- Yes, expand immediately
-- Yes, but after v4 launches
-- No, focus on Ethereum L2s
-- No, too much complexity
-
-Let the market aggregate informed opinion from stakeholders, developers, and community members. The winning opinion reflects genuine consensus, not political maneuvering.
+The DAO gets a clear signal of collective preference, weighted by conviction, with economic commitment backing it.
 
 ### Research Prioritization
 
-Academic and industry research faces constant tradeoffs about where to invest effort.
+Academic and industrial research communities face constant questions about resource allocation:
 
-**Example**: "Most promising path to AGI safety?"
+"Which research directions deserve funding?"
 
-**Opinions**:
-- Constitutional AI (Anthropic's approach)
-- Scalable oversight
-- Mechanistic interpretability
-- Multi-agent alignment
+**Traditional approaches:**
+- Grant committees (subject to bias and limited perspectives)
+- Citation counts (backward-looking)
+- Peer review (time-consuming, often political)
 
-Researchers stake on approaches they believe in. The market provides continuous feedback on where the field thinks resources should flow.
+**Consensus markets enable:**
+
+A research community creates a market: "Most promising approaches to [problem]"
+
+Researchers stake on approaches they believe in. As papers emerge, as experiments succeed or fail, as understanding evolves—the market adapts.
+
+- **Expert opinion aggregation**: Researchers with deep domain knowledge can weight in proportionally
+- **Real-time signals**: See what the community believes *now*, not what papers from 2 years ago said
+- **Resource allocation**: Funding follows market consensus
+- **Skin in the game**: Researchers profit by correctly identifying promising directions
+
+### Community Values and Direction
+
+Open source projects, online communities, and movements constantly debate values and direction:
+
+"What principles should guide us?"
+"What kind of community do we want to be?"
+
+These debates are never fully resolved. They simmer, divide, and consume energy.
+
+**Consensus markets provide:**
+
+A community creates a market for competing value frameworks:
+- Growth-focused
+- Sustainability-focused
+- Balance of both
+- Radical rethinking
+
+Members stake on frameworks they want. Over weeks or months, as discussions happen and examples accumulate, **consensus emerges through prices**.
+
+When prices stabilize, the community has its answer. Not imposed by leadership. Emerging from participants with commitment.
+
+### Investment Thesis Validation
+
+Investment DAOs and funds face subjective strategy questions:
+
+"Which sector shows most promise?"
+"Should we focus on infrastructure or applications?"
+
+**With consensus markets:**
+
+Fund members create markets for competing theses. Each member stakes capital. Over time, as information flows in, **collective belief becomes visible through prices**.
+
+This doesn't replace analysis—it **aggregates** it. Each member does their research, forms their view, and expresses it economically.
 
 ### Corporate Strategy
 
-Companies need ways to aggregate internal expertise without politics.
+Organizations face strategic decisions where there's no objectively right answer:
 
-**Example**: "Best go-to-market strategy for our B2B SaaS?"
+"Should we pivot to new market segments?"
+"Which product direction resonates most?"
 
-**Opinions**:
-- Product-led growth
-- Sales-led growth
-- Partner-led growth
-- Community-led growth
+Internal consensus markets let:
+- **Employees across divisions** contribute their on-the-ground knowledge
+- **Leadership** see aggregated belief weighted by conviction
+- **Strategy** emerge from distributed intelligence rather than committee decisions
 
-Employees (who know the product and market) stake on strategies they believe will work. Leadership gets unfiltered signal from those closest to reality.
+## Why Economic Commitment Matters
 
-### Investment Theses
+The key insight: **Requiring people to stake capital changes everything.**
 
-Coordinate capital around shared conviction.
+### Sybil Resistance
 
-**Example**: "Which L2 will win 2025?"
+Free voting is vulnerable to fake accounts and manipulation. Staking capital creates natural Sybil resistance—each additional voice costs real money.
 
-**Opinions**:
-- Optimism ecosystem
-- Arbitrum ecosystem
-- zkSync ecosystem
-- Base ecosystem
+### Information Revelation
 
-Traders put money where their research leads them. Price evolution reveals shifting market sentiment based on developments, launches, and adoption metrics.
+When votes are free, there's little incentive to research deeply. When capital is at stake, **people do their homework**.
 
-## Why Now?
+You're not clicking a button—you're risking your money on being right. This creates powerful incentives for honest evaluation.
 
-Three technological developments make this possible:
+### Quality Signals
 
-### 1. Blockchain Infrastructure
+In a market, **you profit by being right**. This aligns personal incentives with truth-seeking.
 
-**Base** (and other L2s) provide:
-- Low transaction costs (pennies per trade)
-- Fast finality (seconds, not minutes)
-- Decentralized execution (no single point of failure)
-- Programmable settlement (smart contracts = trustless logic)
+Compare to:
+- **Social media**: You're rewarded for engagement (often through outrage)
+- **Traditional voting**: No personal consequence for being wrong
+- **Debate forums**: Status comes from persuasion, not accuracy
 
-### 2. Mathematical Foundations
+In consensus markets, the incentive is clear: **figure out what will actually achieve consensus, and back it**.
 
-Novel AMM design using L² norm cost functions enables:
-- Natural price stability as markets mature
-- Closed-form solutions (efficient onchain computation)
-- Convergence properties (facilitating oracle-free settlement)
+## The Network Effect
 
-### 3. DeFi Maturity
+Here's what makes this powerful: **The more people participate, the better it works.**
 
-The ecosystem now has:
-- Established stablecoins (USDC for denominating markets)
-- Wallet infrastructure (MetaMask, Rainbow, Coinbase Wallet)
-- User familiarity with trading interfaces
-- Liquidity to bootstrap markets
+- More participants = more capital = more stable prices = clearer signals
+- More diverse perspectives = better information aggregation
+- More debates = more learning about what works
+- More use cases = more innovation in market design
 
-## The Vision
+This creates a flywheel:
 
-A world where:
+Better markets → More participants → Better information → Clearer consensus → More trust in the system → More use cases → Better markets
 
-- **Any debate can become a market** (no permission, no gatekeepers)
-- **Consensus emerges economically** (not through authority or politics)
-- **Truth-seeking is incentivized** (profit from being right)
-- **Knowledge is aggregated transparently** (onchain record of collective intelligence)
-- **Communities coordinate** without centralization
+## The Long-Term Vision
 
-This is infrastructure for collective decision-making at scale.
+Imagine a future where:
+
+- **Every DAO** runs consensus markets for major decisions
+- **Research communities** discover priorities through markets
+- **Open source projects** resolve direction through economic consensus
+- **Organizations** tap distributed intelligence for strategy
+- **Movements** discover shared values through participant commitment
+
+Not replacing discussion and deliberation, but **augmenting** it with economic signals.
+
+Not eliminating leadership, but **informing** it with aggregated intelligence.
+
+Not solving every problem, but **providing a tool** for a large class of coordination challenges.
+
+## Why Now
+
+Three things make this possible today that weren't before:
+
+**1. Blockchain infrastructure** - Smart contracts enable permissionless, trustless markets without centralized operators
+
+**2. Mathematical breakthroughs** - The L² norm AMM enables natural price convergence, making oracle-free settlement possible
+
+**3. Cultural readiness** - Communities are increasingly comfortable with market mechanisms for coordination
+
+We're at a unique moment where **the technology, the math, and the culture** align to make this possible.
+
+## What We're Building Together
+
+Trigger Market is infrastructure. Like a highway or a protocol. What gets built on top depends on the community.
+
+Early participants aren't just traders—they're **discovering what's possible**:
+
+- What kinds of debates work well?
+- How should markets be structured?
+- What settlement parameters make sense?
+- How do communities best use this tool?
+
+The answers emerge through doing, not planning. Through experimentation, not theory.
+
+**This is a collective project**. The vision is shared. The infrastructure is permissionless. The potential is being discovered.
+
+<Callout title="The Opportunity" type="info">
+We're not just building a platform. We're pioneering a new coordination mechanism. The communities and patterns that form now will shape how consensus markets evolve.
+</Callout>
 
 ## Next Steps
 
+Ready to see how the mechanism works in detail?
+
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-  <a href="/docs/introduction/key-innovations" className="block p-4 border rounded-lg hover:border-primary transition-colors">
-    <div className="font-semibold mb-1">Key Innovations →</div>
-    <div className="text-sm text-muted-foreground">Deep dive on novel mechanisms</div>
+  <a href="/docs/introduction/how-it-works" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">How It Works →</div>
+    <div className="text-sm text-muted-foreground">Detailed walkthrough of the mechanism</div>
   </a>
 
-  <a href="/docs/guides/earning-from-debates" className="block p-4 border rounded-lg hover:border-primary transition-colors">
-    <div className="font-semibold mb-1">Earning Guide →</div>
-    <div className="text-sm text-muted-foreground">How to make money on Trigger Market</div>
+  <a href="/docs/understanding-debates" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">Understanding Debates →</div>
+    <div className="text-sm text-muted-foreground">Deep dive into opinions, prices, and consensus</div>
   </a>
 </div>
+
+---
+
+*The infrastructure is permissionless. The vision is shared. The future is being built by everyone who participates.*

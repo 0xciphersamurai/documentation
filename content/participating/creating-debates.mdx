@@ -1,0 +1,457 @@
+---
+title: Creating Debates
+description: How to launch your own consensus markets and earn creator fees
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Creating Debates
+
+Anyone can create a consensus market. When you do, you earn a share of all trading fees forever. Here's how to launch quality debates.
+
+## Why Create Debates?
+
+### Economic Incentive
+
+**You earn 0.25% of all trading volume** in your debate. Forever.
+
+**Example:**
+- You create a debate
+- Over its lifetime, it generates $100,000 in trading volume
+- You earn: $100,000 × 0.25% = $250
+
+Popular debates can generate significant fees over weeks or months.
+
+### Intellectual Contribution
+
+You're:
+- Framing important questions
+- Creating spaces for collective intelligence
+- Contributing to coordination infrastructure
+- Building reputation as a thought leader
+
+### Community Service
+
+Good debates help communities:
+- Make better decisions
+- Discover consensus
+- Coordinate effectively
+- Resolve important questions
+
+## What Makes a Good Debate?
+
+### 1. Important Question
+
+**Good:**
+- "Which governance model should our DAO adopt?"
+- "Best technical approach for scaling solution?"
+- "What principles should guide our community?"
+
+**Bad:**
+- "Will it rain tomorrow?" (objective, has oracle)
+- "What's 2+2?" (not debatable)
+- "Which color is best?" (too arbitrary, no stakes)
+
+**Test:** Would a community genuinely benefit from discovering consensus on this question?
+
+### 2. Multiple Viable Perspectives
+
+The debate needs legitimate alternatives:
+
+**Good:**
+- 4-6 distinct, well-formulated opinions
+- Each has merit
+- Reasonable people could support any
+- No obviously "correct" answer
+
+**Bad:**
+- Only 2 options (too binary)
+- One option clearly superior (no real debate)
+- Options not mutually exclusive
+- Poorly defined alternatives
+
+### 3. Engaged Audience
+
+**Ask:**
+- Who cares about this question?
+- Will they participate?
+- Is there enough interest to generate activity?
+- Can you reach this audience?
+
+Without an audience, even great debates fail.
+
+### 4. Appropriate Timing
+
+**Consider:**
+- Is this question ripe for resolution?
+- Or too early (not enough information)?
+- Or too late (consensus already formed)?
+
+Timing matters.
+
+## The Creation Process
+
+### Step 1: Frame the Question
+
+**Your debate title** should be:
+- Clear and specific
+- Not too broad ("Best programming language" is too broad)
+- Not too narrow ("Best way to format this specific line of code" is too narrow)
+- Neutral (not leading toward a conclusion)
+
+**Good examples:**
+- "Most promising approach to [specific problem]"
+- "Best strategy for [specific situation]"
+- "How should [community] handle [decision]?"
+
+**Maximum 500 characters** for title.
+
+### Step 2: Write the Description
+
+**Include:**
+- Context: What's being decided and why it matters
+- Stakes: Why this question is important
+- Scope: What's in/out of bounds
+- Timeline: Any relevant deadlines or milestones
+
+**Aim for:**
+- 500-1500 words
+- Clear and accessible
+- Neutral tone
+- Markdown formatting supported
+
+**Maximum 10,000 characters**.
+
+### Step 3: Define Initial Opinions
+
+You must provide **3-10 initial opinions**.
+
+**For each opinion:**
+
+**Title** (required):
+- Clear, concise label
+- What this perspective is called
+- Maximum 200 characters
+
+**Description** (required):
+- Full argument for this perspective
+- Why it has merit
+- Supporting reasoning
+- Evidence if available
+- Maximum 10,000 characters each
+
+**Tips:**
+- Represent each opinion fairly
+- Don't strawman weak options
+- Give each a fighting chance
+- Include diverse perspectives
+
+**The 10-opinion hard cap:**
+- Ensures cognitive clarity
+- Maintains UX simplicity
+- Preserves mathematical stability
+- Forces curation of best options
+
+### Step 4: Set Initial Liquidity
+
+**Minimum: $50 USDC** (governance parameter, may adjust)
+
+**This amount:**
+- Distributed equally across all initial opinions
+- Seeds the AMM
+- You receive proportional shares
+- Can't be withdrawn (becomes market liquidity)
+
+**How to choose:**
+- More liquidity = more stable initial prices
+- Less liquidity = more volatile, higher risk
+- Consider your budget and expected activity
+
+**Example with 4 opinions:**
+- You deposit $80
+- Each opinion gets $20 worth of initial quantity
+- All start at equal prices
+- You hold shares worth $80
+
+### Step 5: Set Settlement Parameters (Optional)
+
+**Minimum debate duration:**
+- Default: 7 days
+- You can set higher (e.g., 30 days for critical decisions)
+- Cannot set lower than 1 day
+- Cannot exceed 365 days
+
+**Why customize:**
+- Important decisions need more time
+- Casual debates can settle faster
+- Depends on expected pace of discussion
+
+Other parameters (variance thresholds, etc.) use system defaults.
+
+### Step 6: Review and Deploy
+
+**Preview shows:**
+- How debate will appear
+- Initial opinion layout
+- Gas cost estimate (~$0.50-2.00 depending on opinion count)
+- Total cost (gas + liquidity)
+
+**Confirmation modal:**
+- Final check before deploying
+- Smart contract details
+- Transaction breakdown
+
+**Click "Create Debate":**
+- Sign transaction in wallet
+- Wait for confirmation (~2 seconds on Base)
+- Debate deploys with unique address
+- You're redirected to the debate page
+
+**Done!** Your debate is live.
+
+## After Creation
+
+### Promote Your Debate
+
+**Share widely:**
+- Social media (Twitter, Discord, Telegram)
+- Relevant communities and forums
+- Direct outreach to stakeholders
+- Blog posts or articles explaining context
+
+**Without promotion:** Even great debates languish unused.
+
+### Seed Initial Trading
+
+**Consider:**
+- Making some trades yourself (express your view)
+- Getting early supporters to participate
+- Creating initial price discovery
+- Demonstrating the mechanics
+
+Active markets attract more participation.
+
+### Engage in Discussion
+
+**Use the comments:**
+- Provide context and updates
+- Answer questions
+- Moderate constructively
+- Keep discussion healthy
+
+You're the debate "host" in some sense.
+
+### Monitor Health
+
+**Watch for:**
+- Trading activity (or lack thereof)
+- Quality of discussion
+- Spam or manipulation attempts
+- Settlement progress
+
+### Update Community
+
+**Share milestones:**
+- "100 traders participated!"
+- "Major opinion replacement today"
+- "Approaching settlement criteria"
+- "Consensus emerging around Option X"
+
+Keep people engaged.
+
+## Earning Fees
+
+### How Fees Accumulate
+
+Every trade in your debate:
+- Generates 1% fee on exits (when all fees enabled)
+- You receive 0.25% of that
+- Accumulates in smart contract
+- Tracked per your address
+
+**Example:**
+- User sells $100 worth
+- Total fee: $1.00
+- Your share: $0.25
+- Accumulates in `claimableFees[yourAddress]`
+
+### Claiming Fees
+
+**After debate settles:**
+1. Navigate to your profile
+2. Go to "Earnings" tab
+3. See claimable fees per debate
+4. Click "Claim Fees"
+5. Transaction sends USDC to your wallet
+
+**Important: 365-day deadline** to claim fees after settlement. After that, unclaimed fees are locked forever.
+
+### Maximizing Fee Income
+
+**Create popular debates:**
+- Choose important topics
+- Frame well
+- Promote effectively
+- Foster healthy discussion
+
+**Volume is key:**
+- $10K volume at 0.25% = $25
+- $100K volume at 0.25% = $250
+- $1M volume at 0.25% = $2,500
+
+Active, engaging debates generate more fees.
+
+## Quality Standards
+
+### What the Community Values
+
+**Well-researched:**
+- Opinions thoroughly described
+- Context provided
+- Fair representation
+
+**Appropriate scope:**
+- Not too broad
+- Not too narrow
+- Clear boundaries
+
+**Neutral framing:**
+- No bias in description
+- All opinions given fair chance
+- Let the market decide
+
+**Clean execution:**
+- No errors in opinion text
+- Proper formatting
+- Professional presentation
+
+### What to Avoid
+
+**Spam debates:**
+- Low-effort, copy-paste
+- Trivial questions
+- Just trying to earn fees
+
+**Biased framing:**
+- One option obviously favored
+- Unfair descriptions
+- Manipulation attempts
+
+**Duplicate debates:**
+- Same question already active
+- Fragments activity
+- Confuses users
+
+**Abandoned debates:**
+- Creator disappears
+- No moderation
+- No community building
+
+Quality matters. The community remembers.
+
+## Advanced Strategies
+
+### Multi-Staged Debates
+
+**Approach:**
+- Create follow-up debates based on results
+- "We chose X, now how should we implement it?"
+- Build narrative across debates
+
+**Benefit:**
+- Sustained engagement
+- Deeper exploration
+- Multiple fee opportunities
+
+### Collaborative Creation
+
+**Approach:**
+- Work with community to design debate
+- Crowdsource opinions
+- Collective ownership
+
+**Benefit:**
+- Built-in audience
+- Better design
+- Shared promotion
+
+### Debate Series
+
+**Approach:**
+- Create related debates on a theme
+- "Best X for Y" across different Ys
+- Build expertise in a domain
+
+**Benefit:**
+- Reputation as curator
+- Efficient reuse of research
+- Community expectations
+
+### Timely Debates
+
+**Approach:**
+- Create debates about current hot topics
+- Move quickly when issues emerge
+- Capture attention
+
+**Benefit:**
+- High initial activity
+- Relevance boost
+- Faster fee accumulation
+
+## Legal and Ethical Considerations
+
+### Neutrality
+
+Present all opinions fairly, even ones you disagree with. You're creating infrastructure, not pushing an agenda.
+
+### Intellectual Property
+
+Don't use copyrighted material without permission. Write original descriptions or properly attribute.
+
+### Sensitive Topics
+
+Some debates may involve controversial subjects. Consider:
+- Potential for harm
+- Community standards
+- Your own comfort level
+
+You have freedom, but also responsibility.
+
+### Disclosure
+
+If you have conflicts of interest (financial stake in an outcome, relationships with opinion proponents), consider disclosing in the debate description.
+
+## The Creator's Role
+
+As a debate creator, you're:
+
+**A facilitator** - Creating space for discovery
+**A curator** - Selecting which perspectives to include
+**A moderator** - Fostering healthy discussion
+**An entrepreneur** - Building something valuable
+
+But you're not:
+
+**A judge** - The market decides, not you
+**A manipulator** - Let consensus emerge naturally
+**A dictator** - Participants shape the debate
+
+Your role is to enable, not control.
+
+<Callout title="The Opportunity" type="info">
+Great debates become infrastructure. They help communities coordinate, help individuals learn, and contribute to collective intelligence. Plus, you earn fees forever.
+</Callout>
+
+## Next Steps
+
+Creating debates is one way to contribute. Another is proposing new opinions in existing debates:
+
+<a href="/docs/participating/proposing-opinions" className="block p-4 border rounded-lg hover:border-primary transition-colors mt-6">
+  <div className="font-semibold mb-1">Proposing Opinions →</div>
+  <div className="text-sm text-muted-foreground">Add perspectives to existing debates and earn fees</div>
+</a>
+
+---
+
+*Every great debate starts with someone willing to frame the question and create the space. That could be you.*

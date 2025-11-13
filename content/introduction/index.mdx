@@ -1,184 +1,177 @@
 ---
-title: Introduction to Trigger Market
-description: Discover how Trigger Market enables prediction markets on subjective debates through oracle-free settlement
+title: What is Trigger Market?
+description: Understanding oracle-free consensus markets for subjective debates
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
-# Welcome to Trigger Market
+# What is Trigger Market?
 
-Imagine being able to create a market on any debate—even questions without objectively "correct" answers. Questions like "Which framework is best for our project?" or "What should our community prioritize?"
+Trigger Market is a new kind of prediction market—one that doesn't need oracles or objective events to settle. Instead, settlement emerges from observable consensus formation among participants.
 
-Traditional prediction markets can't handle these. They need external oracles to determine outcomes, limiting them to objective events with verifiable results.
+## The Oracle Problem
 
-**Trigger Market changes this.** It's a platform for trading on subjective debates, using price stability itself as the settlement mechanism. When participants reach consensus and prices stabilize, the market settles—no oracle needed.
+Traditional prediction markets have worked brilliantly for objective questions:
 
-## The Vision
+- "Will Bitcoin reach $100K by December?"
+- "Who will win the election?"
+- "Will the Fed raise rates next month?"
 
-Every organization faces decisions where multiple perspectives have merit. Technical teams debate architectural choices. DAOs discuss resource allocation. Communities evaluate strategic directions. Research groups prioritize approaches.
+These work because there's an objective event that eventually happens, and an oracle (trusted source) can verify what happened.
 
-These debates involve legitimate disagreement. There's no objectively "right" answer to discover—consensus itself is the answer.
+**But this creates a fundamental limitation:** You can only create markets for questions with objective, verifiable answers.
 
-Trigger Market provides infrastructure for these discussions to become markets. Participants stake capital on the perspectives they believe will gain consensus. Prices evolve as the debate unfolds. When stability emerges, settlement occurs automatically.
+## The Subjective Gap
 
-This creates something new: **consensus markets**. Markets that don't predict future events but rather discover and measure collective agreement on subjective questions.
+Many of the most important questions we face don't have objective answers:
 
-## How It's Different
+- **In DAOs**: "Which proposal should we fund?"
+- **In research**: "Which approach is most promising?"
+- **In communities**: "What principles should guide us?"
+- **In technology**: "Which framework best solves this problem?"
 
-<div className="grid gap-4 my-6">
-  <div className="border rounded-lg p-6">
-    <h3 className="text-lg font-semibold mb-2">Traditional Prediction Markets</h3>
-    <p className="text-muted-foreground mb-4">Like Polymarket, Augur, etc.</p>
-    <div className="space-y-2">
-      <div className="flex items-center gap-2">
-        <span className="text-green-500">✓</span>
-        <span className="text-sm">Objective events only</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <span className="text-green-500">✓</span>
-        <span className="text-sm">Oracle determines outcome</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <span className="text-red-500">✗</span>
-        <span className="text-sm">Can't handle subjective debates</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <span className="text-red-500">✗</span>
-        <span className="text-sm">Fixed outcomes at creation</span>
-      </div>
-    </div>
-  </div>
+These are **debates**, not predictions. Reasonable people disagree. There's no external event that resolves them. Yet these questions desperately need collective decision-making tools.
 
-  <div className="border rounded-lg p-6 border-primary">
-    <h3 className="text-lg font-semibold mb-2">Trigger Market</h3>
-    <p className="text-muted-foreground mb-4">Consensus markets</p>
-    <div className="space-y-2">
-      <div className="flex items-center gap-2">
-        <span className="text-green-500">✓</span>
-        <span className="text-sm">Subjective debates supported</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <span className="text-green-500">✓</span>
-        <span className="text-sm">Settles via price stability (no oracle)</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <span className="text-green-500">✓</span>
-        <span className="text-sm">Opinions can evolve dynamically</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <span className="text-green-500">✓</span>
-        <span className="text-sm">Fully onchain on Base</span>
-      </div>
-    </div>
-  </div>
-</div>
+Traditional prediction markets simply can't handle them.
 
-## The Core Innovation
+## The Breakthrough
 
-Three mechanisms work together to make oracle-free consensus markets possible:
+**What if consensus formation *is* the resolution?**
 
-**1. L² Norm AMM**
-An automated market maker that prices opinions using elegant mathematics. As liquidity accumulates, prices naturally become more stable, creating favorable conditions for settlement.
+When people with real money at stake reach equilibrium—when prices stop changing because everyone has expressed their view—that equilibrium *is* the answer.
 
-**2. Dynamic Opinion Replacement**
-Opinions aren't fixed at market creation. New perspectives can be proposed and, if they gather support, can replace existing opinions. Markets evolve as understanding deepens.
+Not because an authority declared it. Because the market, through economic commitment, revealed it.
 
-**3. Time-Weighted Settlement**
-Markets settle when prices remain stable over time. The system tracks price stability using exponentially-weighted moving averages, ensuring that brief volatility doesn't prevent settlement but sustained consensus does trigger it.
+## How Trigger Market Works
+
+### 1. Create a Debate
+
+Anyone can create a debate with initial opinions:
+
+**Example Debate**: "Best React state management in 2025?"
+
+**Initial Opinions**:
+- Redux
+- Zustand
+- Jotai
+- MobX
+
+### 2. Trade on Opinions
+
+Participants buy and sell shares in different opinions. Prices adjust based on supply and demand:
+
+- More buying → Price increases
+- More selling → Price decreases
+
+Prices reflect collective belief weighted by capital allocation.
+
+### 3. Market Evolves
+
+Unlike traditional markets where outcomes are fixed, **opinions compete for inclusion**:
+
+- Anyone can propose new opinions (like "XState")
+- New opinions accumulate stake while in the "candidate pool"
+- When a candidate has enough stake, it can **replace** the weakest active opinion
+- Replaced opinions don't disappear—they return to the candidate pool and can re-enter later
+
+This creates **evolutionary markets** where perspectives compete based on demonstrated support.
+
+### 4. Consensus Emerges
+
+As the debate matures:
+
+- Arguments have been made
+- Capital has been allocated
+- Prices naturally stabilize around equilibrium values
+
+When prices remain stable over time (meeting specific mathematical criteria), **the market has reached consensus**.
+
+### 5. Settlement Happens Automatically
+
+No oracle needed. The system detects price stability through four criteria:
+
+1. **Minimum age**: Market must be at least 7 days old (configurable)
+2. **Low variance**: Prices must be historically stable
+3. **Current agreement**: Recent prices must match historical averages
+4. **Multiple confirmations**: Stability must persist across multiple checks
+
+When all four criteria are met, the market settles automatically. Final prices determine payouts.
+
+<Callout title="The Key Insight" type="info">
+Price stability = consensus reached. When participants with skin in the game stop changing their positions, that equilibrium state *is* the answer to the debate.
+</Callout>
+
+## What Makes It Possible
+
+Two innovations working together:
+
+### Mathematical Convergence
+
+The L² norm AMM (Automated Market Maker) has a special property: **as liquidity grows, prices become progressively more stable**.
+
+Technically, the Hessian (measure of price sensitivity) decreases cubically with total liquidity. In plain English: mature markets naturally resist price manipulation, creating conditions where consensus can emerge.
+
+You don't need to understand the math. Just know it makes oracle-free settlement mathematically possible.
+
+### Dynamic Opinion Competition
+
+Opinions enter and exit the market based on demonstrated support. This lets debates evolve as understanding deepens:
+
+- Initial framings can be inadequate
+- New perspectives emerge
+- Irrelevant options get replaced
+- The market adapts naturally
 
 ## What This Enables
 
-**For DAOs**: Create markets on governance proposals. Let stakeholders trade on different strategic directions. Price discovery reveals collective preference.
+**Governance Markets**: DAOs can create markets for proposal evaluation, resource allocation, strategic direction.
 
-**For Technical Communities**: Settle recurring debates. "Best practice" discussions become tradeable markets. Consensus emerges economically.
+**Research Consensus**: Scientific communities can aggregate expert opinion on technical questions, research priorities.
 
-**For Research**: Aggregate expert opinion on open questions. Where should resources flow? What approaches seem most promising? Markets provide continuous signals.
+**Collective Decisions**: Any community can resolve debates through economic commitment rather than voting.
 
-**For Organizations**: Decision support through collective intelligence. Strategic choices, resource allocation, priority setting—all can become consensus markets.
+**Subjective Forecasting**: Questions about future trends where there's no binary outcome, just competing perspectives.
 
-## Who Participates
+## The Vision
 
-**Traders** buy and sell shares of different opinions. If you believe an opinion will gain consensus, you stake capital on it. When the market settles, you receive payouts proportional to final prices.
+A world where:
 
-**Debate Creators** launch markets on questions their communities care about. They earn 0.25% of all trading volume that ever occurs in debates they create.
+- **Any debate can have a market** - Permissionless creation
+- **Consensus emerges economically** - Not from authority, but from participants
+- **Truth-seeking is incentivized** - You profit by supporting positions that achieve consensus
+- **No censorship** - Fully onchain on Base, unstoppable
+- **Complete transparency** - All settlement logic visible and verifiable
 
-**Opinion Proposers** surface perspectives that might be missing from existing debates. When their opinions get adopted into the active market, they earn 0.25% of trading volume involving those opinions.
-
-**Communities** use the platform for collective decision-making, priority setting, and consensus formation on questions that matter to them.
-
-## How It Works (Simple Version)
-
-1. **Someone creates a debate** with initial opinions (e.g., "Best approach: A, B, C, D")
-2. **Participants trade** on opinions they believe will gain consensus
-3. **Prices adjust** based on buying and selling activity
-4. **New opinions can be proposed** and replace existing ones if they gather support
-5. **When prices stabilize** for long enough, settlement triggers automatically
-6. **Payouts occur** based on final prices and share holdings
-
-No oracle is consulted. No external authority determines the outcome. The market's own dynamics—observable price stability—indicate consensus formation.
+This is infrastructure for collective intelligence on subjective questions.
 
 ## Built Fully Onchain
 
-Trigger Market deploys on Base, an Ethereum L2. This provides:
+Everything happens on Base (Ethereum L2):
 
-- **Permissionless participation** - Anyone can create markets, propose opinions, and trade
-- **Censorship resistance** - No central authority can shut down debates
-- **Transparent settlement** - All logic executes onchain, verifiable by anyone
-- **Low transaction costs** - Base's efficiency makes frequent trading practical
-- **Composability** - Other protocols can integrate with consensus markets
+- **Smart contracts** hold all funds and execute all logic
+- **Settlement** determined by observable on-chain price history
+- **No multisigs** controlling outcomes
+- **Permissionless** - anyone can participate, create, propose
+- **Transparent** - anyone can verify
 
-The frontend (built with Next.js) is simply a convenient interface. All core functionality lives in smart contracts. You can interact with the protocol directly if you prefer.
+The frontend (built with Next.js) is just a convenient interface. You could build your own. The blockchain is the source of truth.
 
-## Why Now
+## Next Steps
 
-Three things make this possible:
-
-**Mathematical Foundation**: The L² norm AMM provides the convergence properties needed for stability-based settlement. Price sensitivity decreases cubically with liquidity, enabling natural consensus formation.
-
-**Blockchain Infrastructure**: Base and other L2s now offer the combination of decentralization, low costs, and performance needed for prediction market platforms.
-
-**Market Readiness**: The DeFi ecosystem has matured. Users understand wallets, trading interfaces, and onchain applications. The infrastructure is ready for consensus markets.
-
-## What Makes This Special
-
-Traditional voting is dominated by politics and has no cost to poor judgment. Forums aggregate opinions but can't measure intensity or confidence. Committees are slow and vulnerable to capture.
-
-Consensus markets combine the best of prediction markets (economic incentives, skin in the game, price discovery) with applicability to subjective questions (no oracle dependency, dynamic evolution, stability-based settlement).
-
-**This is genuinely new.** Not an iteration on existing prediction markets, but a different category of coordination infrastructure.
-
-## Getting Started
-
-Ready to explore? Here's what to read next:
+Ready to dive deeper?
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-  <a href="/docs/how-it-works" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+  <a href="/docs/introduction/why-it-matters" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">Why It Matters →</div>
+    <div className="text-sm text-muted-foreground">The broader implications and applications</div>
+  </a>
+
+  <a href="/docs/introduction/how-it-works" className="block p-4 border rounded-lg hover:border-primary transition-colors">
     <div className="font-semibold mb-1">How It Works →</div>
-    <div className="text-sm text-muted-foreground">Deep dive into the mechanics</div>
-  </a>
-
-  <a href="/docs/getting-started/quick-start" className="block p-4 border rounded-lg hover:border-primary transition-colors">
-    <div className="font-semibold mb-1">Quick Start →</div>
-    <div className="text-sm text-muted-foreground">Make your first trade</div>
-  </a>
-
-  <a href="/docs/core-concepts/opinion-lifecycle" className="block p-4 border rounded-lg hover:border-primary transition-colors">
-    <div className="font-semibold mb-1">Opinion Lifecycle →</div>
-    <div className="text-sm text-muted-foreground">Understand how opinions evolve</div>
-  </a>
-
-  <a href="/docs/participating/overview" className="block p-4 border rounded-lg hover:border-primary transition-colors">
-    <div className="font-semibold mb-1">Ways to Participate →</div>
-    <div className="text-sm text-muted-foreground">Trading, creating, proposing</div>
+    <div className="text-sm text-muted-foreground">Detailed walkthrough of the mechanism</div>
   </a>
 </div>
 
-<Callout title="A New Primitive" type="info">
-Consensus markets are coordination infrastructure for subjective questions. They enable price discovery on debates without objective answers, aggregate distributed knowledge through economic incentives, and settle based on observable convergence rather than external judgment.
-
-This documentation will help you understand how they work and how to participate.
-</Callout>
-
 ---
 
-**Welcome to consensus markets.**
+*Consensus markets represent a genuinely new primitive for human coordination. Let's explore what becomes possible.*

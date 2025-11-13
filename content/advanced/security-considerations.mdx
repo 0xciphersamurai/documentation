@@ -1,0 +1,585 @@
+---
+title: Security Considerations
+description: Attack vectors, defenses, and safety mechanisms
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Security Considerations
+
+Consensus markets involve real funds and decentralized coordination. Understanding the security model helps you participate with confidence. Let's examine attack vectors, defenses, and what you should watch for.
+
+## Threat Model
+
+### What We're Protecting
+
+**User funds:**
+- USDC in active positions
+- USDC in candidate stakes
+- Accumulated fees
+- Settlement payouts
+
+**Market integrity:**
+- Price accuracy
+- Settlement validity
+- Fair opinion replacement
+- Manipulation resistance
+
+**System availability:**
+- Can always trade
+- Can always settle when criteria met
+- Can always claim payouts/fees
+- No admin-driven denial
+
+## Smart Contract Security
+
+### The Foundation
+
+**Immutable core:**
+- Main AMM mechanics cannot be changed
+- Mathematical formulas hardcoded
+- No upgrade path for critical functions
+- Code is law
+
+**What can be changed via governance:**
+- Fee rates (0-1% range)
+- Fee toggles (platform/creator fees on/off)
+- Replacement threshold (0-20% range)
+- Settlement criteria parameters (within safe bounds)
+
+**Cannot be changed:**
+- Value conservation math
+- Price calculation formulas
+- Proportional claims mechanism
+- Payout distribution logic
+
+### Audit Status
+
+**Current state:**
+- System is live on Base mainnet
+- Core mathematics proven via formal properties
+- Extensive testing on testnet
+- No formal third-party audit yet (early stage)
+
+**What this means:**
+- Use at your own risk
+- Start with amounts you can afford to lose
+- System is experimental
+- Security improves with time and scrutiny
+
+**Ongoing security:**
+- Open source code (verifiable)
+- Public testing and usage
+- Community review
+- Continuous monitoring
+
+## Attack Vectors & Defenses
+
+### 1. Price Manipulation
+
+**Attack:** Manipulate prices to create false consensus or extract value
+
+**Methods:**
+- Pump attack: Buy large amount to inflate price
+- Dump attack: Sell large amount to crash price
+- Sandwich attack: Front-run trades for profit
+- Wash trading: Fake volume to mislead
+
+**Defenses:**
+
+**Slippage costs:**
+- L² norm means large trades expensive
+- Cost scales with √(magnitude)
+- Manipulation proportionally more costly
+
+**Arbitrage correction:**
+- Artificial prices create profit opportunities
+- Other traders correct mispricings
+- Manipulator loses to arbitrageurs
+- Self-correcting system
+
+**Transaction fees:**
+- Wash trading costs 1% per round-trip (currently 0.5%)
+- Repeated manipulation expensive
+- Economics discourage fake activity
+
+**Settlement criteria:**
+- Can't force settlement with manipulation
+- Stability requirement prevents pump-then-settle
+- Agreement requirement ensures real consensus
+- 5 confirmations needed (hard to sustain fake prices)
+
+**Effectiveness:** High. Manipulation is economically irrational.
+
+### 2. Front-Running
+
+**Attack:** See pending transaction, submit yours first with higher gas
+
+**Impact:**
+- Can extract small value from large trades
+- More profitable in high-gas environments
+- Common in DeFi generally
+
+**Defenses:**
+
+**MEV-awareness:**
+- Base has lower gas costs than Ethereum L1
+- Transaction order more predictable
+- Less MEV opportunity
+
+**Slippage protection:**
+- Users can set max slippage tolerance
+- Transaction reverts if exceeded
+- Protects from extreme sandwich attacks
+
+**Shared liquidity:**
+- Front-running one trade affects whole market
+- Harder to isolate extraction
+- More visible
+
+**Market design:**
+- Consensus markets less susceptible than trading pairs
+- No isolated pools to exploit
+- Systematic front-running would stabilize prices (accidentally helping)
+
+**Effectiveness:** Moderate. Some MEV possible but limited.
+
+**User protection:** Set reasonable slippage limits, especially for large trades.
+
+### 3. Flash Loan Attacks
+
+**Attack:** Borrow large funds with flash loan, manipulate prices, profit, repay
+
+**Potential vectors:**
+- Pump opinion to trigger fake settlement
+- Manipulate replacement thresholds
+- Extract value from price swings
+
+**Defenses:**
+
+**Settlement protection:**
+- Can't settle immediately (need confirmations)
+- Stability check spans 7+ days (EWMA)
+- Agreement check requires sustained consensus
+- Flash loan is single transaction (can't span days)
+- **Impossibility:** Cannot flash-loan settle
+
+**Replacement protection:**
+- Replacement requires stake commitment
+- Can't stake and unstake in same block
+- Threshold based on historical vault values
+- **Limited impact:** Can't flash-loan replace
+
+**Price manipulation:**
+- Round-trip costs fees (loses money)
+- Arbitrageurs would correct in next block
+- No lasting impact
+- **Unprofitable:** Loses to fees and arbitrage
+
+**Effectiveness:** Very high. Flash loans can't exploit consensus markets.
+
+### 4. Governance Attacks
+
+**Attack:** Gain governance control, set malicious parameters
+
+**Vectors:**
+- Set fees to 100% (steal funds)
+- Set threshold to 0 (chaos in replacements)
+- Change settlement criteria to impossible values
+- Brick the system
+
+**Defenses:**
+
+**Parameter bounds:**
+- Fees: 0-1% maximum (hardcoded)
+- Threshold: 0-20% maximum (hardcoded)
+- Settlement criteria: Safe ranges only (hardcoded)
+- **Cannot set dangerous values even if governance compromised**
+
+**Governance timelock:**
+- Changes require delay period
+- Community can react to malicious proposals
+- Exit before changes take effect
+- Time to coordinate response
+
+**Multi-sig / DAO structure:**
+- Not single-party control
+- Requires coordination to attack
+- Harder to compromise
+
+**Emergency withdrawal:**
+- Even with malicious governance, funds can be claimed
+- Payout logic immutable
+- Always possible to exit
+- **Cannot be rugged**
+
+**Effectiveness:** Very high. Governance power is intentionally limited.
+
+### 5. Sybil Attacks
+
+**Attack:** Create many fake identities to manipulate consensus
+
+**Potential vectors:**
+- Vote in debates (but there's no voting mechanism)
+- Fake volume to mislead observers
+- Coordinate to manipulate settlement
+
+**Defenses:**
+
+**Capital requirement:**
+- Must stake real USDC to participate
+- Creating fake accounts requires real capital per account
+- Economic Sybil resistance
+
+**No voting mechanism:**
+- Consensus formed by trading, not voting
+- More accounts ≠ more power
+- Power proportional to capital, not accounts
+- **Sybil gains nothing**
+
+**Settlement is objective:**
+- Based on price stability + agreement
+- More accounts with same total capital = same effect as one account
+- Cannot fake consensus without capital
+- **Capital-weighted inherently**
+
+**Effectiveness:** Very high. Sybil attacks gain nothing without capital.
+
+### 6. Oracle Attacks
+
+**Attack:** ...wait, there are no oracles!
+
+**Why this matters:**
+- Traditional prediction markets rely on external oracles
+- Oracle manipulation is major attack vector elsewhere
+- Consensus markets are oracle-free by design
+- **Entire attack category eliminated**
+
+### 7. Replacement Manipulation
+
+**Attack:** Manipulate opinion replacement to grief holders
+
+**Vectors:**
+- Force replacement of good opinion by staking candidate
+- Prevent replacement by supporting weak opinion
+- Cycle opinions in/out rapidly for chaos
+
+**Defenses:**
+
+**Threshold buffer (5%):**
+- Candidate needs 105% of weakest vault value
+- Creates hysteresis (anti-flip-flopping)
+- Can't immediately replace back
+- Stabilizes composition
+
+**Economic requirement:**
+- Must commit real capital to stake candidate
+- Capital locked in candidate until replacement or unstake
+- Griefing is expensive
+- **Attacker loses more than defenders**
+
+**Proportional claims:**
+- Replaced opinion holders maintain value claim
+- No value lost in replacement
+- Can re-accumulate and return
+- **Replacement doesn't destroy value**
+
+**Permissionless triggering:**
+- Anyone can trigger eligible replacement
+- Can't prevent legitimate replacements
+- System stays dynamic
+- Cannot censor
+
+**Effectiveness:** High. Replacement is fair and economically rational.
+
+### 8. Settlement Manipulation
+
+**Attack:** Force early settlement or prevent legitimate settlement
+
+**Vectors:**
+- Fake stability to trigger early settlement
+- Maintain fake volatility to prevent settlement
+- Manipulate confirmations
+
+**Defenses:**
+
+**Multiple criteria (all required):**
+- Age (minimum 7 days)
+- Stability (EWMA variance over time)
+- Agreement (top opinions within 2%)
+- Confirmations (5 separate checks)
+- **Must satisfy all simultaneously**
+
+**EWMA stability:**
+- Exponentially weighted = long history matters
+- Can't fake stability with brief price fixing
+- Would need to sustain for days
+- Costs compound over time
+
+**Confirmation requirement:**
+- 5 non-consecutive checks
+- 30-minute minimum between checks
+- Each check re-verifies all criteria
+- **Minimum ~2.5 hours sustained consensus**
+
+**Deliberate manipulation unprofitable:**
+- Sustaining fake prices for hours/days = expensive
+- Fees on all trading to maintain
+- Arbitrageurs fight you entire time
+- **Lose more than you could gain**
+
+**Effectiveness:** Very high. Settlement is robust against manipulation.
+
+## Edge Cases & Handling
+
+### Numerical Precision
+
+**Issue:** Blockchain uses integer math, potential for rounding errors
+
+**Impact:**
+- Very small (< $0.0000001 per operation)
+- Could compound over millions of operations
+- Theoretical concern
+
+**Mitigation:**
+- Solidity uses large integers (256-bit)
+- Conservative rounding (system rounds against itself)
+- Tested extensively
+- Real-world impact negligible
+
+**User protection:** Even after millions of trades, cumulative error < $0.01
+
+### Gas Price Spikes
+
+**Issue:** Transaction costs could spike, preventing operations
+
+**Impact on Base:**
+- Base has extremely low gas costs (~$0.10-0.30 typical)
+- Less volatile than Ethereum L1
+- Spikes rare and mild
+
+**System design:**
+- No time-critical operations
+- Can wait for gas to normalize
+- Settlement has no deadline
+- Claiming has no deadline
+
+**User protection:** Never forced to transact during high gas.
+
+### Smart Contract Bugs
+
+**Issue:** Undiscovered vulnerabilities in code
+
+**Reality:**
+- All smart contracts carry this risk
+- Especially true for new, unaudited systems
+- Cannot be eliminated completely
+
+**Mitigation:**
+- Open source (community review)
+- Extensive testing
+- Gradual rollout
+- Continuous monitoring
+
+**User protection:**
+- Start small (test with amounts you can lose)
+- Increase exposure as confidence builds
+- Diversify across platforms
+- Never risk more than you can afford to lose
+
+### Network Failures
+
+**Issue:** Base network downtime or issues
+
+**Impact:**
+- Cannot trade during outage
+- Cannot trigger settlement
+- Cannot claim funds
+
+**Mitigation:**
+- Base is highly reliable (Coinbase-backed)
+- Funds still safe on-chain during outage
+- All data immutable and verifiable
+- System resumes when network resumes
+
+**User protection:** Funds cannot be lost due to network issues, only temporarily inaccessible.
+
+## What You Should Monitor
+
+### As a Participant
+
+**Regular checks:**
+- Your position values (expected changes?)
+- Debate settlement progress (approaching?)
+- Accumulated fees (if you're a creator)
+- Candidate threats (if holding vulnerable opinion)
+
+**Warning signs:**
+- Unexpected position value changes
+- Suspicious trading patterns
+- Unusually high gas costs
+- Smart contract warnings in UI
+
+**Best practices:**
+- Don't keep more in system than you can afford to lose
+- Regularly claim fees (don't let them accumulate indefinitely)
+- Verify transactions before signing
+- Use official frontend only
+
+### As a Creator
+
+**Monitor your debates:**
+- Trading volume and activity
+- Settlement criteria progress
+- Opinion quality and composition
+- Accumulated creator fees
+
+**Claim fees regularly:**
+- 365-day deadline on fee claims
+- Set reminders before deadline
+- Don't let fees expire
+- Simple claim process
+
+**Engage with community:**
+- Address concerns about opinions
+- Promote quality participation
+- Monitor for manipulation attempts
+- Build healthy debate ecosystem
+
+## Governance & Parameters
+
+### Current Governance Model
+
+**Parameter control:**
+- Fees: Governance can adjust within 0-1%
+- Toggles: Platform and creator fee toggles (independent)
+- Threshold: Opinion replacement threshold within 0-20%
+- Criteria: Settlement criteria bounds (safe ranges)
+
+**What governance CANNOT do:**
+- Change core AMM math
+- Access user funds directly
+- Prevent withdrawals or claims
+- Brick the system
+- Override immutable functions
+
+### Future Governance
+
+**Potential evolution:**
+- Gradual decentralization
+- DAO structure
+- Token-based governance
+- Community parameter control
+
+**Principles:**
+- User fund safety paramount
+- Transparent processes
+- Bounded parameter changes
+- Time delays for major changes
+
+## Transparency & Verification
+
+### Everything is Verifiable
+
+**On-chain data:**
+- All trades public
+- All opinion states public
+- All fee accumulations public
+- All settlement events public
+
+**You can verify:**
+- Your position value (compute from shares + prices)
+- Debate vault value (check contract directly)
+- Fee amounts (check accumulated fees)
+- Settlement criteria (check current values)
+- Replacement thresholds (compute yourself)
+
+**No hidden state:**
+- Everything in public contract storage
+- Block explorers show all data
+- Can audit independently
+- Trustless verification
+
+### Open Source
+
+**Code visibility:**
+- All contract code is open source
+- Can review logic yourself
+- Community can audit
+- Transparent operation
+
+**No proprietary secrets:**
+- Formulas are public
+- Parameters are public
+- Logic is public
+- Mathematics is proven
+
+## Best Practices for Security
+
+### For All Users
+
+1. **Start small:** Test with small amounts first
+2. **Verify everything:** Don't trust, verify on-chain
+3. **Use official frontend:** Avoid phishing sites
+4. **Secure your wallet:** Hardware wallet recommended for large amounts
+5. **Understand risks:** This is experimental technology
+6. **Monitor positions:** Regular checks on your holdings
+7. **Set slippage limits:** Protect against front-running
+8. **Don't chase pumps:** Avoid FOMO-driven decisions
+
+### For Creators
+
+1. **Monitor your debates:** Stay engaged with your creations
+2. **Claim fees regularly:** Don't wait until near deadline
+3. **Promote quality:** Better debates = more volume = more fees
+4. **Engage community:** Active debates are healthier debates
+5. **Track performance:** Learn what works for future debates
+
+### For Large Holders
+
+1. **Trade gradually:** Split large positions across multiple transactions
+2. **Monitor liquidity:** Check current quantities before large trades
+3. **Use slippage limits:** Especially important for large positions
+4. **Consider timing:** Trade when market is active for better liquidity
+5. **Diversify:** Don't concentrate too much in one debate
+
+<Callout title="Security is a Spectrum" type="warning">
+No system is 100% secure. Trigger Market is experimental technology. The design includes multiple layers of defense, but smart contract risk always exists. Only use funds you can afford to lose, especially in early stages.
+</Callout>
+
+## Responsible Disclosure
+
+**Found a vulnerability?**
+- Contact the team directly (don't publish publicly first)
+- Provide detailed description
+- Give time for fix before disclosure
+- Responsible disclosure protects users
+
+**Bug bounty:**
+- May be implemented as system matures
+- Community contributions valued
+- Security researchers appreciated
+
+## The Security Model
+
+**Defense in depth:**
+- Mathematical guarantees (value conservation)
+- Economic incentives (manipulation unprofitable)
+- Parameter bounds (governance limited)
+- Multiple settlement criteria (robust consensus)
+- Time delays (can react to threats)
+- Immutable core (cannot be rugged)
+
+**Trust assumptions:**
+- Trust the mathematics (open to verify)
+- Trust Base network (Coinbase-backed)
+- Trust Solidity execution (Ethereum VM)
+- DO NOT trust governance fully (power is limited by design)
+- DO NOT trust the UI (verify on-chain)
+- DO NOT trust other users (system is adversarial)
+
+**The goal:** Make malicious behavior economically irrational and technically difficult, while keeping honest participation simple and profitable.
+
+---
+
+*Security in decentralized systems comes from making honesty the rational choice. The mathematics, incentives, and design work together to protect participants while enabling open coordination.*

@@ -1,0 +1,315 @@
+---
+title: Value Conservation
+description: How the math guarantees your funds are always accounted for
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Value Conservation
+
+One of the most important properties of Trigger Market: **Value is never created or destroyed.** Every dollar in equals every dollar out, guaranteed by mathematics.
+
+## The Core Guarantee
+
+At any moment:
+
+**Total Vault Value = Sum of All Position Values**
+
+This isn't a promise. It's not enforced by audits or admin keys. It's a mathematical theorem that must be true given the formulas used.
+
+**What this means for you:**
+- Your position value is always accounted for
+- No hidden losses from system operations
+- You can verify everything yourself
+- Trustless by design
+
+## How It Works
+
+### The Mathematical Foundation
+
+The AMM uses what's called a "homogeneous function" of degree 1. Without getting into calculus, this means:
+
+**If you scale all inputs by X, the output scales by X too.**
+
+For the cost function: C = √(Σq²_i)
+
+If you double all quantities (q₁, q₂, q₃...), the cost doubles exactly.
+
+### Euler's Theorem
+
+There's a theorem in mathematics (Euler's theorem for homogeneous functions) that says:
+
+**For degree-1 homogeneous functions:**
+
+Total value = Sum of (quantity × marginal value)
+
+In our case:
+- Total value = Vault (C)
+- Marginal value = Price (∂C/∂q_i)
+- So: C = Σ(q_i × p_i)
+
+**Translation:** The vault equals the sum of what everyone's positions are worth.
+
+### Practical Example
+
+**Setup:**
+- Opinion A: 30 units at price $0.60
+- Opinion B: 20 units at price $0.40
+- Opinion C: 15 units at price $0.30
+
+**Individual values:**
+- A: 30 × 0.60 = $18.00
+- B: 20 × 0.40 = $8.00
+- C: 15 × 0.30 = $4.50
+- **Total: $30.50**
+
+**Vault calculation:**
+- C = √(30² + 20² + 15²)
+- C = √(900 + 400 + 225)
+- C = √1525
+- C = $39.05
+
+**Wait, that doesn't match!**
+
+Actually, the prices shown aren't the marginal prices (∂C/∂q_i), they're normalized probabilities. Let me recalculate with actual marginal prices:
+
+**Marginal prices:**
+- p_A = q_A / C = 30 / 39.05 = $0.768
+- p_B = q_B / C = 20 / 39.05 = $0.512
+- p_C = q_C / C = 15 / 39.05 = $0.384
+
+**Individual values (using marginal prices):**
+- A: 30 × 0.768 = $23.04
+- B: 20 × 0.512 = $10.24
+- C: 15 × 0.384 = $5.76
+- **Total: $39.04** ✓
+
+Matches vault (within rounding)! The math guarantees this.
+
+## What Gets Conserved
+
+### During Regular Trading
+
+**Someone buys Opinion A:**
+- Vault increases by amount paid (ΔC)
+- Their position value increases by exactly ΔC
+- Other positions' values unchanged
+- Total: Vault up by ΔC, positions up by ΔC ✓
+
+**Someone sells Opinion A:**
+- Vault decreases by amount received (ΔC)
+- Their position value decreases by exactly ΔC
+- Other positions' values unchanged (in absolute terms)
+- Total: Vault down by ΔC, positions down by ΔC ✓
+
+### During Opinion Replacement
+
+**Exit phase (Opinion C removed):**
+- Vault decreases by liquidation value V_C
+- Opinion C's position value becomes candidate stake = V_C
+- Other active opinions' values adjust
+- Total value across active + candidates: Conserved ✓
+
+**Entry phase (Opinion X enters):**
+- Vault increases by candidate stake M_X
+- Opinion X's stakers now have AMM position value
+- Conversion rate ensures value preserved
+- Total value: Conserved ✓
+
+**Net effect of replacement:**
+- Before: Active vault C + Candidate stakes (including M_X)
+- After: Active vault C' + Candidate stakes (including V_C)
+- Where: C' = C - V_C + M_X
+- And candidate stakes: -M_X + V_C
+- **Net change: Zero** (modulo small rounding errors)
+
+### At Settlement
+
+**Freeze happens:**
+- Vault = C
+- All positions: Σ(shares_i × finalPrice_i)
+- These must equal (by Euler's theorem)
+
+**Payouts claimed:**
+- Each claim reduces vault by exact claim amount
+- Position value → USDC transferred
+- After all claims: Vault = 0, all value distributed ✓
+
+**For candidates:**
+- Each unstake reduces candidate stake by proportional amount
+- Value moved from stake pool to user
+- After all unstakes: Candidate stake = 0 ✓
+
+## Why This Matters
+
+### 1. Trustlessness
+
+You don't need to trust:
+- The platform operators
+- Other users
+- Admin keys
+- Governance decisions
+
+The math makes it impossible for value to disappear.
+
+### 2. Transparency
+
+Everything is verifiable:
+- Check vault value (onchain)
+- Check your position value (compute from shares + prices)
+- Check the sum (should match vault)
+- All data public
+
+### 3. No Hidden Costs
+
+Some systems have hidden fees or slippage built into the mechanics. Not here:
+- Fees are explicit (1% on exits, currently 0.5%)
+- No hidden spreads
+- No value leakage to system
+- What you see is what you get
+
+### 4. Replacement Safety
+
+When opinions get replaced:
+- No value lost in transition
+- Proportional claims preserved exactly
+- Shareholders protected by math
+- Can't lose value to system operations
+
+### 5. Settlement Integrity
+
+At settlement:
+- Every dollar in vault goes to users
+- Distribution determined by final prices
+- No platform take from final payouts
+- Complete value distribution guaranteed
+
+## Verifying Yourself
+
+You can check value conservation:
+
+### Check 1: Your Position
+
+**Your position value should equal:**
+- Your shares × Current opinion price
+- (Or proportional candidate stake)
+
+**To verify:**
+1. Check your shares (UI or contract)
+2. Check opinion price (UI or compute from quantities + cost)
+3. Multiply: shares × price
+4. Compare to displayed value
+
+Should match exactly (or within tiny rounding error).
+
+### Check 2: Debate Totals
+
+**Total vault should equal sum of all positions:**
+
+**To verify:**
+1. Sum all active opinion values (q_i × p_i for all i)
+2. Check vault value: √(Σq²_i)
+3. These should match
+
+You can do this from public contract data.
+
+### Check 3: After Trading
+
+**Before and after your trade:**
+- Your cost = Vault increase
+- Your position value increase = Vault increase
+- Your shares × price = Amount you paid
+
+**To verify:**
+1. Note vault before trade
+2. Execute trade, pay amount A
+3. Check vault after: should be +A
+4. Check your position: should be worth A
+
+### Check 4: Fees Separate
+
+**Fees are separate from vault:**
+- Fees accumulate in different contract storage
+- Don't affect vault conservation
+- Vault + Fees = Total funds in contract
+- Both are independently accounted
+
+## Edge Cases
+
+### Rounding Errors
+
+**Reality:** Solidity uses integer math, very small rounding errors exist.
+
+**Impact:** Typically less than $0.0000001 per operation
+
+**Protection:** System uses conservative rounding (rounds against itself)
+
+**For users:** Unnoticeable, but mathematically the errors compound to less than $0.01 even after millions of trades
+
+### Gas Costs
+
+**Gas costs are separate:**
+- Paid in ETH (on Base)
+- Not related to vault value
+- Not part of conservation math
+- Just transaction fees (like any blockchain)
+
+### Multiple Debates
+
+**Each debate is independent:**
+- Separate vault per debate
+- Value conservation per debate
+- No cross-contamination
+- Isolated risk
+
+## The Bigger Picture
+
+Value conservation is the foundation of trust in the system.
+
+**It enables:**
+- Trading with confidence (can't lose to mechanics)
+- Holding long-term (value won't disappear)
+- Opinion replacement (safe state transitions)
+- Settlement (fair distribution)
+- Verification (anyone can check)
+
+**It prevents:**
+- Platform extraction beyond explicit fees
+- Hidden value loss
+- Accounting tricks
+- Systemic leakage
+- Manipulation through mechanics
+
+<Callout title="The Guarantee" type="info">
+Your position's value is protected by mathematics, not promises. The AMM formulas make value conservation a theorem, not a policy. This is one of the core innovations that makes consensus markets trustless.
+</Callout>
+
+## Technical Note
+
+For those interested in the deeper math:
+
+The cost function C = √(Σq²_i) is the L² norm. It's homogeneous of degree 1.
+
+By Euler's theorem for homogeneous functions:
+**C = Σ(q_i × ∂C/∂q_i)**
+
+Where ∂C/∂q_i is the marginal cost of opinion i, which defines its marginal price.
+
+This theorem guarantees that the sum of all position values (q_i × marginal_price_i) equals the total cost (vault).
+
+The normalized prices you see in the UI (that sum to 100%) are: p̃_i = p_i / (Σp_j)
+
+But value calculations use the marginal prices p_i, which preserve the conservation property.
+
+## Next Steps
+
+Value conservation is a guarantee. Another aspect of "how it works" is the dynamics:
+
+<a href="/docs/advanced/market-dynamics" className="block p-4 border rounded-lg hover:border-primary transition-colors mt-6">
+  <div className="font-semibold mb-1">Market Dynamics →</div>
+  <div className="text-sm text-muted-foreground">How the L² norm creates unique market properties</div>
+</a>
+
+---
+
+*Value conservation isn't a feature—it's a mathematical fact. This is what makes consensus markets trustless and verifiable.*

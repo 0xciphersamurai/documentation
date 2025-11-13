@@ -1,5 +1,4 @@
 {
   "title": "Understanding Debates",
-  "icon": "Brain",
-  "pages": ["how-consensus-forms", "opinion-dynamics", "backing-what-you-believe", "reading-the-room"]
+  "pages": ["index", "opinion-lifecycle", "how-consensus-forms", "dynamic-evolution"]
 }

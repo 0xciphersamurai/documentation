@@ -1,0 +1,317 @@
+---
+title: How It Works
+description: A detailed walkthrough of consensus market mechanics
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+
+# How It Works
+
+Let's walk through the complete lifecycle of a consensus market, from creation to settlement, with concrete examples.
+
+## The Complete Journey
+
+<Steps>
+
+<Step>
+### Someone Creates a Debate
+
+**Alex wants to start a market** about the best React state management library in 2025.
+
+**They provide:**
+- A title and description
+- 3-10 initial opinions (let's say 4: Redux, Zustand, Jotai, MobX)
+- Initial liquidity (minimum $50 USDC, distributed equally across all opinions)
+
+**What happens:**
+1. Smart contract deploys on Base blockchain
+2. Each opinion starts with equal amounts: $12.50 worth each
+3. Initial prices are equal: each opinion at ~50% (prices satisfy √(Σp²) = 1)
+4. Market opens immediately for trading
+5. Alex receives shares proportional to their initial liquidity
+
+**Cost:** ~$0.50 gas fee + minimum $50 USDC liquidity
+</Step>
+
+<Step>
+### People Start Trading
+
+**Morgan discovers the market** and believes Zustand is undervalued.
+
+**Current prices:**
+- Redux: 52% → Zustand: 48% → Jotai: 45% → MobX: 43%
+
+Morgan thinks Zustand should be higher. They buy $100 worth of Zustand shares.
+
+**What happens:**
+1. Morgan's $100 goes into the market vault
+2. They receive shares in Zustand (quantity calculated by L² norm formula)
+3. Zustand's price increases to ~53%
+4. All other prices adjust downward slightly (they compete for the price "space")
+5. Morgan's position is now visible in their profile
+
+**Key insight:** Every trade moves prices. More buying = higher price. More selling = lower price. Prices reflect collective belief weighted by capital.
+</Step>
+
+<Step>
+### A New Opinion Emerges
+
+**Riley notices XState is missing** from the debate. They decide to propose it.
+
+**Riley provides:**
+- A description of XState and why it matters
+- Initial stake of $25 USDC
+
+**What happens:**
+1. XState enters the "candidate pool"—it's not in the main market yet
+2. Riley owns shares representing 100% of the $25 stake
+3. Other people can add stake to XState if they agree it should be included
+4. A progress bar shows: "$25 / $78 needed to replace weakest opinion"
+
+**The requirement:** To enter the main market, XState needs stake ≥ 105% of the weakest active opinion's value.
+
+(The 5% buffer prevents opinions from immediately replacing each other back and forth.)
+
+**Current weakest opinion:** MobX has vault value of $75. So XState needs $78.75 to be eligible for replacement (105% of $75).
+</Step>
+
+<Step>
+### Opinions Get Replaced
+
+**More people stake on XState.** Total stake reaches $80.
+
+**Jordan notices** and clicks "Replace Weakest Opinion"
+
+**What happens:**
+1. Contract identifies the weakest opinion (MobX with $75 vault value)
+2. **MobX exits the AMM:**
+   - All MobX shareholders' shares now represent claims on $75 candidate stake
+   - MobX becomes a candidate with $75 in its pool
+   - Previous shareholders can unstake (sell for USDC minus 1% fee) or hold hoping for re-entry
+3. **XState enters the AMM:**
+   - The $80 stake converts to AMM shares using closed-form formula
+   - All XState stakers receive proportional AMM shares
+   - XState now has a price and trades like other active opinions
+4. Users get notifications about the swap
+
+**Crucial detail:** User share counts don't change on-chain. Only the *interpretation* changes:
+- Before: "You have 10 shares in MobX (worth $8 at current price)"
+- After: "You have $7.50 staked in candidate MobX" (your 10 shares now represent 10% of $75 candidate stake)
+
+This is the **proportional claims system**—your ownership percentage stays the same, but what you own has changed state.
+</Step>
+
+<Step>
+### Market Matures and Prices Stabilize
+
+**Weeks pass.** People have:
+- Researched the libraries
+- Shared their experiences
+- Made their cases
+- Allocated their capital
+
+**Price evolution:**
+- Week 1: High volatility as opinions form
+- Week 2: Slower movement as arguments are made
+- Week 3: Prices settle around consensus values
+
+**Current prices (stable for days):**
+- Zustand: 38%
+- Redux: 32%
+- XState: 18%
+- Jotai: 12%
+
+The system tracks this stability using exponential moving averages (EWMA). It's measuring: "Are prices still changing meaningfully, or has everyone reached their position?"
+</Step>
+
+<Step>
+### Settlement Criteria Are Met
+
+**After 3 weeks**, the system detects all four criteria:
+
+1. ✅ **Minimum age**: 21 days (required: 7 days)
+2. ✅ **Low variance**: Price variance < 0.0001 threshold
+3. ✅ **Current agreement**: Prices within 2% of historical averages
+4. ✅ **Multiple confirmations**: Stability held for 5+ consecutive checks (2.5+ hours)
+
+**Settlement triggers automatically:**
+- Market freezes immediately
+- No more trades possible
+- Final prices locked in
+- 100-block confirmation period begins (~20 minutes)
+
+**What this means:** The market has reached consensus. Prices stopped changing because participants expressed their views and reached equilibrium.
+</Step>
+
+<Step>
+### Users Claim Payouts
+
+**After the 100-block confirmation period**, payouts become available.
+
+**Morgan's position:**
+- Bought Zustand for $100 when price was 48%
+- Received ~208 shares (formula: ΔQ = -q + √(q² + 2MC + M²))
+- Final price: 38%
+
+**Morgan's payout:**
+- Shares × Final price = 208 × 0.38 = $79.04
+- Minus 1% fee = $78.25
+- Result: Lost $21.75 (bought high, price fell)
+
+**Riley's position:**
+- Staked $25 on XState as candidate
+- XState entered AMM and settled at 18%
+- Riley held through settlement
+
+**Riley's payout:**
+- Their proportional shares × final price
+- Made profit because XState went from candidate to 18% of final consensus
+
+**Important:** Payout claims have **NO deadline**. You can claim anytime after the 100-block finality period. You'll never lose your earned payouts.
+</Step>
+
+</Steps>
+
+## Key Mechanics Explained
+
+### The L² Norm AMM
+
+The market uses a special pricing formula based on the L² norm (Euclidean distance).
+
+**What you need to know:**
+- Prices automatically normalize to valid ranges
+- As liquidity grows, prices become naturally more stable
+- All trades have closed-form solutions (instant calculation, no iteration)
+- The math creates conditions where consensus *can* emerge
+
+**What you don't need to know:**
+- The detailed formulas (unless you're curious—see Advanced section)
+- The Hessian matrix properties
+- The mathematical proofs
+
+**The key property:** Price sensitivity decreases cubically as liquidity grows. Mature markets are naturally resistant to manipulation.
+
+### The Opinion Lifecycle
+
+Opinions exist in two states:
+
+**ACTIVE (in the AMM):**
+- Has a quantity and price
+- People buy/sell shares
+- Trades on the main market
+- Contributes to settlement tracking
+
+**CANDIDATE (in the pool):**
+- Has accumulated stake
+- People add/withdraw stake
+- Waiting to enter AMM
+- Doesn't affect settlement
+
+**The cycle:**
+```
+Proposed as Candidate
+    ↓
+Accumulates stake
+    ↓
+Replaces weakest active opinion → Becomes ACTIVE
+    ↓
+Trading happens, prices evolve
+    ↓
+Gets replaced by stronger candidate → Becomes CANDIDATE
+    ↓
+Can accumulate stake and re-enter...
+```
+
+Opinions cycle through states indefinitely. They never disappear. An opinion replaced today might return next month with renewed support.
+
+### Settlement Detection
+
+The system tracks price stability automatically using EWMA (Exponentially Weighted Moving Averages).
+
+**How it works:**
+- Every trade updates the statistics (if 30+ minutes passed since last update)
+- Prices are weighted by how long they persisted
+- A 10-minute price spike contributes negligible weight
+- Days of stability dominate the statistics
+
+**The four criteria** (all required):
+
+1. **Minimum age**: Prevents premature settlement (default: 7 days, set by creator)
+2. **Low variance**: Historical price stability (threshold: 0.0001)
+3. **Current agreement**: Recent prices match long-term average (within 2%)
+4. **Multiple confirmations**: Stability persisted across 5+ checks (2.5+ hours)
+
+When all four are met → settlement triggers → no more trades → payouts calculated
+
+<Callout title="Why These Criteria" type="info">
+Each criterion defends against a different attack:
+- Minimum age: prevents instant manipulation
+- Low variance: ensures genuine stability, not momentary calm
+- Current agreement: prevents last-second price manipulation
+- Multiple confirmations: ensures stability is sustained, not lucky timing
+</Callout>
+
+### Fee Structure
+
+**Total: 1% on exits only** (selling, unstaking, claiming payouts)
+
+**Distribution when all fees enabled:**
+- 0.5% → Platform treasury
+- 0.25% → Debate creator (earned on all trading forever)
+- 0.25% → Opinion creator (earned when their opinion trades)
+
+**Current state:**
+- Platform fees: Disabled (0%)
+- Creator fees: Enabled (0.5% total)
+- Can be toggled by governance
+
+**Important deadlines:**
+- **Fee claims**: Must be claimed within 365 days of settlement
+- **Payout claims**: NO deadline—claim anytime
+
+## What Makes It Work
+
+Three elements together:
+
+**1. Economic Commitment**
+
+Capital is at stake. This creates:
+- Sybil resistance (manipulation costs real money)
+- Information revelation (people research before risking capital)
+- Truth-seeking incentives (profit by being right)
+
+**2. Mathematical Convergence**
+
+The L² norm AMM naturally facilitates stability:
+- Price sensitivity decreases as liquidity grows
+- Mature markets resist manipulation
+- Settlement can emerge without external triggers
+
+**3. Dynamic Evolution**
+
+Opinions compete and evolve:
+- Better perspectives can enter
+- Weak ones get replaced
+- The market adapts to new information
+- Debates don't ossify around initial framings
+
+## Ready to Participate?
+
+Now that you understand the mechanism, you're ready to:
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+  <a href="/docs/getting-started" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">Get Started →</div>
+    <div className="text-sm text-muted-foreground">Connect wallet and make your first trade</div>
+  </a>
+
+  <a href="/docs/understanding-debates" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">Understand Debates →</div>
+    <div className="text-sm text-muted-foreground">Deep dive into opinions, prices, and consensus</div>
+  </a>
+</div>
+
+---
+
+*The mechanism is designed to let consensus emerge naturally. Your job is to express your beliefs. The market handles the rest.*
