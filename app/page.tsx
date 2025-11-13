@@ -4,7 +4,7 @@ export default function HomePage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <div className="max-w-4xl mx-auto text-center">
-        <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+        <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent leading-tight py-2">
           Trigger Market
         </h1>
         <p className="text-2xl text-muted-foreground mb-4">
