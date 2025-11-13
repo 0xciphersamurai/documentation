@@ -1,148 +1,211 @@
 ---
 title: What is Trigger Market?
-description: Understanding oracle-free consensus markets for subjective debates
+description: Markets for every argument, with skin in the game
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
 # What is Trigger Market?
 
-Trigger Market is a new kind of prediction market—one that doesn't need oracles or objective events to settle. Instead, settlement emerges from observable consensus formation among participants.
+Trigger Market is where arguments become real. Every debate—from "best anime of 2025" to "which DAO proposal to fund"—can have a market where people back their opinions with capital. No oracles. No gatekeepers. Just skin in the game.
 
-## The Oracle Problem
+Settlement emerges naturally when prices stabilize, revealing what participants with real money at stake actually believe.
 
-Traditional prediction markets have worked brilliantly for objective questions:
+## The Problem: Arguments Without Stakes
 
-- "Will Bitcoin reach $100K by December?"
-- "Who will win the election?"
-- "Will the Fed raise rates next month?"
+People argue online constantly:
 
-These work because there's an objective event that eventually happens, and an oracle (trusted source) can verify what happened.
+- Reddit threads about which city has the worst drivers
+- Twitter fights about programming languages
+- Discord debates about game balance
+- Forum wars about food preferences
+- YouTube comments about literally everything
 
-**But this creates a fundamental limitation:** You can only create markets for questions with objective, verifiable answers.
+**The problem: None of it matters because nobody has skin in the game.**
 
-## The Subjective Gap
+You can be wrong a thousand times. You can take extreme positions for engagement. You can virtue signal without consequences. Arguments cost nothing, so they mean nothing.
 
-Many of the most important questions we face don't have objective answers:
+Traditional prediction markets tried to fix this, but they only work for objective questions:
 
-- **In DAOs**: "Which proposal should we fund?"
-- **In research**: "Which approach is most promising?"
-- **In communities**: "What principles should guide us?"
-- **In technology**: "Which framework best solves this problem?"
+- "Will Bitcoin reach $100K?" (verifiable)
+- "Who will win the election?" (objective outcome)
+- "Will the Fed raise rates?" (observable event)
 
-These are **debates**, not predictions. Reasonable people disagree. There's no external event that resolves them. Yet these questions desperately need collective decision-making tools.
+These need oracles—trusted sources that verify what happened.
 
-Traditional prediction markets simply can't handle them.
+**But what about debates with no objective answer?**
 
-## The Breakthrough
+## The Gap: Everything People Actually Argue About
 
-**What if consensus formation *is* the resolution?**
+Most online arguments don't have objective answers:
 
-When people with real money at stake reach equilibrium—when prices stop changing because everyone has expressed their view—that equilibrium *is* the answer.
+**Everyday debates:**
+- "Best programming language for beginners"
+- "Pineapple on pizza: yes or no"
+- "Which anime is overrated"
+- "iOS vs Android for real"
+- "Best Star Wars movie (excluding Empire)"
 
-Not because an authority declared it. Because the market, through economic commitment, revealed it.
+**Technical opinions:**
+- "Which React state management is superior"
+- "Tabs vs spaces (seriously)"
+- "Framework X vs Framework Y"
+- "Best architecture pattern for Z"
+
+**Cultural and moral:**
+- "Is eating meat ethical"
+- "Remote work vs office"
+- "City life vs suburban"
+- "Universal basic income: good or bad"
+
+**Governance and coordination:**
+- "Which DAO proposal should we fund"
+- "What direction for the community"
+- "Research priorities for grants"
+- "Technical standards for protocols"
+
+These are **debates**, not predictions. There's no oracle that can tell you which anime is best or whether pineapple belongs on pizza. Traditional prediction markets can't handle them.
+
+**Yet these are the arguments people actually care about.**
+
+## The Breakthrough: Make The Argument A Market
+
+**What if the argument itself becomes a market, and consensus formation *is* the resolution?**
+
+When people with real money at stake reach equilibrium—when prices stop changing because everyone has expressed their conviction—that equilibrium *is* the answer.
+
+Not because an authority declared it. Because the market, through economic commitment and skin in the game, revealed it.
 
 ## How Trigger Market Works
 
 ### 1. Create a Debate
 
-Anyone can create a debate with initial opinions:
+Anyone can create a market for any debate with initial opinions:
 
-**Example Debate**: "Best React state management in 2025?"
+**Example 1: "Best programming language for beginners in 2025?"**
 
-**Initial Opinions**:
-- Redux
-- Zustand
-- Jotai
-- MobX
+Initial Opinions:
+- Python
+- JavaScript
+- Rust
+- Go
+
+**Example 2: "Pineapple on pizza?"**
+
+Initial Opinions:
+- Acceptable
+- Crime against humanity
+- Depends on other toppings
+
+**Example 3: "Which DAO proposal should we fund?"**
+
+Initial Opinions:
+- Proposal A: Marketing campaign
+- Proposal B: Technical infrastructure
+- Proposal C: Community events
+- Proposal D: Research grants
 
 ### 2. Trade on Opinions
 
-Participants buy and sell shares in different opinions. Prices adjust based on supply and demand:
+Participants buy and sell shares in opinions they believe in. Prices adjust based on trading:
 
-- More buying → Price increases
-- More selling → Price decreases
+- Buy an opinion → Its price rises, others fall
+- Sell an opinion → Its price falls, others rise
 
-Prices reflect collective belief weighted by capital allocation.
+**Prices reflect collective belief weighted by capital commitment.**
 
-### 3. Market Evolves
+The person who put $1000 on Python has more influence than the person who put $10. That's the whole point—skin in the game reveals true conviction.
 
-Unlike traditional markets where outcomes are fixed, **opinions compete for inclusion**:
+### 3. Market Evolves Dynamically
 
-- Anyone can propose new opinions (like "XState")
-- New opinions accumulate stake while in the "candidate pool"
-- When a candidate has enough stake, it can **replace** the weakest active opinion
-- Replaced opinions don't disappear—they return to the candidate pool and can re-enter later
+Unlike traditional markets where outcomes are fixed, **opinions can enter and exit**:
 
-This creates **evolutionary markets** where perspectives compete based on demonstrated support.
+- Anyone can propose new opinions (like "TypeScript for beginners")
+- New opinions accumulate stake in the "candidate pool"
+- When a candidate has enough support, it can **replace** the weakest active opinion
+- Replaced opinions don't disappear—they become candidates and can re-enter later
 
-### 4. Consensus Emerges
+This creates **evolutionary markets** where better framings can emerge as the debate progresses.
+
+### 4. Consensus Emerges Through Stability
 
 As the debate matures:
 
 - Arguments have been made
-- Capital has been allocated
-- Prices naturally stabilize around equilibrium values
+- Discussions happen
+- Capital flows to strong positions
+- Prices naturally stabilize around what people actually believe
 
-When prices remain stable over time (meeting specific mathematical criteria), **the market has reached consensus**.
+When prices remain stable over time (meeting specific mathematical criteria), **the market has reached consensus** and settles.
 
 ### 5. Settlement Happens Automatically
 
 No oracle needed. The system detects price stability through four criteria:
 
-1. **Minimum age**: Market must be at least 7 days old (configurable)
+1. **Minimum age**: Market must be at least 7 days old
 2. **Low variance**: Prices must be historically stable
 3. **Current agreement**: Recent prices must match historical averages
 4. **Multiple confirmations**: Stability must persist across multiple checks
 
-When all four criteria are met, the market settles automatically. Final prices determine payouts.
+When all four are met, the debate settles. Final prices determine payouts.
+
+Unlike winner-take-all prediction markets, **every opinion is worth something based on final prices**. The distribution shows degrees of support, not binary outcomes.
 
 <Callout title="The Key Insight" type="info">
-Price stability = consensus reached. When participants with skin in the game stop changing their positions, that equilibrium state *is* the answer to the debate.
+Price stability = consensus reached. When participants with skin in the game stop changing their positions, that equilibrium state *is* the answer. Not imposed from above—emerged from economic commitment.
 </Callout>
 
 ## What Makes It Possible
 
 Two innovations working together:
 
-### Mathematical Convergence
+### Mathematics: Natural Convergence
 
-The L² norm AMM (Automated Market Maker) has a special property: **as liquidity grows, prices become progressively more stable**.
+The AMM (Automated Market Maker) uses an L² norm cost function with a special property: **as liquidity grows, prices become progressively more stable**.
 
-Technically, the Hessian (measure of price sensitivity) decreases cubically with total liquidity. In plain English: mature markets naturally resist price manipulation, creating conditions where consensus can emerge.
+Mathematically, price sensitivity decreases cubically with total liquidity. In plain English: mature markets naturally resist manipulation, creating conditions where consensus can emerge.
 
-You don't need to understand the math. Just know it makes oracle-free settlement mathematically possible.
+The math also guarantees that accumulated liquidity exactly equals total settlement payouts. Every dollar in gets allocated out.
 
 ### Dynamic Opinion Competition
 
-Opinions enter and exit the market based on demonstrated support. This lets debates evolve as understanding deepens:
+Opinions enter and exit based on demonstrated support. This lets debates evolve:
 
 - Initial framings can be inadequate
-- New perspectives emerge
+- New perspectives emerge as discussion progresses
 - Irrelevant options get replaced
-- The market adapts naturally
+- The market adapts naturally to better capture the real debate
 
 ## What This Enables
 
-**Governance Markets**: DAOs can create markets for proposal evaluation, resource allocation, strategic direction.
+**Settling Internet Arguments**: Every Reddit thread, Twitter fight, and Discord debate can have a market. Put money on your take or shut up.
 
-**Research Consensus**: Scientific communities can aggregate expert opinion on technical questions, research priorities.
+**Exposing False Conviction**: When you ask "Will you bet on that?", performative takes collapse. Keyboard warriors revealed.
 
-**Collective Decisions**: Any community can resolve debates through economic commitment rather than voting.
+**Cultural Consensus**: Anime rankings, food debates, music taste, sports arguments—all the things people actually argue about, now with stakes.
 
-**Subjective Forecasting**: Questions about future trends where there's no binary outcome, just competing perspectives.
+**Technical Debates**: Framework wars, language battles, architecture opinions—let the people with experience back their claims with capital.
+
+**Governance That Works**: DAOs, communities, organizations—decisions backed by economic commitment instead of free voting.
+
+**Research Prioritization**: What directions deserve funding? Let experts stake their beliefs.
+
+**Values and Direction**: What principles should guide us? Markets reveal true preferences versus virtue signals.
 
 ## The Vision
 
 A world where:
 
-- **Any debate can have a market** - Permissionless creation
-- **Consensus emerges economically** - Not from authority, but from participants
-- **Truth-seeking is incentivized** - You profit by supporting positions that achieve consensus
-- **No censorship** - Fully onchain on Base, unstoppable
-- **Complete transparency** - All settlement logic visible and verifiable
+- **Every argument has stakes** - Make your claim, back it with capital
+- **Being right is profitable** - Truth-seeking has economic incentives
+- **Trolls pay real money** - Bad faith becomes expensive
+- **Consensus emerges** - Not from authority, but from participants
+- **Accountability is default** - You can always ask "Will you bet on that?"
+- **Permissionless** - Anyone can create debates, anyone can participate
+- **Uncensorable** - Fully onchain on Base, unstoppable
+- **Transparent** - All logic visible and verifiable
 
-This is infrastructure for collective intelligence on subjective questions.
+This is infrastructure for making online discourse real. For adding the one thing that's been missing from every internet argument: **consequences**.
 
 ## Built Fully Onchain
 
@@ -151,19 +214,20 @@ Everything happens on Base (Ethereum L2):
 - **Smart contracts** hold all funds and execute all logic
 - **Settlement** determined by observable on-chain price history
 - **No multisigs** controlling outcomes
+- **No admin keys** that can rug users
 - **Permissionless** - anyone can participate, create, propose
-- **Transparent** - anyone can verify
+- **Transparent** - anyone can verify the math
 
 The frontend (built with Next.js) is just a convenient interface. You could build your own. The blockchain is the source of truth.
 
 ## Next Steps
 
-Ready to dive deeper?
+Ready to understand why this matters?
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
   <a href="/docs/introduction/why-it-matters" className="block p-4 border rounded-lg hover:border-primary transition-colors">
     <div className="font-semibold mb-1">Why It Matters →</div>
-    <div className="text-sm text-muted-foreground">The broader implications and applications</div>
+    <div className="text-sm text-muted-foreground">Fixing broken online discourse with skin in the game</div>
   </a>
 
   <a href="/docs/introduction/how-it-works" className="block p-4 border rounded-lg hover:border-primary transition-colors">
@@ -174,4 +238,4 @@ Ready to dive deeper?
 
 ---
 
-*Consensus markets represent a genuinely new primitive for human coordination. Let's explore what becomes possible.*
+*Every argument you've ever had online, now with stakes. Every claim you've made, now measurable. This is what happens when you add accountability to the internet.*
