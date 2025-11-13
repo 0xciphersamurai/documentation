@@ -69,10 +69,14 @@ When you sell (exit) shares of an opinion:
 5. All other opinions' prices rise proportionally
 6. You receive USDC based on vault value (minus exit fee)
 
-**Exit fee:** 1% total on exit amount (currently 0.5% with platform fees disabled)
-- 0.25% to debate creator
-- 0.25% to opinion creators
-- Platform fee: 0.5% (currently disabled)
+**Exit fee breakdown:**
+
+| Fee Type | Percentage | Recipient | Status |
+|----------|------------|-----------|--------|
+| Creator fee (debate) | 0.25% | Debate creator | Active |
+| Creator fee (opinion) | 0.25% | Opinion creators | Active |
+| Platform fee | 0.5% | Platform | Currently disabled |
+| **Total** | **1.0%** (0.5% active) | | |
 
 **Example:**
 Continuing from above, you exit your Python position:
