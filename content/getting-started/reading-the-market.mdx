@@ -11,9 +11,9 @@ This guide explains Trigger Market-specific mechanics: how prices work, what the
 
 ## How Prices Work
 
-**Core rule: Squared prices always sum to 100%**
+**Core rule: L² norm of prices = 1**
 
-Due to the L² norm AMM, prices are normalized so that $\sum p_i^2 = 1$ (not $\sum p_i = 1$).
+Due to the L² norm AMM, prices are normalized so that $||p||_2 = 1$ (not $\sum p_i = 1$).
 
 Opinion vault value = $p_i \times q_i$ where $q_i$ is the quantity and $p_i = q_i / C$ is the price.
 

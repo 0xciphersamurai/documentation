@@ -17,17 +17,17 @@ Let's walk through the complete lifecycle of a consensus market, from creation t
 <Step>
 ### Someone Creates a Debate
 
-**Alex wants to start a market** about the best React state management library in 2025.
+**Alex wants to start a market** about which L1 smart contract blockchain will win the L1 competition.
 
 **They provide:**
 - A title and description
-- 3-10 initial opinions (let's say 4: Redux, Zustand, Jotai, MobX)
+- 3-10 initial opinions (let's say 4: Ethereum, Solana, Avalanche, Sui)
 - Initial liquidity (minimum $50 USDC, distributed equally across all opinions)
 
 **What happens:**
 1. Smart contract deploys on Base blockchain
 2. Each opinion starts with equal amounts: $12.50 worth each
-3. Initial prices are equal: each opinion at 50% (prices satisfy $\sum_i p_i^2 = 1$)
+3. Initial prices are equal: each opinion at $1/\sqrt{n}$ (50% with 4 opinions; L² norm of prices = 1: $||p||_2 = 1$)
 4. Market opens immediately for trading
 5. Alex receives shares proportional to their initial liquidity
 
@@ -37,17 +37,17 @@ Let's walk through the complete lifecycle of a consensus market, from creation t
 <Step>
 ### People Start Trading
 
-**Morgan discovers the market** and believes Zustand is undervalued.
+**Morgan discovers the market** and believes Solana is undervalued.
 
 **Current prices:**
-- Redux: 52% → Zustand: 48% → Jotai: 45% → MobX: 43%
+- Ethereum: 52% → Solana: 48% → Avalanche: 45% → Sui: 43%
 
-Morgan thinks Zustand should be higher. They buy $100 worth of Zustand shares.
+Morgan thinks Solana should be higher. They buy $100 worth of Solana shares.
 
 **What happens:**
 1. Morgan's $100 goes into the market vault
-2. They receive shares in Zustand (quantity calculated by the AMM formula)
-3. Zustand's price increases (exact amount depends on market size and AMM math)
+2. They receive shares in Solana (quantity calculated by the AMM formula)
+3. Solana's price increases (exact amount depends on market size and AMM math)
 4. All other prices adjust downward slightly (they compete for the price "space")
 5. Morgan's position is now visible in their profile
 
@@ -57,47 +57,47 @@ Morgan thinks Zustand should be higher. They buy $100 worth of Zustand shares.
 <Step>
 ### A New Opinion Emerges
 
-**Riley notices XState is missing** from the debate. They decide to propose it.
+**Riley notices Aptos is missing** from the debate. They decide to propose it.
 
 **Riley provides:**
-- A description of XState and why it matters
+- A description of Aptos and why it matters
 - Initial stake of $25 USDC
 
 **What happens:**
-1. XState enters the "candidate pool"—it's not in the main market yet
+1. Aptos enters the "candidate pool"—it's not in the main market yet
 2. Riley owns shares representing 100% of the $25 stake
-3. Other people can add stake to XState if they agree it should be included
+3. Other people can add stake to Aptos if they agree it should be included
 4. A progress bar shows: "$25 / $78 needed to replace weakest opinion"
 
-**The requirement:** To enter the main market, XState needs stake $\geq 105\%$ of the weakest active opinion's value.
+**The requirement:** To enter the main market, Aptos needs stake $\geq 105\%$ of the weakest active opinion's liquidation value.
 
 (The 5\% buffer prevents opinions from immediately replacing each other back and forth.)
 
-**Current weakest opinion:** MobX has vault value of $75. So XState needs $78.75 to be eligible for replacement (105\% of $75).
+**Current weakest opinion:** Sui has liquidation value of $75. So Aptos needs $78.75 to be eligible for replacement (105\% of $75).
 </Step>
 
 <Step>
 ### Opinions Get Replaced
 
-**More people stake on XState.** Total stake reaches $80.
+**More people stake on Aptos.** Total stake reaches $80.
 
 **Jordan notices** and clicks "Replace Weakest Opinion"
 
 **What happens:**
-1. Contract identifies the weakest opinion (MobX with $75 vault value)
-2. **MobX exits the AMM:**
-   - All MobX shareholders' shares now represent claims on $75 candidate stake
-   - MobX becomes a candidate with $75 in its pool
+1. Contract identifies the weakest opinion (Sui with $75 liquidation value)
+2. **Sui exits the AMM:**
+   - All Sui shareholders' shares now represent claims on $75 candidate stake
+   - Sui becomes a candidate with $75 in its pool
    - Previous shareholders can unstake (sell for USDC minus 1% fee) or hold hoping for re-entry
-3. **XState enters the AMM:**
+3. **Aptos enters the AMM:**
    - The $80 stake converts to AMM shares using closed-form formula
-   - All XState stakers receive proportional AMM shares
-   - XState now has a price and trades like other active opinions
+   - All Aptos stakers receive proportional AMM shares
+   - Aptos now has a price and trades like other active opinions
 4. Users get notifications about the swap
 
 **Crucial detail:** User share counts don't change on-chain. Only the *interpretation* changes:
-- Before: "You have 10 shares in MobX (worth $8 at current price)"
-- After: "You have $7.50 staked in candidate MobX" (your 10 shares now represent 10\% of $75 candidate stake)
+- Before: "You have 10 shares in Sui (worth $8 at current price)"
+- After: "You have $7.50 staked in candidate Sui" (your 10 shares now represent 10\% of $75 candidate stake)
 
 This is the **proportional claims system**—your ownership percentage stays the same, but what you own has changed state.
 </Step>
@@ -106,8 +106,8 @@ This is the **proportional claims system**—your ownership percentage stays the
 ### Market Matures and Prices Stabilize
 
 **Weeks pass.** People have:
-- Researched the libraries
-- Shared their experiences
+- Researched the blockchains
+- Analyzed their technology
 - Made their cases
 - Allocated their capital
 
@@ -117,10 +117,10 @@ This is the **proportional claims system**—your ownership percentage stays the
 - Week 3: Prices settle around consensus values
 
 **Current prices (stable for days):**
-- Zustand: 38%
-- Redux: 32%
-- XState: 18%
-- Jotai: 12%
+- Ethereum: 38%
+- Solana: 32%
+- Avalanche: 18%
+- Aptos: 12%
 
 The system tracks this stability using exponential moving averages (EWMA). It's measuring: "Are prices still changing meaningfully, or has everyone reached their position?"
 </Step>
@@ -150,23 +150,23 @@ The system tracks this stability using exponential moving averages (EWMA). It's 
 **After the 100-block confirmation period**, payouts become available.
 
 **Morgan's position:**
-- Bought Zustand for $100 when price was 48%
+- Bought Solana for $100 when price was 48%
 - Received ~208 shares (formula: $\Delta Q = -q + \sqrt{q^2 + 2MC + M^2}$)
-- Final price: 38%
+- Final price: 32%
 
 **Morgan's payout:**
-- Shares × Final price = 208 × 0.38 = $79.04
-- Minus 1% fee = $78.25
-- Result: Lost $21.75 (bought high, price fell)
+- Shares × Final price = 208 × 0.32 = $66.56
+- Minus 1% fee = $65.90
+- Result: Lost $34.10 (bought high, price fell)
 
 **Riley's position:**
-- Staked $25 on XState as candidate
-- XState entered AMM and settled at 18%
+- Staked $25 on Aptos as candidate
+- Aptos entered AMM and settled at 12%
 - Riley held through settlement
 
 **Riley's payout:**
 - Their proportional shares × final price
-- Made profit because XState went from candidate to 18% of final consensus
+- Made profit because Aptos went from candidate to 12% of final consensus
 
 **Important:** Payout claims have **NO deadline**. You can claim anytime after the 100-block finality period. You'll never lose your earned payouts.
 </Step>
