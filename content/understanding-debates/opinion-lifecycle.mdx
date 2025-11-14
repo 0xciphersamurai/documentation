@@ -73,42 +73,60 @@ Can accumulate stake and re-enter...
 
 ## The Replacement Mechanism
 
+### The Core Logic: Financial Strength Comparison
+
+Here's the simple truth about replacements:
+
+**The weakest opinion** is the one with the **fewest shares** in the AMM.
+
+If you were to **sell all those shares** back to the AMM, you'd receive some amount of money—call this the **liquidation value**.
+
+If a **candidate opinion has more money** than that liquidation value (plus a 5% buffer), then the candidate is **financially stronger** than the weakest active opinion.
+
+So we **swap them**:
+1. Sell all the weak opinion's shares (reducing its AMM quantity to zero)
+2. Use the candidate's money to buy shares starting from zero
+3. After this swap, the **AMM vault grows**—more money came in than went out
+4. The market is now financially stronger overall
+
+The **5% buffer** prevents flip-flopping. Without it, two opinions at nearly equal strength could replace each other endlessly.
+
 ### When Can Replacement Happen?
 
 A candidate can replace the weakest active opinion when:
 
-**Candidate stake ≥ (1.05 × Weakest opinion's vault value)**
-
-The 5% buffer (replacement threshold) prevents immediate flip-flopping.
+**Candidate stake ≥ 1.05 × (Money you'd get from selling all the weakest opinion's shares)**
 
 **Example:**
-- Weakest active opinion has vault value: $100
-- Candidate needs stake ≥ $105 to be eligible
-- Once $105 reached, anyone can trigger replacement
+- Weakest active opinion: if you sold all its shares, you'd get back $100
+- Candidate needs stake ≥ $105 to be eligible (5% stronger)
+- Once candidate has $105+, anyone can trigger replacement
+- After swap: AMM vault increases by $5 (the difference)
 
 ### Who Decides Which Opinion Gets Replaced?
 
 **Not you—the contract automatically replaces the weakest.**
 
-"Weakest" = opinion with lowest vault value (calculated as: q² / (||q|| + √(||q||² - q²)))
+"Weakest" means the opinion with the **fewest shares** in the AMM. (Technically, the one with the lowest liquidation value—the dollar amount you'd get back from selling all its shares.)
 
 This ensures fair competition. Opinions defend their position by maintaining support. If support wanes, they become vulnerable.
 
 ### What Happens During Replacement?
 
 **Step 1: Weakest opinion exits**
-1. System identifies weakest active opinion
-2. Calculates its liquidation value (call it V_weak)
+1. System identifies weakest active opinion (fewest shares)
+2. Sells all its shares, receiving liquidation value (call it $100)
 3. Opinion leaves the AMM
-4. Becomes a candidate with stake = V_weak
+4. Becomes a candidate with stake = $100
 
 **Step 2: Candidate enters**
-1. Candidate's stake (call it M_candidate) converts to AMM quantity
-2. Opinion enters the AMM at calculated quantity
+1. Candidate's stake (say $105) buys shares starting from zero
+2. Opinion enters the AMM with newly purchased shares
 3. Now has a price and can trade
+4. AMM vault increased by $5 (candidate brought more than weak opinion took)
 
 **Step 3: User positions automatically adjust**
-- Users holding the exited opinion: shares now represent claims on candidate stake
+- Users holding the exited opinion: shares now represent claims on $100 candidate stake
 - Users holding the entering opinion: shares now represent claims on AMM quantity
 - **No on-chain migration needed**—share counts stay the same, interpretation changes
 
@@ -295,7 +313,7 @@ A: Yes, by "unstaking." You receive proportional USDC from the candidate pool (m
 
 **Q: How do I know when my opinion might get replaced?**
 
-A: Watch its vault value compared to candidates. If it's the weakest and a candidate has 105%+ of its value, replacement is possible.
+A: Watch its liquidation value compared to candidates. If it's the weakest and a candidate has 105%+ of its liquidation value, replacement is possible.
 
 **Q: What happens to my shares when debate settles?**
 

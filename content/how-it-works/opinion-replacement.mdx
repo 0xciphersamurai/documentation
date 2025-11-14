@@ -33,28 +33,26 @@ Opinion replacement is the mechanism that makes markets evolutionary. Let's unde
 
 A candidate can replace the weakest active opinion when:
 
-$$\text{Candidate stake} \geq (1 + \theta) \times \text{Weakest opinion's vault value}$$
+$$\text{Candidate stake} \geq (1 + \theta) \times \text{Weakest opinion's liquidation value}$$
 
 Where:
 - $\theta$ = Replacement threshold buffer (default: 0.05 = 5\%)
-- Weakest = Opinion with lowest vault value among actives
+- Weakest = Opinion with lowest liquidation value among actives
 
 **Example:**
-- Weakest active opinion: Vault value $100
+- Weakest active opinion: Liquidation value $100
 - Threshold: 1.05 × $100 = $105
 - Candidate needs: $105+ to be eligible
 
-### What is Vault Value?
+### What is Liquidation Value?
 
-**Formula:**
+**In plain language:** The money you'd get from selling all shares of an opinion.
+
+**Formula (technical):**
 
 $$V_i = \frac{q_i^2}{\|q\| + \sqrt{\|q\|^2 - q_i^2}}$$
 
-**In practice:** The complete liquidation payout for that opinion.
-
-**Roughly:** Proportional to $q^2$ (so low quantity = low value = vulnerable)
-
-**Why this formula:** It's the closed-form solution for: "How much USDC would I get if I sold all shares of this opinion?"
+**Roughly:** Proportional to $q^2$ (so low quantity = low liquidation value = vulnerable)
 
 ### The 5% Buffer (Threshold)
 
@@ -83,17 +81,17 @@ $$V_i = \frac{q_i^2}{\|q\| + \sqrt{\|q\|^2 - q_i^2}}$$
 
 **Who gets replaced:** Always the weakest active opinion (automatic).
 
-**Not user's choice:** The contract determines weakest by vault value.
+**Not user's choice:** The contract determines weakest by liquidation value.
 
 **This ensures fairness:** Can't target specific opinions. Pure economics.
 
 **Example check:**
 ```
 Active Opinions:
-- Opinion A: Vault value $150
-- Opinion B: Vault value $120
-- Opinion C: Vault value $90  ← Weakest
-- Opinion D: Vault value $105
+- Opinion A: Liquidation value $150
+- Opinion B: Liquidation value $120
+- Opinion C: Liquidation value $90  ← Weakest
+- Opinion D: Liquidation value $105
 
 Candidate X has $95 stake
 Threshold: $90 × 1.05 = $94.50
@@ -310,12 +308,12 @@ Candidate stakes: -M_X + V_C (X removed, C added)
 ### For Active Opinion Holders
 
 **Monitor your opinion's vulnerability:**
-- Check its vault value vs. others
+- Check its liquidation value vs. others
 - If weakest, watch candidate pool
-- Consider buying more to increase vault value (defend position)
+- Consider buying more to increase liquidation value (defend position)
 
 **Defense mechanisms:**
-- Buy shares → increases q → increases vault value
+- Buy shares → increases q → increases liquidation value
 - Gets harder to replace
 - Natural protection through support
 
