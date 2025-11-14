@@ -37,12 +37,12 @@ Bridge from Ethereum mainnet using the official Base bridge, or buy directly on 
 
 ### How do prices work?
 
-Opinion prices (0-100%) = that opinion's vault value ÷ total liquidity. If Python has $5,000 in its vault and total liquidity is $20,000, Python is at 25%.
+Due to the L² norm AMM, prices are calculated such that squared prices sum to 100%. If Python's vault is 25% of total liquidity, Python's price is √0.25 = 50% (not 25%).
 
 When you buy Python:
 - Python's vault grows → its price rises
 - Other vaults unchanged → their prices fall proportionally
-- All prices still sum to 100%
+- All squared prices still sum to 100% ($\sum p_i^2 = 1$)
 
 ### What's slippage and why does it matter?
 

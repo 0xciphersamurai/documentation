@@ -11,27 +11,29 @@ This guide explains Trigger Market-specific mechanics: how prices work, what the
 
 ## How Prices Work
 
-**Core rule: Prices always sum to 100%**
+**Core rule: Squared prices always sum to 100%**
 
-Opinion price = its vault value ÷ total liquidity
+Due to the L² norm AMM, prices are normalized so that $\sum p_i^2 = 1$ (not $\sum p_i = 1$).
+
+Opinion vault value = $p_i \times q_i$ where $q_i$ is the quantity and $p_i = q_i / C$ is the price.
 
 **Example:**
-- Python vault: $5,000
-- JavaScript vault: $3,000
-- Rust vault: $2,000
+- Python vault: $5,000 (50% of total)
+- JavaScript vault: $3,000 (30% of total)
+- Rust vault: $2,000 (20% of total)
 - Total liquidity: $10,000
 
-**Prices:**
-- Python: 50%
-- JavaScript: 30%
-- Rust: 20%
+**Prices (not vault proportions):**
+- Python: 70.71% = √0.5
+- JavaScript: 54.77% = √0.3
+- Rust: 44.72% = √0.2
 
 When you buy Python for $1,000:
-- Python vault becomes $6,000
+- Python vault becomes $6,454.55
 - Total liquidity becomes $11,000
-- Python price: 54.5%
-- JavaScript price: 27.3% (vault unchanged, but now smaller slice)
-- Rust price: 18.2% (vault unchanged, but now smaller slice)
+- Python price: 76.6% (up from 70.71%)
+- JavaScript price: 49.79% (down from 54.77% - vault unchanged, but now smaller slice)
+- Rust price: 40.66% (down from 44.72% - vault unchanged, but now smaller slice)
 
 **Prices are relative.** One opinion rising means all others fall proportionally.
 

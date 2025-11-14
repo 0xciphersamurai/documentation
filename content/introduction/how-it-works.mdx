@@ -27,7 +27,7 @@ Let's walk through the complete lifecycle of a consensus market, from creation t
 **What happens:**
 1. Smart contract deploys on Base blockchain
 2. Each opinion starts with equal amounts: $12.50 worth each
-3. Initial prices are equal: each opinion at ~50% (prices satisfy $\sqrt{\sum_i p_i^2} = 1$)
+3. Initial prices are equal: each opinion at 50% (prices satisfy $\sum_i p_i^2 = 1$)
 4. Market opens immediately for trading
 5. Alex receives shares proportional to their initial liquidity
 
@@ -47,7 +47,7 @@ Morgan thinks Zustand should be higher. They buy $100 worth of Zustand shares.
 **What happens:**
 1. Morgan's $100 goes into the market vault
 2. They receive shares in Zustand (quantity calculated by the AMM formula)
-3. Zustand's price increases to ~53%
+3. Zustand's price increases (exact amount depends on market size and AMM math)
 4. All other prices adjust downward slightly (they compete for the price "space")
 5. Morgan's position is now visible in their profile
 

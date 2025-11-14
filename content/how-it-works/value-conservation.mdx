@@ -299,11 +299,9 @@ Where $\partial C/\partial q_i$ is the marginal cost of opinion $i$, which defin
 
 This theorem guarantees that the sum of all position values $(q_i \times \text{marginal\_price}_i)$ equals the total cost (vault).
 
-The normalized prices you see in the UI (that sum to 100%) are:
+The prices you see in the UI are the marginal prices $p_i = q_i / C$, which satisfy $\sum_i p_i^2 = 1$ (squared prices sum to 100%, not the prices themselves).
 
-$$\tilde{p}_i = \frac{p_i}{\sum_j p_j}$$
-
-But value calculations use the marginal prices $p_i$, which preserve the conservation property.
+Value calculations use these marginal prices $p_i$, which preserve the conservation property.
 
 ## Next Steps
 
