@@ -31,9 +31,11 @@ The AMM uses what's called a "homogeneous function" of degree 1. Without getting
 
 **If you scale all inputs by X, the output scales by X too.**
 
-For the cost function: C = √(Σq²_i)
+For the cost function:
 
-If you double all quantities (q₁, q₂, q₃...), the cost doubles exactly.
+$$C = \sqrt{\sum_i q_i^2}$$
+
+If you double all quantities $(q_1, q_2, q_3, \ldots)$, the cost doubles exactly.
 
 ### Euler's Theorem
 
@@ -41,12 +43,12 @@ There's a theorem in mathematics (Euler's theorem for homogeneous functions) tha
 
 **For degree-1 homogeneous functions:**
 
-Total value = Sum of (quantity × marginal value)
+$$\text{Total value} = \sum (\text{quantity} \times \text{marginal value})$$
 
 In our case:
-- Total value = Vault (C)
-- Marginal value = Price (∂C/∂q_i)
-- So: C = Σ(q_i × p_i)
+- Total value = Vault ($C$)
+- Marginal value = Price ($\partial C/\partial q_i$)
+- So: $C = \sum_i (q_i \times p_i)$
 
 **Translation:** The vault equals the sum of what everyone's positions are worth.
 
@@ -64,19 +66,18 @@ In our case:
 - **Total: $30.50**
 
 **Vault calculation:**
-- C = √(30² + 20² + 15²)
-- C = √(900 + 400 + 225)
-- C = √1525
-- C = $39.05
+
+$$C = \sqrt{30^2 + 20^2 + 15^2} = \sqrt{900 + 400 + 225} = \sqrt{1525} = 39.05$$
 
 **Wait, that doesn't match!**
 
-Actually, the prices shown aren't the marginal prices (∂C/∂q_i), they're normalized probabilities. Let me recalculate with actual marginal prices:
+Actually, the prices shown aren't the marginal prices ($\partial C/\partial q_i$), they're normalized probabilities. Let me recalculate with actual marginal prices:
 
 **Marginal prices:**
-- p_A = q_A / C = 30 / 39.05 = $0.768
-- p_B = q_B / C = 20 / 39.05 = $0.512
-- p_C = q_C / C = 15 / 39.05 = $0.384
+
+$$p_A = \frac{q_A}{C} = \frac{30}{39.05} = 0.768$$
+$$p_B = \frac{q_B}{C} = \frac{20}{39.05} = 0.512$$
+$$p_C = \frac{q_C}{C} = \frac{15}{39.05} = 0.384$$
 
 **Individual values (using marginal prices):**
 - A: 30 × 0.768 = $23.04
@@ -207,8 +208,8 @@ Should match exactly (or within tiny rounding error).
 **Total vault should equal sum of all positions:**
 
 **To verify:**
-1. Sum all active opinion values (q_i × p_i for all i)
-2. Check vault value: √(Σq²_i)
+1. Sum all active opinion values $(q_i \times p_i$ for all $i)$
+2. Check vault value: $\sqrt{\sum_i q_i^2}$
 3. These should match
 
 You can do this from public contract data.
@@ -288,18 +289,21 @@ Your position's value is protected by mathematics, not promises. The AMM formula
 
 For those interested in the deeper math:
 
-The cost function C = √(Σq²_i) is the L² norm. It's homogeneous of degree 1.
+The cost function $C = \sqrt{\sum_i q_i^2}$ is the L² norm. It's homogeneous of degree 1.
 
 By Euler's theorem for homogeneous functions:
-**C = Σ(q_i × ∂C/∂q_i)**
 
-Where ∂C/∂q_i is the marginal cost of opinion i, which defines its marginal price.
+$$C = \sum_i \left(q_i \times \frac{\partial C}{\partial q_i}\right)$$
 
-This theorem guarantees that the sum of all position values (q_i × marginal_price_i) equals the total cost (vault).
+Where $\partial C/\partial q_i$ is the marginal cost of opinion $i$, which defines its marginal price.
 
-The normalized prices you see in the UI (that sum to 100%) are: p̃_i = p_i / (Σp_j)
+This theorem guarantees that the sum of all position values $(q_i \times \text{marginal\_price}_i)$ equals the total cost (vault).
 
-But value calculations use the marginal prices p_i, which preserve the conservation property.
+The normalized prices you see in the UI (that sum to 100%) are:
+
+$$\tilde{p}_i = \frac{p_i}{\sum_j p_j}$$
+
+But value calculations use the marginal prices $p_i$, which preserve the conservation property.
 
 ## Next Steps
 

@@ -11,12 +11,14 @@ Trigger Market uses the L² norm (Euclidean distance) as its cost function. This
 
 ## The Cost Function
 
-**Formula:** C = √(Σq²_i)
+**Formula:**
+
+$$C = \sqrt{\sum_i q_i^2}$$
 
 Where:
-- C = Total cost (vault value)
-- q_i = Quantity of opinion i
-- Σ = Sum across all active opinions
+- $C$ = Total cost (vault value)
+- $q_i$ = Quantity of opinion i
+- $\sum$ = Sum across all active opinions
 
 **In words:** The cost is the square root of the sum of squared quantities.
 
@@ -64,7 +66,8 @@ The more of an opinion exists, the cheaper it becomes to add more (in relative t
 Prices change continuously and predictably as quantities change. No sudden jumps.
 
 **Marginal price formula:**
-p_i = q_i / C = q_i / √(Σq²_j)
+
+$$p_i = \frac{q_i}{C} = \frac{q_i}{\sqrt{\sum_j q_j^2}}$$
 
 **Properties:**
 - Differentiable everywhere
@@ -154,7 +157,7 @@ The L² norm creates mathematical pressure toward stable equilibria.
 
 **L² norm (Trigger Market):**
 - Works natively for N opinions (not just 2)
-- Liquidity proportional to √(total quantity)
+- Liquidity proportional to $\sqrt{\text{total quantity}}$
 - All opinions benefit from shared liquidity
 - No "isolated" positions
 
@@ -266,7 +269,7 @@ Price sensitivity (slippage per unit) depends on current quantities:
 
 **1. Cost scaling:**
 - Manipulating prices requires moving quantities
-- Cost scales with √(magnitude)
+- Cost scales with $\sqrt{\text{magnitude}}$
 - Larger manipulations disproportionately expensive
 
 **2. Reversion pressure:**
@@ -309,7 +312,7 @@ Price sensitivity (slippage per unit) depends on current quantities:
 
 ### Why Not Linear Cost?
 
-C = Σq_i (simple sum)
+$$C = \sum_i q_i \text{ (simple sum)}$$
 
 **Problems:**
 - Prices don't depend on distribution
@@ -319,7 +322,7 @@ C = Σq_i (simple sum)
 
 ### Why Not Constant Product?
 
-C = Π(q_i) (product, like Uniswap)
+$$C = \prod_i q_i \text{ (product, like Uniswap)}$$
 
 **Problems:**
 - Only works for 2 opinions (extending to N is messy)

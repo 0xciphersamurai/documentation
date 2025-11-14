@@ -33,10 +33,10 @@ Opinion replacement is the mechanism that makes markets evolutionary. Let's unde
 
 A candidate can replace the weakest active opinion when:
 
-**Candidate stake ≥ (1 + θ) × Weakest opinion's vault value**
+$$\text{Candidate stake} \geq (1 + \theta) \times \text{Weakest opinion's vault value}$$
 
 Where:
-- θ = Replacement threshold buffer (default: 0.05 = 5%)
+- $\theta$ = Replacement threshold buffer (default: 0.05 = 5\%)
 - Weakest = Opinion with lowest vault value among actives
 
 **Example:**
@@ -46,11 +46,13 @@ Where:
 
 ### What is Vault Value?
 
-**Formula:** V_i = q²_i / (||q|| + √(||q||² - q²_i))
+**Formula:**
+
+$$V_i = \frac{q_i^2}{\|q\| + \sqrt{\|q\|^2 - q_i^2}}$$
 
 **In practice:** The complete liquidation payout for that opinion.
 
-**Roughly:** Proportional to q² (so low quantity = low value = vulnerable)
+**Roughly:** Proportional to $q^2$ (so low quantity = low value = vulnerable)
 
 **Why this formula:** It's the closed-form solution for: "How much USDC would I get if I sold all shares of this opinion?"
 
@@ -119,12 +121,12 @@ Result: X is ELIGIBLE to replace C
 **The weakest active opinion is removed:**
 
 **Calculations:**
-1. Identify opinion C (weakest, q_C = 15 units)
-2. Calculate total cost: C = ||q|| = √(Σq²_i) = 50
-3. Calculate liquidation value: V_C = q²_C / (C + √(C² - q²_C)) = $90
+1. Identify opinion C (weakest, $q_C = 15$ units)
+2. Calculate total cost: $C = \|q\| = \sqrt{\sum_i q_i^2} = 50$
+3. Calculate liquidation value: $V_C = \frac{q_C^2}{C + \sqrt{C^2 - q_C^2}} = 90$
 4. Remove C from active pool
-5. Set q_C = 0
-6. New cost: C' = √(Σq²_i where i ≠ C) = 47
+5. Set $q_C = 0$
+6. New cost: $C' = \sqrt{\sum_{i \neq C} q_i^2} = 47$
 
 **What happens to C's shareholders:**
 - Share counts unchanged: userShares[alice][C] still = 100
@@ -143,11 +145,11 @@ Result: X is ELIGIBLE to replace C
 **The candidate X enters the AMM:**
 
 **Calculations:**
-1. Candidate X has stake M_X = $95
-2. Current cost after exit: C' = 47
-3. Calculate entry quantity: q_X = √(M_X × (2C' + M_X)) = 13.4 units
-4. Add X to active pool with q_X = 13.4
-5. New cost: C'' = √((C')² + q²_X) = C' + M_X = 47 + 95 = 142
+1. Candidate X has stake $M_X = 95$
+2. Current cost after exit: $C' = 47$
+3. Calculate entry quantity: $q_X = \sqrt{M_X \times (2C' + M_X)} = 13.4$ units
+4. Add X to active pool with $q_X = 13.4$
+5. New cost: $C'' = \sqrt{(C')^2 + q_X^2} = C' + M_X = 47 + 95 = 142$
 
 **What happens to X's stakers:**
 - Share counts unchanged: userShares[bob][X] still = 50
