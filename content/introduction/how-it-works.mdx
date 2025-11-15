@@ -19,7 +19,7 @@ Let's walk through the complete lifecycle of a consensus market, from creation t
 
 **Alex wants to start a market** about which L1 smart contract blockchain will win the L1 competition.
 
-**They provide:**
+**Alex provides:**
 - A title and description
 - 3-10 initial opinions (let's say 4: Ethereum, Solana, Avalanche, Sui)
 - Initial liquidity (minimum $50 USDC, distributed equally across all opinions)
@@ -29,7 +29,7 @@ Let's walk through the complete lifecycle of a consensus market, from creation t
 2. Each opinion starts with equal amounts: $12.50 worth each
 3. Initial prices are equal: each opinion at $1/\sqrt{n}$ (50% with 4 opinions; L² norm of prices = 1: $||p||_2 = 1$)
 4. Market opens immediately for trading
-5. Alex receives shares proportional to their initial liquidity
+5. Alex receives shares proportional to the initial liquidity
 
 **Cost:** ~$0.50 gas fee + minimum $50 USDC liquidity
 </Step>
@@ -42,14 +42,14 @@ Let's walk through the complete lifecycle of a consensus market, from creation t
 **Current prices:**
 - Ethereum: 52% → Solana: 48% → Avalanche: 45% → Sui: 43%
 
-Morgan thinks Solana should be higher. They buy $100 worth of Solana shares.
+Morgan thinks Solana should be higher. Morgan buys $100 worth of Solana shares.
 
 **What happens:**
 1. Morgan's $100 goes into the market vault
-2. They receive shares in Solana (quantity calculated by the AMM formula)
+2. Morgan receives shares in Solana (quantity calculated by the AMM formula)
 3. Solana's price increases (exact amount depends on market size and AMM math)
-4. All other prices adjust downward slightly (they compete for the price "space")
-5. Morgan's position is now visible in their profile
+4. All other prices adjust downward slightly (opinions compete for the price "space")
+5. Morgan's position is now visible in the profile
 
 **Key insight:** Every trade moves prices. More buying = higher price. More selling = lower price. Prices reflect collective belief weighted by capital.
 </Step>
@@ -57,7 +57,7 @@ Morgan thinks Solana should be higher. They buy $100 worth of Solana shares.
 <Step>
 ### A New Opinion Emerges
 
-**Riley notices Aptos is missing** from the debate. They decide to propose it.
+**Riley notices Aptos is missing** from the debate. Riley decides to propose it.
 
 **Riley provides:**
 - A description of Aptos and why it matters
@@ -66,7 +66,7 @@ Morgan thinks Solana should be higher. They buy $100 worth of Solana shares.
 **What happens:**
 1. Aptos enters the "candidate pool"—it's not in the main market yet
 2. Riley owns shares representing 100% of the $25 stake
-3. Other people can add stake to Aptos if they agree it should be included
+3. Other people can add stake to Aptos if in agreement with the proposal
 4. A progress bar shows: "$25 / $78 needed to replace weakest opinion"
 
 **The requirement:** To enter the main market, Aptos needs stake $\geq 105\%$ of the weakest active opinion's liquidation value.
@@ -122,7 +122,7 @@ This is the **proportional claims system**—your ownership percentage stays the
 - Avalanche: 18%
 - Aptos: 12%
 
-The system tracks this stability using exponential moving averages (EWMA). It's measuring: "Are prices still changing meaningfully, or has everyone reached their position?"
+The system tracks this stability using exponential moving averages (EWMA). It's measuring: "Are prices still changing meaningfully, or has everyone reached equilibrium?"
 </Step>
 
 <Step>
@@ -165,7 +165,7 @@ The system tracks this stability using exponential moving averages (EWMA). It's 
 - Riley held through settlement
 
 **Riley's payout:**
-- Their proportional shares × final price
+- Proportional shares × final price
 - Made profit because Aptos went from candidate to 12% of final consensus
 
 **Important:** Payout claims have **NO deadline**. You can claim anytime after the 100-block finality period. You'll never lose your earned payouts.
