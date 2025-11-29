@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: '%s | Trigger Market',
   },
   description: 'The first consensus market platform - fully onchain, oracle-free prediction markets for subjective debates',
-  keywords: ['prediction markets', 'consensus markets', 'blockchain', 'DeFi', 'Base', 'oracle-free'],
+  keywords: ['prediction markets', 'consensus markets', 'blockchain', 'DeFi', 'Polygon', 'oracle-free'],
   authors: [{ name: 'Trigger Market Team' }],
   openGraph: {
     title: 'Trigger Market Documentation',
