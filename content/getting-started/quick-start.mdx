@@ -1,0 +1,285 @@
+---
+title: Quick Start
+description: Get up and running in 5 minutes
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+
+# Quick Start
+
+Let's get you trading on your first consensus market. This guide assumes no prior experience with crypto markets or DeFi.
+
+## What You'll Need
+
+**Required:**
+- A crypto wallet (MetaMask, Coinbase Wallet, WalletConnect, etc.)
+- Some USDC on Polygon network (the stablecoin used for all trades)
+- ~$20 to start (minimum trades are flexible, but this gives room to experiment)
+
+**Optional:**
+- POL for gas fees (~$2-5 to cover multiple transactions)
+
+<Callout title="New to Crypto?" type="info">
+Don't have a wallet yet? MetaMask is beginner-friendly: [Install MetaMask](https://metamask.io/)
+
+Need USDC on Polygon? You can bridge from Ethereum or buy directly through exchanges that support Polygon.
+</Callout>
+
+## Your First Trade in 5 Steps
+
+<Steps>
+
+<Step>
+### Connect Your Wallet
+
+1. Visit **trigger.market** (placeholder—actual URL)
+2. Click **"Connect Wallet"** in the top right
+3. Select your wallet provider (MetaMask, Coinbase Wallet, etc.)
+4. Approve the connection request in your wallet
+5. Sign the message to verify ownership (no gas cost)
+
+**You should see:**
+- Your wallet address in the top bar
+- Your USDC balance
+- Your portfolio value (starts at $0)
+</Step>
+
+<Step>
+### Find a Debate
+
+**Browse the home page** to find active debates:
+
+**Filter by category:**
+- Technology
+- Gaming
+- Food & Lifestyle
+- Sports
+- Culture
+
+**Sort by:**
+- Volume (most traded)
+- Liquidity (most capital)
+- New (recently created)
+- Ending soon (close to settlement)
+
+**What to look for:**
+- Topics you understand or care about
+- Active debates with recent trading
+- Multiple opinions with distributed prices (no single dominant winner yet)
+
+**Click on a debate** that interests you to see details.
+</Step>
+
+<Step>
+### Review the Debate
+
+On the debate detail page, you'll see:
+
+**Current Opinion Prices:**
+- Opinion A: 52%
+- Opinion B: 45%
+- Opinion C: 38%
+- Opinion D: 30%
+
+**Note:** Prices sum to 100% (each opinion's vault value as percentage of total liquidity).
+
+**Review:**
+- **Description**: What's being debated?
+- **Opinion details**: Click each to read full arguments
+- **Price chart**: How have prices evolved?
+- **Comments**: What's the community discussion?
+- **Top holders**: Who's backing which opinions?
+
+**Settlement progress** shows how close to settling:
+```
+✅ Age: 12 days (required: 7)
+⏳ Stability: Moderate (still trading actively)
+```
+</Step>
+
+<Step>
+### Make Your Trade
+
+**Choose an opinion** you believe is undervalued or will gain consensus:
+
+1. **Click "Buy"** on that opinion (or use trading panel on right)
+2. **Enter amount** in USDC (e.g., $20)
+3. **Review preview:**
+   - Current price: 38%
+   - Estimated new price: 39.5%
+   - Shares you'll receive: ~51.2
+   - Your position value: ~$20.00
+   - Gas cost: ~$0.10
+
+4. **Click "Confirm Trade"**
+5. **Approve in your wallet** (sign transaction)
+6. **Wait for confirmation** (~2 seconds on Polygon)
+
+**Done!** Your position now appears in your profile.
+</Step>
+
+<Step>
+### Monitor Your Position
+
+**Check your profile** (click avatar → "Positions"):
+
+**You'll see:**
+- Debate name
+- Opinion you hold
+- Quantity: 51.2 shares
+- Current value: $20.15 (if price rose slightly)
+- P&L: +$0.15 (+0.75%)
+
+**Watch the debate:**
+- Price changes as others trade
+- Your position value adjusts automatically
+- Green = profit, Red = loss
+
+**You can:**
+- **Sell anytime**: Convert back to USDC (minus 1% fee if enabled)
+- **Buy more**: Increase your position
+- **Hold until settlement**: Claim final payout based on final price
+</Step>
+
+</Steps>
+
+## Understanding Your First Position
+
+### What You Own
+
+You own **shares** in that opinion. Specifically:
+
+- **Shares**: 51.2 (fixed quantity)
+- **Current price**: 39% (changes with trading)
+- **Position value**: Shares × Price = 51.2 × 0.39 = ~$20
+
+### How Value Changes
+
+**Price increases** (38% → 45%):
+- Position value: 51.2 × 0.45 = $23.04
+- P&L: +$3.04 (+15.2%)
+
+**Price decreases** (38% → 32%):
+- Position value: 51.2 × 0.32 = $16.38
+- P&L: -$3.62 (-18.1%)
+
+Your profit or loss depends entirely on price movement.
+
+### When to Sell
+
+**Consider selling if:**
+- Price rose significantly and you want to lock gains
+- You've changed your mind about the opinion
+- You need the capital elsewhere
+- Settlement approaching and you want certainty
+
+**Consider holding if:**
+- You believe price will rise further
+- Opinion gaining momentum
+- You want to see final settlement
+- Transaction fees not worth it yet
+
+### Settlement Payout
+
+If you hold until settlement:
+
+**Your final payout = Shares × Final price**
+
+**Example:**
+- You hold: 51.2 shares
+- Final price: 0.42
+- Gross payout: 51.2 × 0.42 = $21.50
+- Minus 1% fee (if enabled): $21.29
+- Your profit: $1.29 on $20 trade
+
+## Common First-Time Questions
+
+**Q: Can I lose more than I invested?**
+
+A: No. Maximum loss is your initial investment (if price goes to near-zero). You can't lose more than you put in.
+
+**Q: When should I trade vs. when should I wait?**
+
+A: Trade when you have conviction. Waiting is fine if you're still researching or if prices don't reflect value you see.
+
+**Q: How do I know if I'm overpaying?**
+
+A: Watch "price impact" in the preview. Large trades relative to liquidity = more slippage. Start small to learn.
+
+**Q: What if the debate settles before I sell?**
+
+A: You receive payout based on final price. No deadline to claim. Might be higher or lower than current price depending on final settlement.
+
+**Q: Can I trade multiple opinions in the same debate?**
+
+A: Yes! You can hold positions in different opinions. They compete, so one rising usually means others falling.
+
+**Q: What happens to my position if the opinion gets replaced?**
+
+A: Your shares convert to candidate stake automatically (proportional claims preserved). You can unstake or wait for potential re-entry.
+
+## Tips for New Traders
+
+### Start Small
+
+Don't bet your entire budget on first trade. Split across multiple positions to learn:
+- How prices move
+- How your intuition performs
+- What info matters
+
+### Read Before Trading
+
+Review:
+- Full opinion descriptions (click to expand)
+- Comments from community
+- Price history charts
+- Who's holding what
+
+Information matters.
+
+### Watch Settlement Progress
+
+Debates close to settling have less time for prices to move. Early-stage debates have more volatility and opportunity.
+
+### Learn from Each Trade
+
+After each position:
+- Why did you buy?
+- What happened to price?
+- What would you do differently?
+
+The market teaches through experience.
+
+### Engage with Community
+
+Use the comments:
+- Ask questions
+- Share your reasoning
+- Learn from others' perspectives
+
+Better understanding → better trading decisions.
+
+## Next Steps
+
+Now that you've made your first trade, go deeper:
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+  <a href="/docs/getting-started/your-first-position" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">Understanding Your Position →</div>
+    <div className="text-sm text-muted-foreground">How to track, manage, and optimize</div>
+  </a>
+
+  <a href="/docs/getting-started/reading-the-market" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">Reading the Market →</div>
+    <div className="text-sm text-muted-foreground">How to interpret prices, charts, and signals</div>
+  </a>
+</div>
+
+<Callout title="You're In!" type="info">
+You've made your first consensus market trade. Welcome to a new way of expressing beliefs and discovering collective intelligence.
+</Callout>
+
+---
+
+*The best way to learn is by doing. Start small, experiment, and build intuition through experience.*

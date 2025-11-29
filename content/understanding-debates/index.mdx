@@ -1,239 +1,34 @@
 ---
-title: Opinions and Prices
-description: Understanding what prices mean and how they reflect consensus
+title: Understanding Debates
+description: How debates work, from opinions and prices to consensus formation
 ---
 
-import { Callout } from 'fumadocs-ui/components/callout';
+# Understanding Debates
 
-# Opinions and Prices
+This section explains the core mechanics of debates on Trigger Market—how opinions work, how prices form, and how consensus emerges.
 
-At the heart of every debate are **opinions** with **prices**. Understanding what these represent is key to participating effectively.
+## What You'll Learn
 
-## What is an Opinion?
+- **Opinions and Prices** — What prices represent and how they reflect collective belief
+- **The Opinion Lifecycle** — How opinions move between active and candidate states
+- **How Consensus Forms** — The settlement criteria and what price stability means
+- **Dynamic Evolution** — How markets adapt as better framings emerge
 
-An opinion is a perspective or position in a debate. It's not right or wrong—it's a viewpoint that has supporters.
+## Key Concepts
 
-**Examples:**
+A debate is a market where multiple opinions compete for support. Each opinion has:
 
-In a debate about "Best approach to solve problem X":
-- Opinion A: "Use existing framework Y"
-- Opinion B: "Build custom solution"
-- Opinion C: "Hybrid approach combining both"
+- **A price** — reflecting its current level of support
+- **Shareholders** — people who have bought into that opinion
+- **A lifecycle state** — either active (tradeable) or candidate (waiting to enter)
 
-Each opinion represents a distinct perspective that people can support economically.
+Unlike prediction markets, debates don't have "correct" answers. The final price distribution *is* the answer—showing what participants with skin in the game collectively believe.
 
-## What Do Prices Represent?
+## Start Here
 
-Prices are **consensus signals**—they show collective belief weighted by capital commitment.
-
-**A price of 45% doesn't mean:**
-- 45% probability of being "correct"
-- 45% of people agree
-
-**A price of 45% means:**
-- Given the current distribution of capital
-- And the mathematical pricing formula (L² norm)
-- This opinion's relative support leads to this price
-- **Most usefully: This is what the market believes right now**
-
-### Price Normalization
-
-Prices don't sum to 100%. Instead, they satisfy: √(Σp²) = 1
-
-**Example prices:**
-- Opinion A: 52%
-- Opinion B: 48%
-- Opinion C: 42%
-- Opinion D: 38%
-
-Sum = 180% (not 100%)
-But: √(52² + 48² + 42² + 38²) = 100% ✓
-
-This L² normalization is a mathematical property of the system. What matters for you: **higher price = more support**.
-
-## How Prices Change
-
-Prices move based on trading:
-
-### Buying Increases Price
-
-When you buy shares in Opinion A:
-1. Your money goes into the market vault
-2. Opinion A's quantity increases (using L² formula)
-3. Opinion A's price rises
-4. All other prices decrease slightly
-
-**Example:**
-- Before: A: 45%, B: 43%, C: 40%
-- You buy $50 of A
-- After: A: 48%, B: 42%, C: 39%
-
-Your buy pushed A up, compressed others down.
-
-### Selling Decreases Price
-
-When you sell shares of Opinion A:
-1. You receive money from the vault (minus 1% fee if enabled)
-2. Opinion A's quantity decreases
-3. Opinion A's price falls
-4. All other prices increase slightly
-
-### Prices Compete
-
-Opinions compete for "price space". The prices are coupled—when one rises, others must fall. This creates substitution effects.
-
-Think of it like filling a fixed container. More liquid in one section means less in others.
-
-## Price Sensitivity and Liquidity
-
-Here's a crucial property: **As liquidity grows, prices become more stable.**
-
-**Early market (low liquidity):**
-- $100 trade might move price 5-10%
-- High volatility
-- Individual actions matter a lot
-
-**Mature market (high liquidity):**
-- $100 trade might move price 0.5-1%
-- Low volatility
-- Requires large capital to shift consensus
-
-**Why this matters:** It's what makes oracle-free settlement possible. As markets mature, prices naturally stabilize around equilibrium values. When they stop moving, consensus has formed.
-
-Mathematically: The Hessian (price sensitivity measure) decreases as 1/liquidity³. This cubic relationship means stability increases rapidly as capital accumulates.
-
-## Reading the Market
-
-### Absolute Price
-
-**High price (50%+):** Strong consensus support
-**Medium price (30-50%):** Significant but not dominant support
-**Low price (10-30%):** Minority view, but present
-**Very low (below 10%):** Minimal support, vulnerable to replacement
-
-### Price Changes
-
-**Rapid increase:** New information or growing conviction
-**Rapid decrease:** Waning support or competing opinions strengthening
-**Stable prices:** Market equilibrium, consensus forming
-
-### Volume
-
-High trading volume means:
-- Active debate
-- Information flowing
-- Opinions shifting
-- Not yet settled
-
-Low trading volume means:
-- Positions established
-- Less information flow
-- Approaching equilibrium
-
-## What Prices Tell You
-
-Prices aggregate:
-- **Capital allocation**: How much money backs each view
-- **Conviction**: People stake real funds, not just votes
-- **Current belief**: This is what the market thinks *now*
-- **Relative support**: How opinions compare to each other
-
-Prices don't tell you:
-- Which opinion is "correct" (debates don't have correct answers)
-- What will happen in the external world
-- What everyone thinks (just those with capital at stake)
-
-<Callout title="Key Insight" type="info">
-Prices are consensus signals, not truth predictions. They show what participants with skin in the game currently believe, weighted by their conviction.
-</Callout>
-
-## Your Position Value
-
-When you hold shares in an opinion, your position value = shares × current price.
-
-**Example:**
-- You hold 100 shares in Opinion A
-- Current price: 0.45
-- Your position value: 100 × 0.45 = $45
-
-This value changes as prices change:
-- Price rises → your position value increases
-- Price falls → your position value decreases
-
-**At settlement:**
-- Prices freeze
-- Your payout = shares × final price
-
-## Price Impact
-
-When you trade, you impact the price. Larger trades = larger impact.
-
-**The system shows you:**
-- Current price: 45%
-- Your trade size: $100
-- Estimated new price: 48%
-- Shares you'll receive: ~208
-
-You can see the impact before confirming.
-
-**Slippage**: The difference between current price and execution price is your price impact. Larger trades relative to liquidity = more slippage.
-
-## Multiple Opinions
-
-Debates can have up to 10 active opinions (hard cap).
-
-**Why 10?**
-- Cognitive clarity—users can evaluate 10 options
-- Mathematical stability—L² norm prices stay well-behaved
-- UX simplicity—interface remains usable
-
-With 10 opinions, prices spread across the range. Some high (30-50%), some medium (15-30%), some low (5-15%).
-
-**The market automatically enforces:** Weakest opinions are vulnerable to replacement by candidates with more support.
-
-## Practical Examples
-
-### Example 1: Clear Leader
-
-**Debate: "Best deployment platform for startups"**
-- Vercel: 58%
-- Netlify: 38%
-- Cloudflare Pages: 32%
-- AWS Amplify: 18%
-
-**Reading**: Strong consensus forming around Vercel. Netlify viable alternative. Others have minority support.
-
-### Example 2: Contested Debate
-
-**Debate: "Best way to make coffee at home"**
-- Pour over: 42%
-- Espresso machine: 40%
-- French press: 39%
-- AeroPress: 37%
-
-**Reading**: No clear winner. Multiple viable approaches. Market hasn't reached consensus yet—coffee nerds are still fighting.
-
-### Example 3: Evolution
-
-**Week 1:**
-- Old framework: 55%
-- New framework: 45%
-
-**Week 3 (after new framework improves):**
-- Old framework: 42%
-- New framework: 58%
-
-**Reading**: Consensus shifted as information emerged.
-
-## Next: The Opinion Lifecycle
-
-Understanding prices is foundational. Next, let's explore the **opinion lifecycle**—how opinions move between active and candidate states:
-
-<a href="/docs/understanding-debates/opinion-lifecycle" className="block p-4 border rounded-lg hover:border-primary transition-colors mt-6">
-  <div className="font-semibold mb-1">The Opinion Lifecycle →</div>
-  <div className="text-sm text-muted-foreground">The circular design that makes markets evolutionary</div>
-</a>
-
----
-
-*Prices are collective intelligence made visible. Learning to read them is learning to read consensus.*
+<div className="grid grid-cols-1 gap-4 my-6">
+  <a href="/docs/understanding-debates/opinions-and-prices" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">Opinions and Prices →</div>
+    <div className="text-sm text-muted-foreground">Understanding what prices mean and how they change</div>
+  </a>
+</div>

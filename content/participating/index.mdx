@@ -1,234 +1,32 @@
 ---
-title: Trading Opinions
-description: Strategies and approaches for participating in consensus markets
+title: Ways to Participate
+description: Different ways to engage with Trigger Market
 ---
 
-import { Callout } from 'fumadocs-ui/components/callout';
+# Ways to Participate
 
-# Trading Opinions
+There are several ways to participate in Trigger Market beyond just trading. This section covers all the ways you can engage with the platform.
 
-This section explains the specific mechanics of trading on Trigger Market. We explain how the system works, not how you should trade.
+## What You'll Learn
 
-## AMM, Not Orderbook
+- **Trading Opinions** — The mechanics of buying and selling shares in opinions
+- **Creating Debates** — How to launch your own consensus markets and earn creator fees
+- **Proposing Opinions** — Adding new perspectives to existing debates
+- **Why Participation Matters** — The broader impact of consensus markets
 
-**Critical difference:** Trigger Market uses an Automated Market Maker (AMM), not an orderbook.
+## Ways to Earn
 
-**What this means:**
-- **No limit orders** (at least not currently implemented)
-- **Only market orders** that execute immediately at current prices
-- **You trade against the AMM**, not against other users
-- **No need for counterparty** to take the other side of your trade
-- **Prices adjust automatically** based on vault values
+Trigger Market offers multiple ways to earn:
 
-**Traditional orderbooks** require:
-- Someone else placing an opposite order
-- Waiting for your limit order to fill
-- Market depth and liquidity from other traders
+1. **Trading** — Buy low, sell high, or hold until settlement
+2. **Creating Debates** — Earn 0.25% of all exit volume in your debates
+3. **Proposing Opinions** — Earn 0.25% when people trade your opinions
 
-**AMM provides:**
-- Always-available liquidity from the vault
-- Instant execution at current price (plus slippage)
-- No waiting for matches
+## Start Here
 
-## How Buying Works
-
-When you buy shares of an opinion:
-
-**What happens:**
-1. You spend USDC (your purchase amount)
-2. That USDC enters the opinion's vault
-3. The opinion's vault value increases
-4. The opinion's price rises
-5. All other opinions' prices fall proportionally (they're now smaller slices of total liquidity)
-6. You receive shares representing your proportional claim on that vault
-
-**Example:**
-- Python vault: $5,000 (price: 70.71%)
-- JavaScript vault: $3,000 (price: 54.77%)
-- Rust vault: $2,000 (price: 44.72%)
-- Total liquidity: $10,000
-
-You buy Python for $1,000:
-- Python vault becomes $6,454.55
-- Total liquidity becomes $11,000
-- Python price: 76.6% (up from 70.71%)
-- JavaScript price: 49.79% (down from 54.77% - vault unchanged but now smaller slice)
-- Rust price: 40.66% (down from 44.72% - vault unchanged but now smaller slice)
-
-**Your shares:** You receive shares worth $1,000 at the average price you paid during the trade. Your shares give you proportional claim on Python's vault.
-
-## How Selling Works
-
-When you sell (exit) shares of an opinion:
-
-**What happens:**
-1. You burn your shares
-2. USDC exits the opinion's vault to you
-3. The opinion's vault value decreases
-4. The opinion's price falls
-5. All other opinions' prices rise proportionally
-6. You receive USDC based on vault value (minus exit fee)
-
-**Exit fee breakdown:**
-
-| Fee Type | Percentage | Recipient | Status |
-|----------|------------|-----------|--------|
-| Creator fee (debate) | 0.25% | Debate creator | Active |
-| Creator fee (opinion) | 0.25% | Opinion creators | Active |
-| Platform fee | 0.5% | Platform | Currently disabled |
-| **Total** | **1.0%** (0.5% active) | | |
-
-**Example:**
-Continuing from above, you exit your Python position:
-- Python vault decreases by your proportional share
-- Python price falls
-- JavaScript and Rust prices rise (they're now bigger slices)
-- You receive USDC minus the 0.5% exit fee
-
-**Key point:** You can always exit. You're not dependent on another buyer. The AMM provides liquidity directly from the vault.
-
-## Understanding Slippage
-
-**Slippage:** The price change that happens *during* your trade.
-
-**Why it occurs:**
-- Your trade changes vault values
-- Vault changes immediately affect prices
-- Larger trades = larger vault impact = larger price changes
-
-**Example - Small trade:**
-- Buying $100 worth in $100,000 liquidity market
-- Minimal vault impact (0.1%)
-- Negligible slippage - price barely moves
-
-**Example - Large trade:**
-- Buying $5,000 worth in $10,000 liquidity market
-- Significant vault impact (50% increase)
-- Substantial slippage - price moves considerably during trade
-
-**Slippage is nonlinear:**
-The AMM mathematics mean slippage doesn't scale linearly. A trade that's 2x larger doesn't cause 2x slippage—it causes more. This is due to the L² norm cost function's properties.
-
-**The UI shows expected slippage** when you preview trades. Pay attention to this before confirming.
-
-**Slippage affects your average price:**
-- You don't buy at a single price
-- Price rises continuously as you buy
-- Your average price paid is higher than the starting price
-- The larger your trade relative to liquidity, the worse your average price
-
-## Settlement vs Exit: When to Hold
-
-**The tradeoff:** Exit now and pay fees/slippage, or hold until settlement?
-
-**Reasons to hold for settlement:**
-- **No slippage:** Settlement price is fixed, no execution impact
-- **No exit fees:** Settlement payouts have no fees (claim payout, not exit position)
-- **If you believe prices won't move much:** Holding captures final value without costs
-
-**Reasons to exit early:**
-- **If you believe prices will move against you:** Exit now to lock in current value
-- **If you need capital elsewhere:** Liquidity now vs potential value later
-- **If debate is far from settlement:** Opportunity cost of locked capital
-
-**Example calculation:**
-
-Current position value: $1,000
-Expected exit value after 0.5% fee: $995
-
-If you believe:
-- Opinion will maintain or improve: hold for settlement (save $5 fee + avoid slippage)
-- Opinion will decline significantly: exit now (pay $5 fee, avoid larger loss)
-
-**Settlement has no deadline:** After settlement, you can claim your payout whenever you want. No rush.
-
-## Price Ranges and Bounds
-
-**Prices are always 0-100%:**
-- Prices automatically normalized by the AMM mathematics
-- Cannot go negative
-- Cannot exceed 100%
-
-**What this means:**
-- An opinion can't "go to zero" unless its vault is literally empty
-- An opinion can't go above 100% - that's the mathematical ceiling
-- If one opinion rises, others *must* fall (zero-sum on squared prices)
-
-**Practical implication:**
-You're not just betting on your opinion going up. You're betting it will capture a larger share of total consensus relative to others.
-
-## Position Value
-
-**How your position value is calculated:**
-
-Your position value = current price × your quantity
-
-Where:
-- Current price = your opinion's vault / total liquidity (L² norm)
-- Your quantity = the shares you hold in that opinion
-
-**This means:**
-- If your opinion's vault grows: your position value increases
-- If your opinion's vault shrinks: your position value decreases
-- If total liquidity changes: price adjusts, affecting your position value
-
-**Your P&L:**
-Profit/Loss = current position value - total amount you spent acquiring shares
-
-**The UI shows this** in your portfolio view.
-
-## Replacement Risk
-
-**If you hold the weakest active opinion:**
-
-Your opinion can be replaced if a candidate accumulates 105% of your opinion's liquidation value.
-
-**What happens if replaced:**
-- Your opinion exits the active market
-- Its vault is liquidated
-- You receive proportional payout to candidate pool
-- Your opinion becomes a candidate again
-- You can either:
-  - Exit from candidate pool (claim your liquidation value)
-  - Keep stake in candidate pool (hope it re-enters later)
-
-**Monitoring this:**
-The UI shows which opinion is weakest and how close candidates are to replacement threshold.
-
-**Strategy consideration:**
-Holding the weakest opinion is riskier. If replaced, you're forced to realize current value (as candidate stake).
-
-## No Counterparty Risk
-
-**Key difference from peer-to-peer markets:**
-
-The AMM is your counterparty, not another user.
-
-**This means:**
-- Someone else doesn't need to want to buy when you sell
-- You don't need to find a matching order
-- Liquidity comes from accumulated vault value, not from buyer demand
-- You can always exit (subject to slippage and fees)
-
-**The tradeoff:**
-You pay via slippage (price impact) rather than via orderbook spreads. Different mechanism, similar economic cost for large trades.
-
-## Next Steps
-
-Trading is one way to participate. There are others:
-
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
-  <a href="/docs/participating/creating-debates" className="block p-4 border rounded-lg hover:border-primary transition-colors">
-    <div className="font-semibold mb-1">Creating Debates →</div>
-    <div className="text-sm text-muted-foreground">Launch your own markets and earn fees</div>
-  </a>
-
-  <a href="/docs/participating/proposing-opinions" className="block p-4 border rounded-lg hover:border-primary transition-colors">
-    <div className="font-semibold mb-1">Proposing Opinions →</div>
-    <div className="text-sm text-muted-foreground">Add new perspectives to existing debates</div>
+<div className="grid grid-cols-1 gap-4 my-6">
+  <a href="/docs/participating/trading-opinions" className="block p-4 border rounded-lg hover:border-primary transition-colors">
+    <div className="font-semibold mb-1">Trading Opinions →</div>
+    <div className="text-sm text-muted-foreground">How the AMM works and trading mechanics</div>
   </a>
 </div>
-
----
-
-*Trading in consensus markets is about understanding where collective belief will settle. It's part research, part intuition, part patience.*
